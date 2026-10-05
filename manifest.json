@@ -1,0 +1,10 @@
+{
+  "name": "Letrín",
+  "short_name": "Letrín",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#67d6ff",
+  "theme_color": "#34b6ff",
+  "lang": "es-AR",
+  "description": "App infantil para aprender letras jugando. Todo el abecedario incluido, sin anuncios y disponible sin conexión."
+}
