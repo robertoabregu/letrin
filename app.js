@@ -170,6 +170,7 @@ function drawingActivity(activity){
 function openModal(html){
   modalSession++;
   modal.classList.remove('word-modal');
+  modal.classList.remove('memory-modal');
   modalContent.innerHTML = html;
   if (!modal.open) modal.showModal();
   modal.scrollTop = 0;
@@ -367,36 +368,53 @@ function premiumShell(title, inner){
 
 const premium = {
   memory(){
-    premiumShell('Memotest', `<div class="memory-grid" id="memgrid"></div>`);
-    const values = ['A','🐝','A','🐝'].sort(() => Math.random() - .5);
+    openModal(`<div class="memory-heading"><span class="memory-art"><img src="assets/abeja.webp" alt=""><img src="assets/avion.webp" alt=""></span><h2 class="modal-title">Memotest de la A</h2></div><p class="helper memory-instruction">Encontrá las cuatro parejas de imágenes iguales.</p><div class="memory-status"><span class="paw-score"><span class="sr-only">Parejas encontradas:</span>${pawIcon(true)} <b id="memoryPairs">0</b>/4</span><span>Intentos: <b id="memoryMoves">0</b></span></div><div class="memory-grid" id="memgrid"></div><div class="word-footer"><button class="btn secondary" id="restartMemory">Volver a empezar</button></div>`);
+    modal.classList.add('memory-modal');
+    const words = [{asset:'abeja',name:'Abeja'},{asset:'avion',name:'Avión'},{asset:'arbol',name:'Árbol'},{asset:'arana',name:'Araña'}];
+    const values = [...words,...words];
+    for (let index = values.length - 1; index > 0; index--) {
+      const randomIndex = Math.floor(Math.random() * (index + 1));
+      [values[index], values[randomIndex]] = [values[randomIndex], values[index]];
+    }
     const grid = qs('#memgrid');
-    let open = [], lock = false, matched = 0;
+    let open = [], lock = false, matched = 0, moves = 0;
     const session = modalSession;
-    values.forEach(val => {
+    qs('#restartMemory').onclick = () => premium.memory();
+    values.forEach((word,index) => {
       const card = document.createElement('button');
       card.className = 'memcard';
-      card.textContent = '?';
-      card.dataset.val = val;
+      card.innerHTML = `<span class="memory-back">${pawIcon(true)}</span><span class="memory-front"><img src="assets/${word.asset}.webp" alt=""><b>${word.name}</b></span>`;
+      card.dataset.val = word.asset;
+      card.setAttribute('aria-label', `Carta ${index+1}, boca abajo`);
+      card.setAttribute('aria-pressed', 'false');
       card.onclick = () => {
-        if(lock || card.classList.contains('matched') || card.classList.contains('open')) return;
+        if(!modal.open || session !== modalSession || lock || card.classList.contains('matched') || card.classList.contains('open')) return;
         card.classList.add('open');
-        card.innerHTML = val === 'A' ? 'A' : '<img class="memory-word-art" src="assets/abeja.webp" alt="Abeja">';
+        card.setAttribute('aria-label', word.name);
+        card.setAttribute('aria-pressed', 'true');
         open.push(card);
         if(open.length === 2){
           lock = true;
+          moves++;
+          qs('#memoryMoves').textContent = moves;
           setTimeout(() => {
             if (!modal.open || session !== modalSession) return;
-            const set = open.map(x => x.dataset.val).sort().join('');
-            const ok = set === 'A🐝';
+            const ok = open[0].dataset.val === open[1].dataset.val;
             if(ok){
-              open.forEach(x => x.classList.add('matched'));
-              matched += 2;
+              open.forEach(item => { item.classList.add('matched'); item.disabled = true; item.setAttribute('aria-label', `${item.getAttribute('aria-label')}, pareja encontrada`); });
+              matched++;
+              qs('#memoryPairs').textContent = matched;
+              if (matched === words.length) {
+                openModal(`<h2 class="modal-title">¡Encontraste las cuatro parejas!</h2><div class="activity-celebration"><img src="assets/milo-fiesta-0.webp" alt="Milo festeja tu logro"><p role="status">¡Memotest completado!</p></div><p class="helper memory-instruction">Lo lograste en ${moves} ${moves===1?'intento':'intentos'}.</p><div class="word-footer memory-finish"><button class="btn secondary" id="playMemoryAgain">Jugar de nuevo</button><button class="btn secondary" id="continueMemory">Continuar</button></div>`);
+                qs('#playMemoryAgain').onclick = () => premium.memory();
+                qs('#continueMemory').onclick = () => modal.close();
+              }
             } else {
-              open.forEach(x => { x.classList.remove('open'); x.textContent = '?'; });
+              open.forEach(item => { item.classList.remove('open'); item.setAttribute('aria-label', 'Carta boca abajo'); item.setAttribute('aria-pressed', 'false'); });
             }
             open = [];
             lock = false;
-          }, 600);
+          }, 850);
         }
       };
       grid.appendChild(card);
