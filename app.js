@@ -69,16 +69,15 @@ function showToast(text){
   clearTimeout(window.toastTimer);
   window.toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
 }
-function markDone(activity, title='¡Muy bien!'){
+function markDone(activity){
   progress.A = progress.A || [];
   if(!progress.A.includes(activity)){
     progress.A.push(activity);
     saveProgress();
   }
-  showToast(`${title} ⭐ Actividad completada`);
 }
 function celebrate(activity, title){
-  markDone(activity,title);
+  markDone(activity);
   const poses = {know:'milo-fiesta-0',trace:'milo-fiesta-1',paint:'milo-fiesta-2',starts:'milo-fiesta-3',catch:'milo-fiesta-4'};
   openModal(`<h2 class="modal-title">${title}</h2><div class="activity-celebration"><img src="assets/${poses[activity]}.webp" alt="Milo festeja tu logro"><p role="status">¡Actividad completada!</p></div><div class="word-footer"><button class="btn secondary" id="continueActivity">Continuar</button></div>`);
   qs('#continueActivity').onclick=()=>modal.close();
@@ -344,7 +343,6 @@ const premium = {
             if(ok){
               open.forEach(x => x.classList.add('matched'));
               matched += 2;
-              if(matched === 4) showToast('Demo completada');
             } else {
               open.forEach(x => { x.classList.remove('open'); x.textContent = '?'; });
             }
@@ -372,7 +370,7 @@ const premium = {
       bubble.style.left = Math.random() * 82 + '%';
       bubble.style.top = Math.random() * 72 + '%';
       bubble.onclick = () => {
-        if(good){ score = Math.min(5, score + 1); qs('#bubbleScore').textContent = score; bubble.remove(); if(score >= 5) showToast('Demo completada'); }
+        if(good){ score = Math.min(5, score + 1); qs('#bubbleScore').textContent = score; bubble.remove(); }
         else bubble.animate([{transform:'scale(1)'},{transform:'scale(.85)'},{transform:'scale(1)'}], {duration:180});
       };
       board.appendChild(bubble);
