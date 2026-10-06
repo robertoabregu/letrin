@@ -12,11 +12,23 @@ try {
   if (Array.isArray(saved?.A)) progress.A = [...new Set(saved.A)].filter(activity => activityIds.includes(activity));
 } catch {}
 let modalSession = 0;
-modal.addEventListener('close', () => { modalSession++; window.speechSynthesis?.cancel(); });
+let letterWasComplete = null;
+let letterCelebrationPending = false;
+modal.addEventListener('close', () => { modalSession++; window.speechSynthesis?.cancel(); celebrateLetter(); });
+
+function celebrateLetter(){
+  if (!letterCelebrationPending) return;
+  letterCelebrationPending = false;
+  const hero = qs('#letterA .letter-hero');
+  hero.classList.add('letter-celebrating');
+  window.scrollTo({top:0,behavior:'smooth'});
+  setTimeout(() => hero.classList.remove('letter-celebrating'), 1500);
+}
 
 function go(id){
   screens.forEach(s => s.classList.toggle('active', s.id === id));
   window.scrollTo({top:0, behavior:'smooth'});
+  if (id === 'letterA') celebrateLetter();
 }
 qsa('[data-go]').forEach(b => b.addEventListener('click', () => go(b.dataset.go)));
 
@@ -52,6 +64,11 @@ function pawMarkup(count){
 }
 function refreshProgress(){
   const done = activityIds.filter(activity => progress.A.includes(activity));
+  const complete = done.length === activityIds.length;
+  qs('#letterA .letter-hero').classList.toggle('letter-complete', complete);
+  qs('#letterA .big-letter').setAttribute('aria-label', `A mayúscula y a minúscula${complete?': todas las actividades completas':''}`);
+  if (complete && letterWasComplete === false) letterCelebrationPending = true;
+  letterWasComplete = complete;
   const counter = qs('#pawProgress');
   counter.setAttribute('aria-label', `${done.length} de 5 actividades completas`);
   counter.innerHTML = pawMarkup(done.length);

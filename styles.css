@@ -206,7 +206,13 @@ button:focus-visible{outline:4px solid #184ddb;outline-offset:4px}button{transit
 
 #letterA .letter-hero{position:relative;display:block;margin-bottom:30px}
 #letterA .letter-block{min-height:42svh;display:flex;align-items:flex-start;justify-content:center;padding:18px 16px 100px;background:#fffbea;border:3px solid #fff;border-radius:32px}
-#letterA .big-letter{display:flex;align-items:baseline;justify-content:center;gap:12px;width:100%;font-size:clamp(120px,min(52vw,32svh),300px);line-height:1.1;margin:0;color:#ff4d55;-webkit-text-stroke:2px #fff;text-shadow:0 5px 0 #c51b2c,0 8px 0 #aa1824;font-weight:1000}
+#letterA .big-letter{position:relative;display:flex;align-items:baseline;justify-content:center;gap:12px;width:100%;font-size:clamp(120px,min(52vw,32svh),300px);line-height:1.1;margin:0;color:#ff4d55;-webkit-text-stroke:0;text-shadow:none;font-weight:900}
+#letterA .big-letter span{background:linear-gradient(160deg,#ff9297 0%,#ff4d55 42%,#e92c42 100%);background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent;-webkit-text-stroke:0;filter:drop-shadow(0 3px 0 #c72438) drop-shadow(0 3px 0 #9e1930) drop-shadow(0 7px 5px #9b24452b)}
+#letterA .letter-complete .big-letter span{background-image:linear-gradient(160deg,#8eefa0 0%,#2dcc66 42%,#12a748 100%);filter:drop-shadow(0 3px 0 #188b40) drop-shadow(0 3px 0 #106a35) drop-shadow(0 7px 5px #207b352b)}
+.letter-celebrating .big-letter span{animation:letterPop 1s cubic-bezier(.2,.8,.3,1) both}.letter-celebrating .big-letter span:last-child{animation-delay:.12s}
+.letter-celebrating .big-letter::before,.letter-celebrating .big-letter::after{content:'✦';position:absolute;top:30%;color:#ffc62d;font-size:clamp(28px,6vw,48px);animation:letterSparkle 1.4s ease-out both;pointer-events:none}.letter-celebrating .big-letter::before{left:10%}.letter-celebrating .big-letter::after{right:10%;animation-delay:.1s}
+@keyframes letterPop{0%{transform:scale(.9)}35%{transform:scale(1.12) rotate(-3deg)}65%{transform:scale(.98) rotate(2deg)}100%{transform:scale(1)}}
+@keyframes letterSparkle{0%{opacity:0;transform:scale(.2) rotate(-35deg)}35%{opacity:1;transform:scale(1.2)}100%{opacity:0;transform:translateY(-40px) scale(.6) rotate(35deg)}}
 #letterA .big-letter span:last-child{font-size:.82em}
 #letterA .mini-mascot{position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:125px;height:115px;max-height:none;object-fit:contain;filter:drop-shadow(0 4px 3px #1232)}
 #letterA .section-title{background:#fffbea;color:#132b56;border:3px solid #fff;border-bottom:0;margin-top:0;padding:16px}
