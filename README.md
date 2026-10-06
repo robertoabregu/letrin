@@ -17,7 +17,10 @@ Los cambios futuros en `main` se publican automáticamente. Para probar localmen
 - Las compras y la restauración todavía no están integradas: los botones informan que no están disponibles y no cobran dinero.
 - La voz utiliza la síntesis del navegador; depende de las voces instaladas y puede necesitar conexión.
 - El modo sin conexión requiere una primera visita completa con internet y un navegador compatible. El progreso es local al dispositivo.
-- El trazado permite dibujar y completar por cantidad de movimiento; todavía no verifica precisión sobre la letra.
+- El trazado de A se aprueba automáticamente al cubrir al menos el 80 % de cada uno de sus tres recorridos, con tolerancia para el dedo.
+- La pintura queda recortada dentro de la A, respetando también su hueco. «¡Terminé!» se habilita después de pintar.
+- Las seis actividades usan distintas poses de Milo con entrada animada al completarse; se respeta la preferencia de movimiento reducido.
+- La tipografía redonda Nunito está incluida localmente con su licencia SIL OFL en `assets/fonts/OFL.txt`.
 
 ## Ajustes incluidos
 - Mascota oficial actualizada con la nueva versión ilustrada de Milo.
@@ -58,3 +61,4 @@ Los cambios futuros en `main` se publican automáticamente. Para probar localmen
 
 ## Siguiente paso
 Activar Pages si hace falta, revisar la URL publicada y continuar con nuevas letras e integración real de compras premium.
+

@@ -69,17 +69,67 @@ function finishButton(activity, title){
   row.className = 'complete-row';
   const done = document.createElement('button');
   done.className = 'btn primary';
-  done.textContent = '⭐ Marcar como completa';
+  done.textContent = activity === 'repeat' ? '¡Ya practiqué!' : '¡Terminé!';
   done.onclick = () => {
-    markDone(activity, title);
-    modal.close();
+    celebrate(activity, title);
   };
   const later = document.createElement('button');
   later.className = 'btn secondary';
-  later.textContent = 'Seguir mirando';
-  later.onclick = () => {};
+  later.textContent = 'Continuar';
+  later.onclick = () => modal.close();
   row.append(done, later);
   return row;
+}
+function celebrate(activity, title){
+  markDone(activity,title);
+  const poses = {know:'milo-celebrando',repeat:'milo-fiesta-0',trace:'milo-fiesta-1',paint:'milo-fiesta-2',starts:'milo-fiesta-3',catch:'milo-fiesta-4'};
+  openModal(`<h2 class="modal-title">${title}</h2><div class="activity-celebration"><img src="assets/${poses[activity]}.webp" alt="Milo festeja tu logro"><p role="status">¡Actividad completada!</p></div><div class="word-footer"><button class="btn secondary" id="continueActivity">Continuar</button></div>`);
+  qs('#continueActivity').onclick=()=>modal.close();
+}
+function letterMask(){
+  const mask=document.createElement('canvas');
+  mask.width=420; mask.height=420;
+  const context=mask.getContext('2d');
+  context.strokeStyle='#d5eaf5'; context.lineWidth=54; context.lineCap='round'; context.lineJoin='round';
+  LetterPath.strokes.forEach(([start,end])=>{context.beginPath();context.moveTo(start.x,start.y);context.lineTo(end.x,end.y);context.stroke();});
+  return mask;
+}
+function drawingActivity(activity){
+  const tracing=activity==='trace';
+  openModal(`<div class="confetti">${tracing?'✍️':'🎨'}</div><h2 class="modal-title">${tracing?'Trazar':'Pintar'} la letra A</h2><p class="helper">${tracing?'Seguí los dos lados y la rayita del medio. ¡Milo festeja cuando terminás!':'Elegí un color y pintá adentro de la letra.'}</p>${tracing?'':'<div class="palette" id="palette"></div>'}<div class="canvas-wrap"><div class="trace-stage"><canvas id="letterCanvas" width="420" height="420" aria-label="${tracing?'Trazar':'Pintar'} la letra A"></canvas></div>${tracing?'<div class="progressbar" role="progressbar" aria-label="Recorrido trazado" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="traceFill"></div></div>':''}<div class="complete-row"><button id="clearLetter" class="btn secondary">Borrar</button>${tracing?'':'<button id="finishPaint" class="btn secondary" disabled>¡Terminé!</button>'}</div></div>`);
+  const canvas=qs('#letterCanvas'), context=canvas.getContext('2d'), mask=letterMask();
+  const ink=document.createElement('canvas'); ink.width=420; ink.height=420;
+  const brush=ink.getContext('2d'); brush.lineWidth=tracing?22:32; brush.lineCap='round';
+  let color='#ff5f73', drawing=false, last=null, tracker=LetterPath.coverage();
+  const maskPixels=mask.getContext('2d').getImageData(0,0,420,420).data;
+  const redraw=()=>{context.clearRect(0,0,420,420);context.drawImage(mask,0,0);context.drawImage(ink,0,0);};
+  redraw();
+  if(!tracing){
+    ['#ff5f73','#ff9b1f','#ffd447','#35cc76','#2c9fff','#8f67ff','#ff85be'].forEach((value,index)=>{
+      const button=document.createElement('button');button.className='color'+(index===0?' active':'');button.style.background=value;button.setAttribute('aria-label',['Rosa coral','Naranja','Amarillo','Verde','Azul','Violeta','Rosa'][index]);
+      button.onclick=()=>{qsa('.color').forEach(item=>item.classList.remove('active'));button.classList.add('active');color=value;};qs('#palette').appendChild(button);
+    });
+    qs('#finishPaint').onclick=()=>celebrate('paint','¡Qué lindo dibujo!');
+  }
+  const position=event=>{const bounds=canvas.getBoundingClientRect();return {x:(event.clientX-bounds.left)*420/bounds.width,y:(event.clientY-bounds.top)*420/bounds.height};};
+  function draw(point){
+    brush.globalCompositeOperation='source-over';brush.strokeStyle=color;brush.beginPath();brush.moveTo(last.x,last.y);brush.lineTo(point.x,point.y);brush.stroke();
+    brush.globalCompositeOperation='destination-in';brush.drawImage(mask,0,0);brush.globalCompositeOperation='source-over';redraw();
+    if(tracing){
+      const result=tracker.add(last,point);qs('#traceFill').style.width=result.percent+'%';qs('.progressbar').setAttribute('aria-valuenow',result.percent);
+      if(result.complete){drawing=false;celebrate('trace','¡Trazado listo!');}
+    } else {
+      const pixels=brush.getImageData(0,0,420,420).data;
+      const painted=pixels.some((value,index)=>index%4===3 && value>128 && maskPixels[index]>128);
+      qs('#finishPaint').disabled=!painted;
+    }
+    last=point;
+  }
+  canvas.onpointerdown=event=>{drawing=true;last=position(event);canvas.setPointerCapture(event.pointerId);draw({x:last.x+.01,y:last.y});};
+  canvas.onpointermove=event=>{if(drawing){event.preventDefault();draw(position(event));}};
+  canvas.onpointerup=event=>{if(drawing)draw(position(event));drawing=false;};
+  canvas.onpointercancel=()=>{drawing=false;};
+  qs('#clearLetter').onclick=()=>{drawing=false;brush.clearRect(0,0,420,420);tracker=LetterPath.coverage();redraw();if(tracing){qs('#traceFill').style.width='0%';qs('.progressbar').setAttribute('aria-valuenow','0');}else qs('#finishPaint').disabled=true;};
 }
 function openModal(html){
   modalSession++;
@@ -151,113 +201,8 @@ const actions = {
     qs('#playRepeat').onclick = () => speak('A. Abeja.');
   },
 
-  trace(){
-    openModal(`
-      <div class="confetti">✍️🌟</div>
-      <h2 class="modal-title">Trazar la letra A</h2>
-      <p class="helper">Seguí el recorrido con el dedo o el mouse. Cuando llenes la barra, podrás completar la actividad.</p>
-      <div class="canvas-wrap">
-        <div class="trace-stage">
-          <div class="guide">A</div>
-          <canvas id="traceCanvas" width="420" height="420"></canvas>
-        </div>
-        <div class="progressbar"><div id="traceFill"></div></div>
-        <div class="complete-row">
-          <button id="clearTrace" class="btn secondary">Borrar</button>
-        </div>
-      </div>
-    `);
-    const canvas = qs('#traceCanvas');
-    const ctx = canvas.getContext('2d');
-    ctx.lineWidth = 22;
-    ctx.lineCap = 'round';
-    ctx.strokeStyle = '#ff6f7d';
-    let drawing = false, last = null, score = 0, finished = false;
-    const pos = e => {
-      const r = canvas.getBoundingClientRect();
-      const p = e.touches ? e.touches[0] : e;
-      return {x:(p.clientX-r.left)*canvas.width/r.width, y:(p.clientY-r.top)*canvas.height/r.height};
-    };
-    function down(e){ drawing = true; last = pos(e); canvas.setPointerCapture(e.pointerId); }
-    function move(e){
-      if(!drawing) return;
-      e.preventDefault();
-      const p = pos(e);
-      ctx.beginPath(); ctx.moveTo(last.x,last.y); ctx.lineTo(p.x,p.y); ctx.stroke();
-      last = p;
-      score = Math.min(100, score + .65);
-      qs('#traceFill').style.width = score + '%';
-      if(score >= 92 && !finished){
-        finished = true;
-        modalContent.appendChild(finishButton('trace', '¡Trazado listo!'));
-      }
-    }
-    function up(){ drawing = false; }
-    canvas.addEventListener('pointerdown', down);
-    canvas.addEventListener('pointermove', move);
-    canvas.addEventListener('pointerup', up);
-    canvas.addEventListener('pointercancel', up);
-    qs('#clearTrace').onclick = () => {
-      ctx.clearRect(0,0,canvas.width,canvas.height);
-      score = 0; finished = false;
-      qs('#traceFill').style.width = '0%';
-      modalContent.querySelector(':scope > .complete-row')?.remove();
-    };
-  },
-
-  paint(){
-    openModal(`
-      <div class="confetti">🎨🖍️</div>
-      <h2 class="modal-title">Pintar la letra A</h2>
-      <p class="helper">Elegí un color y pintá libremente sobre la letra.</p>
-      <div class="palette" id="palette"></div>
-      <div class="canvas-wrap">
-        <div class="paint-stage">
-          <div class="guide">A</div>
-          <canvas id="paintCanvas" width="420" height="420"></canvas>
-        </div>
-        <div class="complete-row">
-          <button id="clearPaint" class="btn secondary">Borrar</button>
-        </div>
-      </div>
-    `);
-    const colors = ['#ff5f73','#ff9b1f','#ffd447','#35cc76','#2c9fff','#8f67ff','#ff85be'];
-    const palette = qs('#palette');
-    let color = colors[0];
-    colors.forEach((c,i) => {
-      const b = document.createElement('button');
-      b.className = 'color' + (i===0 ? ' active' : '');
-      b.style.background = c;
-      b.onclick = () => {
-        qsa('.color').forEach(x => x.classList.remove('active'));
-        b.classList.add('active');
-        color = c;
-      };
-      palette.appendChild(b);
-    });
-    const canvas = qs('#paintCanvas');
-    const ctx = canvas.getContext('2d');
-    ctx.lineWidth = 24;
-    ctx.lineCap = 'round';
-    let drawing = false, last = null;
-    const pos = e => {
-      const r = canvas.getBoundingClientRect();
-      const p = e.touches ? e.touches[0] : e;
-      return {x:(p.clientX-r.left)*canvas.width/r.width, y:(p.clientY-r.top)*canvas.height/r.height};
-    };
-    canvas.addEventListener('pointerdown', e => { drawing = true; last = pos(e); canvas.setPointerCapture(e.pointerId); });
-    canvas.addEventListener('pointermove', e => {
-      if(!drawing) return;
-      const p = pos(e);
-      ctx.strokeStyle = color;
-      ctx.beginPath(); ctx.moveTo(last.x,last.y); ctx.lineTo(p.x,p.y); ctx.stroke();
-      last = p;
-    });
-    canvas.addEventListener('pointerup', () => drawing = false);
-    canvas.addEventListener('pointercancel', () => drawing = false);
-    qs('#clearPaint').onclick = () => ctx.clearRect(0,0,canvas.width,canvas.height);
-    modalContent.appendChild(finishButton('paint', '¡Qué lindo dibujo!'));
-  },
+  trace(){ drawingActivity('trace'); },
+  paint(){ drawingActivity('paint'); },
 
   starts(){
     const rounds = [
@@ -270,12 +215,7 @@ const actions = {
     const render = () => {
       const done = round >= rounds.length;
       if(done){
-        openModal(`
-          <div class="confetti">🍎⭐🎉</div>
-          <h2 class="modal-title">¡Juego terminado!</h2>
-          <p class="helper">Acertaste <strong>${score}</strong> de 3.</p>
-        `);
-        modalContent.appendChild(finishButton('starts', '¡Excelente!'));
+        celebrate('starts','¡Excelente! Acertaste las tres.');
         return;
       }
       openModal(`
@@ -359,12 +299,8 @@ const actions = {
       if(time <= 0){
         clearInterval(timer); clearInterval(spawner); active = false;
         falls.forEach(id => clearInterval(id));
-        board.innerHTML = '';
-        modalContent.insertAdjacentHTML('beforeend', `
-          <div class="confetti">🎈⭐🎉</div>
-          <p><strong>¡Tiempo!</strong> Atrapaste ${score} letras A.</p>
-        `);
-        modalContent.appendChild(finishButton('catch', '¡Buen trabajo!'));
+        if(score>0) celebrate('catch',`¡Atrapaste ${score} ${score===1?'letra':'letras'} A!`);
+        else {board.innerHTML='';modalContent.insertAdjacentHTML('beforeend','<p class="helper">¡Intentá atrapar una A! Podés volver a jugar.</p>');}
       }
     }, 1000);
 
@@ -503,3 +439,4 @@ refreshProgress();
 if('serviceWorker' in navigator){
   window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => showToast('La versión sin conexión no está disponible todavía')));
 }
+

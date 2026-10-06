@@ -229,4 +229,21 @@ dialog{background:#fffbea;border:4px solid #fff}.close-btn,.icon-btn{background:
 .word-footer{display:flex;justify-content:center;margin-top:18px}.word-footer .btn{min-width:190px}
 .word-celebration{text-align:center;margin-top:12px}.word-celebration[hidden]{display:none}.word-celebration img{height:125px;width:140px;object-fit:contain;animation:miloZoom .55s cubic-bezier(.16,1,.3,1) both}.word-celebration p{margin:0;color:#197b43;font-weight:800;font-size:14px}
 @keyframes miloZoom{from{transform:scale(.15);opacity:0}70%{transform:scale(1.1);opacity:1}to{transform:scale(1);opacity:1}}
+@font-face{font-family:Nunito;src:url('assets/fonts/nunito.ttf') format('truetype');font-weight:200 1000;font-display:swap}
+body,button,input,select,textarea{font-family:Nunito,'Arial Rounded MT Bold',ui-rounded,sans-serif}
+dialog,.word-modal{position:relative;width:min(700px,95vw);max-height:94svh;padding:22px;overflow:auto;border-radius:32px}
+.close-btn{position:absolute;right:18px;top:18px;float:none;width:46px;height:46px;z-index:3}
+.modal-title{padding:0 42px;line-height:1.2;font-size:clamp(24px,5vw,34px);margin:16px 0 22px}
+.confetti{animation:none;font-size:44px;margin:0 auto 10px;text-align:center}
+.helper{font-weight:600;line-height:1.45;font-size:18px}
+.game-panel,.canvas-wrap{background:#edf9ff;border:3px solid #d0ecfa;border-radius:28px;padding:14px}
+.trace-stage,.paint-stage{height:auto;aspect-ratio:1;background:white;border:2px dashed #d0ecfa;border-radius:24px;overflow:hidden}
+.trace-stage canvas,.paint-stage canvas{position:relative;display:block;width:100%;height:100%;touch-action:none}
+.complete-row{justify-content:center}.btn{font-weight:900;border-radius:999px}.palette{justify-content:center;gap:12px;margin:18px 0}.color{width:44px;height:44px;min-width:44px;border:4px solid white}.color.active{outline:4px solid #82d0f2}
+.choice,.memcard,.tile,.slot{background:linear-gradient(#f1fbff,#eaf8ff);border:3px solid #d0ecfa;border-radius:26px;color:#2487ee;font-weight:900}
+.choice-grid{gap:14px}.choice{min-height:150px;aspect-ratio:1;padding:12px;font-size:23px}.choice .emoji{font-size:56px}.choice.good{background:#e9fff0;border-color:#62ce95}.choice.bad{border-color:#ff7285}
+.status-line{font-size:20px;font-weight:900;gap:16px;margin:18px 0}.catch-board{height:min(380px,45svh);border:3px solid #d0ecfa;border-radius:26px}
+.activity-celebration{text-align:center}.activity-celebration img{width:min(280px,70vw);height:260px;object-fit:contain;animation:miloZoom .65s cubic-bezier(.16,1,.3,1) both}.activity-celebration p{color:#197b43;font-size:21px;font-weight:900}
+@media(max-width:600px){dialog,.word-modal{padding:16px}.helper{font-size:16px}.modal-title{padding:0 38px;font-size:25px}.close-btn{right:12px;top:12px;width:40px;height:40px}.choice{min-height:120px;font-size:21px}.choice .emoji{font-size:48px}.canvas-wrap{padding:10px}.palette{gap:9px}.color{width:36px;height:36px;min-width:36px}.status-line{font-size:17px}.activity-celebration img{height:220px}}
 @media(max-width:600px){#letterA .activity{min-height:130px;padding:12px 4px;border-radius:22px}#letterA .activity-grid{gap:8px;padding:8px 10px 14px}#letterA .activity span{font-size:40px}#letterA .activity b{font-size:14px}.activity-art{width:58px;height:58px}.word-modal{padding:14px}.word-modal .word-list{gap:10px}.word-modal .word-chip{padding:8px;border-radius:24px}.word-heading-art{width:52px;height:52px}.word-instruction{font-size:14px}.word-celebration img{height:100px}.word-footer{margin-top:12px}}
+
