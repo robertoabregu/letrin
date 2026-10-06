@@ -1,4 +1,3 @@
-
 :root{
   --sky:#c8f1ff;
   --blue:#34b6ff;
@@ -206,14 +205,20 @@ button:focus-visible{outline:4px solid #184ddb;outline-offset:4px}button{transit
 
 #letterA .letter-hero{position:relative;display:block;margin-bottom:30px}
 #letterA .letter-block{min-height:42svh;display:flex;align-items:flex-start;justify-content:center;padding:18px 16px 100px;background:#fffbea;border:3px solid #fff;border-radius:32px}
-#letterA .big-letter{position:relative;display:flex;align-items:baseline;justify-content:center;gap:12px;width:100%;font-size:clamp(120px,min(52vw,32svh),300px);line-height:1.1;margin:0;color:#ff4d55;-webkit-text-stroke:0;text-shadow:none;font-weight:900}
-#letterA .big-letter span{background:linear-gradient(160deg,#ff9297 0%,#ff4d55 42%,#e92c42 100%);background-clip:text;-webkit-background-clip:text;color:transparent;-webkit-text-fill-color:transparent;-webkit-text-stroke:0;filter:drop-shadow(0 3px 0 #c72438) drop-shadow(0 3px 0 #9e1930) drop-shadow(0 7px 5px #9b24452b)}
-#letterA .letter-complete .big-letter span{background-image:linear-gradient(160deg,#8eefa0 0%,#2dcc66 42%,#12a748 100%);filter:drop-shadow(0 3px 0 #188b40) drop-shadow(0 3px 0 #106a35) drop-shadow(0 7px 5px #207b352b)}
-.letter-celebrating .big-letter span{animation:letterPop 1s cubic-bezier(.2,.8,.3,1) both}.letter-celebrating .big-letter span:last-child{animation-delay:.12s}
-.letter-celebrating .big-letter::before,.letter-celebrating .big-letter::after{content:'✦';position:absolute;top:30%;color:#ffc62d;font-size:clamp(28px,6vw,48px);animation:letterSparkle 1.4s ease-out both;pointer-events:none}.letter-celebrating .big-letter::before{left:10%}.letter-celebrating .big-letter::after{right:10%;animation-delay:.1s}
-@keyframes letterPop{0%{transform:scale(.9)}35%{transform:scale(1.12) rotate(-3deg)}65%{transform:scale(.98) rotate(2deg)}100%{transform:scale(1)}}
-@keyframes letterSparkle{0%{opacity:0;transform:scale(.2) rotate(-35deg)}35%{opacity:1;transform:scale(1.2)}100%{opacity:0;transform:translateY(-40px) scale(.6) rotate(35deg)}}
-#letterA .big-letter span:last-child{font-size:.82em}
+#letterA .big-letter{position:relative;width:min(100%,560px);height:clamp(155px,32svh,310px);margin:0;text-shadow:none;-webkit-text-stroke:0}
+#letterA .big-letter img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;transition:opacity .55s ease;filter:drop-shadow(0 7px 6px #45302220)}
+#letterA .letter-green{opacity:0}#letterA .letter-complete .letter-green{opacity:1}#letterA .letter-complete .letter-red{opacity:0}
+.letter-celebrating .big-letter{animation:letterPop 1.4s cubic-bezier(.2,.8,.3,1) both}
+.letter-celebrating .letter-block{animation:partyGlow 1.1s ease-in-out 3}
+.letter-celebrating .mini-mascot{animation:miloParty .55s ease-in-out 5}
+.letter-confetti{position:absolute;inset:-18px 0 0;overflow:hidden;border-radius:32px;pointer-events:none;z-index:3}
+.letter-confetti span{position:absolute;left:var(--x);top:-35px;color:var(--color);animation:confettiRain 2.8s var(--delay) cubic-bezier(.15,.5,.5,1) both}
+.party-piece{width:10px;height:18px;background:var(--color);border-radius:3px}.party-star{font-size:26px;text-shadow:0 2px 0 #bb8b2440}
+@keyframes letterPop{0%{transform:scale(.85)}25%{transform:scale(1.12) rotate(-4deg)}45%{transform:scale(.96) rotate(4deg)}65%{transform:scale(1.08) rotate(-2deg)}100%{transform:scale(1)}}
+@keyframes confettiRain{0%{opacity:0;transform:translateY(-20px) rotate(0)}10%{opacity:1}85%{opacity:1}100%{opacity:0;transform:translate(var(--drift),520px) rotate(var(--spin))}}
+@keyframes partyGlow{50%{box-shadow:0 0 28px #ffd341aa,inset 0 0 35px #ffe77670;border-color:#ffdc4b}}
+@keyframes miloParty{50%{transform:translate(-50%,-18px) rotate(-5deg) scale(1.08)}}
+@media(prefers-reduced-motion:reduce){.letter-confetti{display:none}}
 #letterA .mini-mascot{position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);width:125px;height:115px;max-height:none;object-fit:contain;filter:drop-shadow(0 4px 3px #1232)}
 #letterA .section-title{background:#fffbea;color:#132b56;border:3px solid #fff;border-bottom:0;margin-top:0;padding:16px}
 #letterA .activity-grid{background:#fffbea;border:3px solid #fff;border-top:0;padding:12px 14px 18px;gap:12px}
@@ -260,4 +265,3 @@ html:has(dialog[open]){overflow:hidden}
 .activity-celebration{text-align:center}.activity-celebration img{width:min(280px,70vw);height:260px;object-fit:contain;animation:miloZoom .65s cubic-bezier(.16,1,.3,1) both}.activity-celebration p{color:#197b43;font-size:21px;font-weight:900}
 @media(max-width:600px){dialog,.word-modal{padding:16px}.helper{font-size:16px}.modal-title{padding:0 38px;font-size:25px}.close-btn{right:12px;top:12px;width:40px;height:40px}.choice{min-height:120px;font-size:21px;padding:10px;gap:8px}.canvas-wrap{padding:10px}.palette{gap:9px}.color{width:36px;height:36px;min-width:36px}.status-line{font-size:17px}.activity-celebration img{height:220px}}
 @media(max-width:600px){#letterA .activity{min-height:130px;padding:12px 4px;border-radius:22px}#letterA .activity-grid{gap:8px;padding:8px 10px 14px}#letterA .activity span{font-size:40px}#letterA .activity b{font-size:14px}.activity-art{width:58px;height:58px}.word-modal{padding:14px}.word-modal .word-list{gap:10px}.word-modal .word-chip{padding:8px;border-radius:24px}.word-heading-art{width:52px;height:52px}.word-instruction{font-size:14px}.word-celebration img{height:100px}.word-footer{margin-top:12px}}
-

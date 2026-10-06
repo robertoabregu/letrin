@@ -1,4 +1,3 @@
-
 const qs = s => document.querySelector(s);
 const qsa = s => [...document.querySelectorAll(s)];
 const screens = qsa('.screen');
@@ -17,18 +16,35 @@ let letterCelebrationPending = false;
 modal.addEventListener('close', () => { modalSession++; window.speechSynthesis?.cancel(); celebrateLetter(); });
 
 function celebrateLetter(){
-  if (!letterCelebrationPending) return;
+  if (!letterCelebrationPending || modal.open) return;
   letterCelebrationPending = false;
   const hero = qs('#letterA .letter-hero');
+  hero.classList.add('letter-complete');
+  window.scrollTo({top:0,behavior:'auto'});
+  if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+  const confetti = document.createElement('div');
+  confetti.className = 'letter-confetti';
+  confetti.setAttribute('aria-hidden', 'true');
+  const colors = ['#ff4965','#ffc928','#35d975','#29baff','#a366ff','#ff8c32'];
+  for (let index = 0; index < 72; index++) {
+    const piece = document.createElement('span');
+    piece.className = index % 4 === 0 ? 'party-star' : 'party-piece';
+    piece.textContent = index % 4 === 0 ? '★' : '';
+    piece.style.setProperty('--x', `${8 + Math.random() * 84}%`);
+    piece.style.setProperty('--drift', `${(Math.random() - .5) * 240}px`);
+    piece.style.setProperty('--delay', `${Math.random() * .75}s`);
+    piece.style.setProperty('--spin', `${(Math.random() - .5) * 1080}deg`);
+    piece.style.setProperty('--color', colors[index % colors.length]);
+    confetti.appendChild(piece);
+  }
+  hero.appendChild(confetti);
   hero.classList.add('letter-celebrating');
-  window.scrollTo({top:0,behavior:'smooth'});
-  setTimeout(() => hero.classList.remove('letter-celebrating'), 1500);
+  setTimeout(() => { hero.classList.remove('letter-celebrating'); confetti.remove(); }, 3800);
 }
 
 function go(id){
   screens.forEach(s => s.classList.toggle('active', s.id === id));
   window.scrollTo({top:0, behavior:'smooth'});
-  if (id === 'letterA') celebrateLetter();
 }
 qsa('[data-go]').forEach(b => b.addEventListener('click', () => go(b.dataset.go)));
 
@@ -65,9 +81,9 @@ function pawMarkup(count){
 function refreshProgress(){
   const done = activityIds.filter(activity => progress.A.includes(activity));
   const complete = done.length === activityIds.length;
-  qs('#letterA .letter-hero').classList.toggle('letter-complete', complete);
-  qs('#letterA .big-letter').setAttribute('aria-label', `A mayúscula y a minúscula${complete?': todas las actividades completas':''}`);
   if (complete && letterWasComplete === false) letterCelebrationPending = true;
+  qs('#letterA .letter-hero').classList.toggle('letter-complete', complete && !letterCelebrationPending);
+  qs('#letterA .big-letter').setAttribute('aria-label', `A mayúscula y a minúscula${complete?': todas las actividades completas':''}`);
   letterWasComplete = complete;
   const counter = qs('#pawProgress');
   counter.setAttribute('aria-label', `${done.length} de 5 actividades completas`);
@@ -437,4 +453,3 @@ if('serviceWorker' in navigator){
   }, {once:true});
   window.addEventListener('load', () => navigator.serviceWorker.register('sw.js', {updateViaCache:'none'}).catch(() => showToast('La versión sin conexión no está disponible todavía')));
 }
-
