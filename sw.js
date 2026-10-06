@@ -1,7 +1,7 @@
-const CACHE = 'letrin-v0-24';
+const CACHE = 'letrin-v0-25';
 const ASSETS = ['./', 'index.html', 'styles.css', 'app.js', 'manifest.json', 'assets/milo.webp', 'assets/garden.svg', 'assets/milo-peeking.webp', 'assets/milo-celebrando.webp', 'assets/abeja.webp', 'assets/avion.webp', 'assets/arbol.webp', 'assets/arana.webp'];
 self.addEventListener('install', event => {
-  ASSETS.push('styles.css?v=24','app.js?v=24','letter-path.js?v=24','assets/ui-icons.svg','assets/letra-a-roja.webp','assets/letra-a-verde.webp');
+  ASSETS.push('styles.css?v=25','app.js?v=25','letter-path.js?v=25','audio.js','audio-catalog.js','audio.js?v=25','audio-catalog.js?v=25','assets/ui-icons.svg','assets/letra-a-roja.webp','assets/letra-a-verde.webp');
   ASSETS.push(...['trazar','pintar','elegir','atrapar'].map(asset => `assets/actividad-${asset}.webp`));
   ASSETS.push(...['sol','oso','casa','pelota','luna','barco','flor','gato','banana'].map(asset => `assets/${asset}.webp`));
   ASSETS.push('letter-path.js','assets/fonts/nunito.ttf','assets/milo-fiesta-0.webp','assets/milo-fiesta-1.webp','assets/milo-fiesta-2.webp','assets/milo-fiesta-3.webp','assets/milo-fiesta-4.webp');

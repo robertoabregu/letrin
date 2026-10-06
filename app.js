@@ -13,7 +13,7 @@ try {
 let modalSession = 0;
 let letterWasComplete = null;
 let letterCelebrationPending = false;
-modal.addEventListener('close', () => { modalSession++; window.speechSynthesis?.cancel(); celebrateLetter(); });
+modal.addEventListener('close', () => { modalSession++; LetrinAudio.cancel(); celebrateLetter(); });
 
 function celebrateLetter(){
   if (!letterCelebrationPending || modal.open) return;
@@ -49,15 +49,21 @@ function go(id){
 qsa('[data-go]').forEach(b => b.addEventListener('click', () => go(b.dataset.go)));
 
 function speak(text, onEnd){
-  if(!('speechSynthesis' in window)) { showToast('Este navegador no permite reproducir las palabras'); return; }
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'es-AR';
-  u.rate = .9;
-  u.onend = () => onEnd?.();
-  u.onerror = event => { if (!['canceled', 'interrupted'].includes(event.error)) showToast('No se pudo reproducir el audio. Probá de nuevo.'); };
-  speechSynthesis.cancel();
-  speechSynthesis.speak(u);
+  LetrinAudio.speak(text, onEnd, showToast);
 }
+qs('#audioSettings').onclick = () => {
+  openModal(`<h2 class="modal-title">Audio y acento</h2><p class="helper">Preferencia para adultos. Cambiar el acento no modifica el progreso ni traduce los textos.</p><label class="audio-label" for="audioLocale">Español y región</label><select id="audioLocale"><option value="auto">Según el idioma del dispositivo</option>${Object.entries(LetrinAudioCatalog).map(([value,pack]) => `<option value="${value}">${pack.label}</option>`).join('')}</select><p id="audioVoiceStatus" class="helper" role="status"></p><div class="word-footer"><button id="testVoice" class="btn secondary">Escuchar una prueba</button></div>`);
+  qs('#audioLocale').value = LetrinAudio.getPreference();
+  const update = () => { qs('#audioVoiceStatus').textContent = LetrinAudio.status(); };
+  qs('#audioLocale').onchange = event => { LetrinAudio.setPreference(event.target.value); update(); };
+  qs('#testVoice').onclick = () => speak('Abeja. Avión. Árbol. Araña.');
+  const session = modalSession;
+  const synth = window.speechSynthesis;
+  const changed = () => { if (modal.open && session === modalSession) update(); };
+  synth?.addEventListener?.('voiceschanged', changed);
+  modal.addEventListener('close', () => synth?.removeEventListener?.('voiceschanged', changed), {once:true});
+  update();
+};
 
 const letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','Ñ','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
 const alphabet = qs('#alphabet');
@@ -168,6 +174,7 @@ function drawingActivity(activity){
   qs('#clearLetter').onclick=()=>{drawing=false;brush.clearRect(0,0,420,420);tracker=LetterPath.coverage();redraw();if(tracing){qs('#traceFill').style.width='0%';qs('.progressbar').setAttribute('aria-valuenow','0');}else qs('#finishPaint').disabled=true;};
 }
 function openModal(html){
+  LetrinAudio.cancel();
   modalSession++;
   modal.classList.remove('word-modal');
   modal.classList.remove('memory-modal');
@@ -495,8 +502,8 @@ const premium = {
       let solved = false;
       const active = () => modal.open && session === modalSession && !solved;
       qs('#hearWord').onclick = () => speak(word.name);
-      qs('#restartBuilder').onclick = () => { window.speechSynthesis?.cancel(); premium.word(); };
-      qs('#nextWord').onclick = () => { if (!solved || session !== modalSession) return; window.speechSynthesis?.cancel(); round++; render(); };
+      qs('#restartBuilder').onclick = () => { LetrinAudio.cancel(); premium.word(); };
+      qs('#nextWord').onclick = () => { if (!solved || session !== modalSession) return; LetrinAudio.cancel(); round++; render(); };
       letters.forEach((letter,index) => {
         const slot = document.createElement('button');
         slot.className = 'slot';
@@ -540,7 +547,7 @@ const premium = {
             if (completed < words.length) { qs('#nextWord').disabled = false; return; }
             setTimeout(() => {
               if (!modal.open || session !== modalSession) return;
-              window.speechSynthesis?.cancel();
+              LetrinAudio.cancel();
               openModal(`<h2 class="modal-title">¡Armaste las tres palabras!</h2><div class="activity-celebration"><img src="assets/milo-fiesta-2.webp" alt="Milo festeja tu logro"><p role="status">¡Desafío completado!</p></div><div class="bubble-win-paws" aria-hidden="true">${paws()}</div><div class="word-footer memory-finish"><button class="btn secondary" id="playBuilderAgain">Jugar de nuevo</button><button class="btn secondary" id="continueBuilder">Continuar</button></div>`);
               qs('#playBuilderAgain').onclick = () => premium.word();
               qs('#continueBuilder').onclick = () => modal.close();
