@@ -132,6 +132,7 @@ function openModal(html){
   modal.classList.remove('word-modal');
   modalContent.innerHTML = html;
   if (!modal.open) modal.showModal();
+  modal.scrollTop = 0;
 }
 qs('#closeModal').onclick = () => modal.close();
 
