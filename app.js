@@ -183,9 +183,9 @@ const actions = {
 
   starts(){
     const rounds = [
-      [{emoji:'✈️', word:'Avión', ok:true}, {emoji:'☀️', word:'Sol', ok:false}, {emoji:'🐻', word:'Oso', ok:false}, {emoji:'🏠', word:'Casa', ok:false}],
-      [{emoji:'🌳', word:'Árbol', ok:true}, {emoji:'⚽', word:'Pelota', ok:false}, {emoji:'🌙', word:'Luna', ok:false}, {emoji:'🚢', word:'Barco', ok:false}],
-      [{emoji:'🕷️', word:'Araña', ok:true}, {emoji:'🌸', word:'Flor', ok:false}, {emoji:'🐱', word:'Gato', ok:false}, {emoji:'🍌', word:'Banana', ok:false}]
+      [{asset:'avion', word:'Avión', ok:true}, {asset:'sol', word:'Sol', ok:false}, {asset:'oso', word:'Oso', ok:false}, {asset:'casa', word:'Casa', ok:false}],
+      [{asset:'arbol', word:'Árbol', ok:true}, {asset:'pelota', word:'Pelota', ok:false}, {asset:'luna', word:'Luna', ok:false}, {asset:'barco', word:'Barco', ok:false}],
+      [{asset:'arana', word:'Araña', ok:true}, {asset:'flor', word:'Flor', ok:false}, {asset:'gato', word:'Gato', ok:false}, {asset:'banana', word:'Banana', ok:false}]
     ];
     let round = 0, score = 0;
 
@@ -206,7 +206,7 @@ const actions = {
       rounds[round].forEach(item => {
         const b = document.createElement('button');
         b.className = 'choice';
-        b.innerHTML = `<div class="emoji">${item.emoji}</div><div>${item.word}</div>`;
+        b.innerHTML = `<img class="choice-art" src="assets/${item.asset}.webp" alt=""><span>${item.word}</span>`;
         b.onclick = () => {
           if (answered) return;
           if(item.ok){

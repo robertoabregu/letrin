@@ -1,8 +1,9 @@
 
-const CACHE = 'letrin-v0-11';
+const CACHE = 'letrin-v0-12';
 const ASSETS = ['./', 'index.html', 'styles.css', 'app.js', 'manifest.json', 'assets/milo.webp', 'assets/garden.svg', 'assets/milo-peeking.webp', 'assets/milo-celebrando.webp', 'assets/abeja.webp', 'assets/avion.webp', 'assets/arbol.webp', 'assets/arana.webp'];
 self.addEventListener('install', event => {
-  ASSETS.push('styles.css?v=11','app.js?v=11','letter-path.js?v=11');
+  ASSETS.push('styles.css?v=12','app.js?v=12','letter-path.js?v=12');
+  ASSETS.push(...['sol','oso','casa','pelota','luna','barco','flor','gato','banana'].map(asset => `assets/${asset}.webp`));
   ASSETS.push('letter-path.js','assets/fonts/nunito.ttf','assets/milo-fiesta-0.webp','assets/milo-fiesta-1.webp','assets/milo-fiesta-2.webp','assets/milo-fiesta-3.webp','assets/milo-fiesta-4.webp');
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
 });
