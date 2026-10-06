@@ -413,6 +413,10 @@ qsa('[data-premium]').forEach(btn => btn.addEventListener('click', () => premium
 refreshProgress();
 
 if('serviceWorker' in navigator){
-  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => showToast('La versión sin conexión no está disponible todavía')));
+  const alreadyControlled = Boolean(navigator.serviceWorker.controller);
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (alreadyControlled) window.location.reload();
+  }, {once:true});
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js', {updateViaCache:'none'}).catch(() => showToast('La versión sin conexión no está disponible todavía')));
 }
 
