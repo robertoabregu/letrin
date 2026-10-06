@@ -245,7 +245,12 @@ const actions = {
       const container = qs('#choices');
       const session = modalSession;
       let answered = false;
-      rounds[round].forEach(item => {
+      const options = [...rounds[round]];
+      for (let index = options.length - 1; index > 0; index--) {
+        const randomIndex = Math.floor(Math.random() * (index + 1));
+        [options[index], options[randomIndex]] = [options[randomIndex], options[index]];
+      }
+      options.forEach(item => {
         const b = document.createElement('button');
         b.className = 'choice';
         b.innerHTML = `<img class="choice-art" src="assets/${item.asset}.webp" alt=""><span>${item.word}</span>`;
