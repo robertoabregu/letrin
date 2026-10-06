@@ -75,8 +75,14 @@ function saveProgress(){
   try { localStorage.setItem('letrin_progress_v03', JSON.stringify(progress)); } catch { showToast('El progreso no se puede guardar en este navegador'); }
   refreshProgress();
 }
+function pawIcon(earned=false){
+  return `<svg class="paw${earned?' earned':''}" viewBox="0 0 40 40" aria-hidden="true" focusable="false"><ellipse cx="9" cy="14" rx="4" ry="6" transform="rotate(-25 9 14)"/><ellipse cx="17" cy="8" rx="4" ry="6"/><ellipse cx="26" cy="9" rx="4" ry="6"/><ellipse cx="33" cy="16" rx="4" ry="6" transform="rotate(25 33 16)"/><path d="M10 30C10 25 15 19 20 19S31 26 31 31C31 37 25 35 21 34C17 35 10 37 10 30Z"/></svg>`;
+}
 function pawMarkup(count){
-  return activityIds.map((activity,index) => `<svg class="paw${index<count?' earned':''}" viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="9" cy="14" rx="4" ry="6" transform="rotate(-25 9 14)"/><ellipse cx="17" cy="8" rx="4" ry="6"/><ellipse cx="26" cy="9" rx="4" ry="6"/><ellipse cx="33" cy="16" rx="4" ry="6" transform="rotate(25 33 16)"/><path d="M10 30C10 25 15 19 20 19S31 26 31 31C31 37 25 35 21 34C17 35 10 37 10 30Z"/></svg>`).join('');
+  return activityIds.map((activity,index) => pawIcon(index<count)).join('');
+}
+function uiIcon(name){
+  return `<svg class="ui-icon" aria-hidden="true" focusable="false"><use href="assets/ui-icons.svg#${name}"/></svg>`;
 }
 function refreshProgress(){
   const done = activityIds.filter(activity => progress.A.includes(activity));
@@ -126,7 +132,7 @@ function letterMask(){
 }
 function drawingActivity(activity){
   const tracing=activity==='trace';
-  openModal(`<div class="confetti">${tracing?'✍️':'🎨'}</div><h2 class="modal-title">${tracing?'Trazar':'Pintar'} la letra A</h2><p class="helper">${tracing?'Seguí los dos lados y la rayita del medio. ¡Milo festeja cuando terminás!':'Elegí un color y pintá adentro de la letra.'}</p>${tracing?'':'<div class="palette" id="palette"></div>'}<div class="canvas-wrap"><div class="trace-stage"><canvas id="letterCanvas" width="420" height="420" aria-label="${tracing?'Trazar':'Pintar'} la letra A"></canvas></div>${tracing?'<div class="progressbar" role="progressbar" aria-label="Recorrido trazado" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="traceFill"></div></div>':''}<div class="complete-row"><button id="clearLetter" class="btn secondary">Borrar</button>${tracing?'':'<button id="finishPaint" class="btn secondary" disabled>¡Terminé!</button>'}</div></div>`);
+  openModal(`<img class="word-heading-art" src="assets/actividad-${tracing?'trazar':'pintar'}.webp" alt=""><h2 class="modal-title">${tracing?'Trazar':'Pintar'} la letra A</h2><p class="helper">${tracing?'Seguí los dos lados y la rayita del medio. ¡Milo festeja cuando terminás!':'Elegí un color y pintá adentro de la letra.'}</p>${tracing?'':'<div class="palette" id="palette"></div>'}<div class="canvas-wrap"><div class="trace-stage"><canvas id="letterCanvas" width="420" height="420" aria-label="${tracing?'Trazar':'Pintar'} la letra A"></canvas></div>${tracing?'<div class="progressbar" role="progressbar" aria-label="Recorrido trazado" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="traceFill"></div></div>':''}<div class="complete-row"><button id="clearLetter" class="btn secondary">Borrar</button>${tracing?'':'<button id="finishPaint" class="btn secondary" disabled>¡Terminé!</button>'}</div></div>`);
   const canvas=qs('#letterCanvas'), context=canvas.getContext('2d'), mask=letterMask();
   const ink=document.createElement('canvas'); ink.width=420; ink.height=420;
   const brush=ink.getContext('2d'); brush.lineWidth=tracing?22:32; brush.lineCap='round';
@@ -195,7 +201,7 @@ const actions = {
       const button = document.createElement('button');
       button.className = 'word-chip';
       button.setAttribute('aria-label', `Escuchar ${word.name}`);
-      button.innerHTML = `<img src="assets/${word.asset}.webp" alt=""><b>${word.name}</b><span class="word-speaker" aria-hidden="true">🔊</span>`;
+      button.innerHTML = `<img src="assets/${word.asset}.webp" alt=""><b>${word.name}</b><span class="word-speaker" aria-hidden="true">${uiIcon('sound')}</span>`;
       button.onclick = () => {
         speak(word.name, () => {
           if (!modal.open || session !== modalSession) return;
@@ -231,8 +237,9 @@ const actions = {
         return;
       }
       openModal(`
+        <img class="word-heading-art" src="assets/actividad-elegir.webp" alt="">
         <h2 class="modal-title">¿Cuál empieza con A?</h2>
-        <div class="status-line"><span>Pregunta ${round+1} de 3</span><span>⭐ ${score}</span></div>
+        <div class="status-line"><span>Pregunta ${round+1} de 3</span><span class="paw-score"><span class="sr-only">Patitas doradas:</span>${pawIcon(true)} ${score}</span></div>
         <div class="choice-grid" id="choices"></div>
       `);
       const container = qs('#choices');
@@ -262,8 +269,9 @@ const actions = {
 
   catch(){
     openModal(`
+      <img class="word-heading-art" src="assets/actividad-atrapar.webp" alt="">
       <h2 class="modal-title">Atrapa la letra</h2>
-      <div class="status-line"><span>Tiempo: <b id="time">15</b>s</span><span>⭐ <b id="score">0</b></span></div>
+      <div class="status-line"><span>Tiempo: <b id="time">15</b>s</span><span class="paw-score"><span class="sr-only">Patitas doradas:</span>${pawIcon(true)} <b id="score">0</b></span></div>
       <div id="catchBoard" class="catch-board"></div>
       <p class="helper">Tocá solo las letras A.</p>
     `);
@@ -329,7 +337,7 @@ qsa('[data-activity]').forEach(btn => btn.addEventListener('click', () => action
 
 function premiumShell(title, inner){
   openModal(`
-    <h2 class="modal-title">${title} 🔒</h2>
+    <h2 class="modal-title">${title} ${uiIcon('lock')}</h2>
     <p class="helper">Demo breve para mostrar el valor del juego antes de comprar.</p>
     ${inner}
     <div class="cta">
@@ -367,7 +375,7 @@ const premium = {
       card.onclick = () => {
         if(lock || card.classList.contains('matched') || card.classList.contains('open')) return;
         card.classList.add('open');
-        card.textContent = val;
+        card.innerHTML = val === 'A' ? 'A' : '<img class="memory-word-art" src="assets/abeja.webp" alt="Abeja">';
         open.push(card);
         if(open.length === 2){
           lock = true;
@@ -391,7 +399,7 @@ const premium = {
   },
 
   bubbles(){
-    premiumShell('Burbujas', `<div id="bubbleBoard" class="bubble-board"></div><p>⭐ <b id="bubbleScore">0</b>/5</p>`);
+    premiumShell('Burbujas', `<div id="bubbleBoard" class="bubble-board"></div><p class="paw-score"><span class="sr-only">Patitas doradas:</span>${pawIcon(true)} <b id="bubbleScore">0</b>/5</p>`);
     const board = qs('#bubbleBoard');
     let score = 0;
     for(let i=0;i<14;i++){
@@ -436,7 +444,7 @@ const premium = {
         index++;
         if(index === slots.length){
           const result = slots.map(s => s.textContent).join('');
-          qs('#wordState').innerHTML = result === 'ALA' ? '<strong>⭐ ¡Muy bien!</strong>' : '<strong>Probá de nuevo</strong>';
+          qs('#wordState').innerHTML = result === 'ALA' ? `<strong class="paw-score">${pawIcon(true)} ¡Muy bien!</strong>` : '<strong>Probá de nuevo</strong>';
         }
       };
       bank.appendChild(tile);

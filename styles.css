@@ -236,6 +236,13 @@ dialog{background:#fffbea;border:4px solid #fff}.close-btn,.icon-btn{background:
 .word-modal .word-chip{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;aspect-ratio:1;background:linear-gradient(#f1fbff,#eaf8ff);border:3px solid #d0ecfa;border-radius:28px;padding:12px;cursor:pointer;color:#142d59;min-width:0}
 .word-chip img{width:65%;height:60%;object-fit:contain}.word-chip b{font-size:clamp(20px,5vw,30px)}
 .word-speaker{display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:#fffdf2;border:2px solid #e7e4d4;font-size:18px}
+.ui-icon{width:30px;height:30px;display:inline-block;vertical-align:middle;object-fit:contain;flex-shrink:0}
+.icon-btn,.close-btn{display:grid;place-items:center;padding:5px}.icon-btn .ui-icon,.close-btn .ui-icon{width:100%;height:100%}
+.word-speaker .ui-icon{width:21px;height:21px}
+.paw-score{display:inline-flex;align-items:center;justify-content:center;gap:7px;white-space:nowrap}.paw-score .paw{width:28px;height:30px;flex-shrink:0}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+.memory-art{display:flex;align-items:center;justify-content:center;gap:4px;height:70px;width:90px}.memory-art img{width:42px;height:54px;object-fit:contain;background:#fffbea;border:2px solid #cfedfa;border-radius:10px;box-shadow:0 3px 0 #a9b8ce;transform:rotate(-8deg)}.memory-art img:last-child{transform:rotate(8deg)}
+.memory-word-art{width:70%;height:70%;object-fit:contain}
 .word-chip.heard::after{content:'✓';position:absolute;top:8px;right:8px;display:grid;place-items:center;background:#22c954;color:white;border:2px solid white;border-radius:50%;width:28px;height:28px;font-size:20px;font-weight:900}
 .word-footer{display:flex;justify-content:center;margin-top:18px}.word-footer .btn{min-width:190px}
 .word-celebration{text-align:center;margin-top:12px}.word-celebration[hidden]{display:none}.word-celebration img{height:125px;width:140px;object-fit:contain;animation:miloZoom .55s cubic-bezier(.16,1,.3,1) both}.word-celebration p{margin:0;color:#197b43;font-weight:800;font-size:14px}

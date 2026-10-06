@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#34b6ff">
   <title>Letrín</title>
   <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="styles.css?v=19">
+  <link rel="stylesheet" href="styles.css?v=20">
 </head>
 <body>
   <main>
@@ -28,7 +28,7 @@
 
     <section id="letters" class="screen">
       <header class="topbar">
-        <button class="icon-btn" data-go="home">⌂</button>
+        <button class="icon-btn" data-go="home" aria-label="Volver al inicio"><img class="ui-icon" src="assets/casa.webp" alt=""></button>
         <div>
           <strong>Elegí una letra</strong>
         </div>
@@ -40,7 +40,7 @@
 
     <section id="letterA" class="screen">
       <header class="topbar">
-        <button class="icon-btn" data-go="letters">←</button>
+        <button class="icon-btn" data-go="letters" aria-label="Volver a elegir una letra"><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="assets/ui-icons.svg#back"/></svg></button>
         <div class="letter-header-details">
           <strong>Letra A</strong>
           <div id="pawProgress" class="paw-progress" role="img" aria-label="0 de 5 actividades completas"></div>
@@ -64,11 +64,11 @@
       </div>
 
       <div class="premium-box">
-        <div class="premium-title">👑 Juegos premium</div>
+        <div class="premium-title"><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="assets/ui-icons.svg#crown"/></svg> Juegos premium</div>
         <div class="premium-grid">
-          <button class="card premium" data-premium="memory"><span>🧠</span><b>Memotest</b><em>Letra + imagen</em><strong>🔒</strong></button>
-          <button class="card premium" data-premium="bubbles"><span>🫧</span><b>Burbujas</b><em>Explotá solo las A</em><strong>🔒</strong></button>
-          <button class="card premium" data-premium="word"><span>🧩</span><b>Construí la palabra</b><em>Armá palabras simples</em><strong>🔒</strong></button>
+          <button class="card premium" data-premium="memory" aria-label="Memotest, demo premium"><span class="memory-art"><img src="assets/abeja.webp" alt=""><img src="assets/avion.webp" alt=""></span><b>Memotest</b><em>Letra + imagen</em><strong><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="assets/ui-icons.svg#lock"/></svg></strong></button>
+          <button class="card premium" data-premium="bubbles" aria-label="Burbujas, demo premium"><img class="activity-art" src="assets/actividad-atrapar.webp" alt=""><b>Burbujas</b><em>Explotá solo las A</em><strong><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="assets/ui-icons.svg#lock"/></svg></strong></button>
+          <button class="card premium" data-premium="word" aria-label="Construí la palabra, demo premium"><img class="activity-art" src="assets/letra-a-roja.webp" alt=""><b>Construí la palabra</b><em>Armá palabras simples</em><strong><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="assets/ui-icons.svg#lock"/></svg></strong></button>
         </div>
         <small>Todos los juegos premium se pueden previsualizar con una demo antes de comprar.</small>
       </div>
@@ -76,13 +76,13 @@
   </main>
 
   <dialog id="modal">
-    <button id="closeModal" class="close-btn" aria-label="Cerrar actividad">×</button>
+    <button id="closeModal" class="close-btn" aria-label="Cerrar actividad"><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="assets/ui-icons.svg#close"/></svg></button>
     <div id="modalContent"></div>
   </dialog>
 
   <div id="toast" role="status" aria-live="polite"></div>
 
-  <script src="letter-path.js?v=19"></script>
-  <script src="app.js?v=19"></script>
+  <script src="letter-path.js?v=20"></script>
+  <script src="app.js?v=20"></script>
 </body>
 </html>

@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="blue" x2="0" y2="1"><stop stop-color="#68d4ff"/><stop offset=".5" stop-color="#269bec"/><stop offset="1" stop-color="#1568be"/></linearGradient>
+    <linearGradient id="gold" x2="0" y2="1"><stop stop-color="#fff299"/><stop offset=".5" stop-color="#ffd343"/><stop offset="1" stop-color="#e6a222"/></linearGradient>
+  </defs>
+  <symbol id="back" viewBox="0 0 64 64">
+    <path d="M30 14 11 32q-4 4 0 8l19 18q5 4 9-1t-1-9l-8-7h23q7 0 7-7t-7-7H30l8-7q5-4 1-9t-9 3Z" fill="#155d9e" transform="translate(0 2)"/>
+    <path d="M29 9 10 27q-4 4 0 8l19 18q5 4 9-1t-1-9l-8-7h23q7 0 7-7t-7-7H29l8-7q5-4 1-9t-9 3Z" fill="url(#blue)"/>
+    <path d="m29 13-16 15M32 26h20" fill="none" stroke="#c2efff" stroke-width="3" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="close" viewBox="0 0 64 64">
+    <path d="m17 17 30 30m0-30L17 47" stroke="#155d9e" stroke-width="14" stroke-linecap="round" transform="translate(0 3)"/>
+    <path d="m17 17 30 30m0-30L17 47" stroke="url(#blue)" stroke-width="14" stroke-linecap="round"/>
+    <path d="m17 14 11 11m19-11-9 9" stroke="#b7eaff" stroke-width="3" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="sound" viewBox="0 0 64 64">
+    <path d="M8 24h10L32 12q4-3 4 3v34q0 6-4 3L18 40H8q-4 0-4-4v-8q0-4 4-4Z" fill="url(#blue)" stroke="#1c77b8" stroke-width="2"/>
+    <path d="M45 23q10 9 0 18m7-25q18 16 0 32" fill="none" stroke="#269bec" stroke-width="5" stroke-linecap="round"/>
+    <path d="M10 27h8L30 17" fill="none" stroke="#b7eaff" stroke-width="3" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="lock" viewBox="0 0 64 64">
+    <path d="M19 29V18a13 13 0 0 1 26 0v11" fill="none" stroke="#ab7a22" stroke-width="9"/>
+    <path d="M19 27V17a13 13 0 0 1 26 0v10" fill="none" stroke="#ffe8a0" stroke-width="5"/>
+    <rect x="10" y="25" width="44" height="34" rx="9" fill="url(#gold)" stroke="#c8952d" stroke-width="2"/>
+    <path d="M17 30h29" stroke="#fff3b9" stroke-width="3" stroke-linecap="round"/>
+    <path d="M32 34a5 5 0 0 1 3 9l2 8H27l2-8a5 5 0 0 1 3-9" fill="#855521"/>
+  </symbol>
+  <symbol id="crown" viewBox="0 0 64 64">
+    <path d="m8 19 12 12L32 12l12 19 12-12-6 32H14Z" fill="url(#gold)" stroke="#cf9824" stroke-width="2" stroke-linejoin="round"/>
+    <rect x="13" y="48" width="38" height="9" rx="4" fill="url(#gold)" stroke="#cf9824" stroke-width="2"/>
+    <circle cx="8" cy="17" r="5" fill="#ffe173"/><circle cx="32" cy="10" r="5" fill="#ffe173"/><circle cx="56" cy="17" r="5" fill="#ffe173"/>
+    <path d="m17 24 4 13 11-19" fill="none" stroke="#fff3b9" stroke-width="3" stroke-linecap="round"/>
+    <circle cx="32" cy="40" r="4" fill="#36b5ed"/>
+  </symbol>
+</svg>
