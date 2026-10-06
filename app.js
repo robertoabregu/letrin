@@ -36,7 +36,8 @@ const alphabet = qs('#alphabet');
 letters.forEach(letter => {
   const btn = document.createElement('button');
   btn.className = 'letter-btn' + (letter === 'A' ? ' a' : '');
-  btn.textContent = letter;
+  btn.dataset.letter = letter;
+  btn.innerHTML = `<span class="letter-label">${letter}</span><span class="letter-paws" aria-hidden="true"></span>`;
   btn.setAttribute('aria-label', letter === 'A' ? 'Letra A: jugar' : `Letra ${letter}: próximamente gratis`);
   btn.onclick = () => letter === 'A' ? go('letterA') : showInfo(letter);
   alphabet.appendChild(btn);
@@ -46,11 +47,20 @@ function saveProgress(){
   try { localStorage.setItem('letrin_progress_v03', JSON.stringify(progress)); } catch { showToast('El progreso no se puede guardar en este navegador'); }
   refreshProgress();
 }
+function pawMarkup(count){
+  return activityIds.map((activity,index) => `<svg class="paw${index<count?' earned':''}" viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="9" cy="14" rx="4" ry="6" transform="rotate(-25 9 14)"/><ellipse cx="17" cy="8" rx="4" ry="6"/><ellipse cx="26" cy="9" rx="4" ry="6"/><ellipse cx="33" cy="16" rx="4" ry="6" transform="rotate(25 33 16)"/><path d="M10 30C10 25 15 19 20 19S31 26 31 31C31 37 25 35 21 34C17 35 10 37 10 30Z"/></svg>`).join('');
+}
 function refreshProgress(){
   const done = activityIds.filter(activity => progress.A.includes(activity));
   const counter = qs('#pawProgress');
   counter.setAttribute('aria-label', `${done.length} de 5 actividades completas`);
-  counter.innerHTML = activityIds.map((activity,index) => `<svg class="paw${index<done.length?' earned':''}" viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="9" cy="14" rx="4" ry="6" transform="rotate(-25 9 14)"/><ellipse cx="17" cy="8" rx="4" ry="6"/><ellipse cx="26" cy="9" rx="4" ry="6"/><ellipse cx="33" cy="16" rx="4" ry="6" transform="rotate(25 33 16)"/><path d="M10 30C10 25 15 19 20 19S31 26 31 31C31 37 25 35 21 34C17 35 10 37 10 30Z"/></svg>`).join('');
+  counter.innerHTML = pawMarkup(done.length);
+  qsa('[data-letter]').forEach(button => {
+    const letter = button.dataset.letter;
+    const count = activityIds.filter(activity => (progress[letter] || []).includes(activity)).length;
+    button.querySelector('.letter-paws').innerHTML = pawMarkup(count);
+    button.setAttribute('aria-label', `Letra ${letter}: ${letter==='A'?'jugar':'próximamente gratis'}, ${count} de 5 actividades completas`);
+  });
   qsa('[data-activity]').forEach(btn => btn.classList.toggle('done', done.includes(btn.dataset.activity)));
 }
 function showToast(text){
