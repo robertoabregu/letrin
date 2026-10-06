@@ -171,6 +171,7 @@ function openModal(html){
   modalSession++;
   modal.classList.remove('word-modal');
   modal.classList.remove('memory-modal');
+  modal.classList.remove('bubbles-modal');
   modalContent.innerHTML = html;
   if (!modal.open) modal.showModal();
   modal.scrollTop = 0;
@@ -422,25 +423,56 @@ const premium = {
   },
 
   bubbles(){
-    premiumShell('Burbujas', `<div id="bubbleBoard" class="bubble-board"></div><p class="paw-score"><span class="sr-only">Patitas doradas:</span>${pawIcon(true)} <b id="bubbleScore">0</b>/5</p>`);
+    openModal(`<div class="bubble-heading-art">${uiIcon('bubbles')}</div><h2 class="modal-title">Burbujas de la A</h2><p class="helper memory-instruction">Tocá las burbujas con A y juntá cinco patitas doradas.</p><div class="bubble-status"><div id="bubblePaws" class="paw-progress" role="img" aria-label="0 de 5 patitas doradas">${pawMarkup(0)}</div><span><b id="bubbleScore">0</b>/5</span></div><div id="bubbleBoard" class="bubble-board"></div><p id="bubbleHint" class="bubble-hint" role="status">¡Buscá las cinco letras A!</p><div class="word-footer"><button class="btn secondary" id="restartBubbles">Volver a empezar</button></div>`);
+    modal.classList.add('bubbles-modal');
     const board = qs('#bubbleBoard');
+    const session = modalSession;
+    const values = ['A','A','A','A','A','B','C','M','S','O','L','P'];
+    for (let index = values.length - 1; index > 0; index--) {
+      const randomIndex = Math.floor(Math.random() * (index + 1));
+      [values[index], values[randomIndex]] = [values[randomIndex], values[index]];
+    }
     let score = 0;
-    for(let i=0;i<14;i++){
+    let complete = false;
+    qs('#restartBubbles').onclick = () => premium.bubbles();
+    values.forEach((letter,index) => {
+      const slot = document.createElement('div');
+      slot.className = 'bubble-slot';
       const bubble = document.createElement('button');
       bubble.className = 'bubble';
-      const good = i < 5 || Math.random() > .45;
-      bubble.textContent = good ? 'A' : ['B','C','M','S'][Math.floor(Math.random()*4)];
-      const size = 46 + Math.random() * 26;
-      bubble.style.width = size + 'px';
-      bubble.style.height = size + 'px';
-      bubble.style.left = Math.random() * 82 + '%';
-      bubble.style.top = Math.random() * 72 + '%';
+      bubble.textContent = letter;
+      bubble.setAttribute('aria-label', `Burbuja con la letra ${letter}`);
+      bubble.style.setProperty('--float-delay', `${index * -.31}s`);
       bubble.onclick = () => {
-        if(good){ score = Math.min(5, score + 1); qs('#bubbleScore').textContent = score; bubble.remove(); }
-        else bubble.animate([{transform:'scale(1)'},{transform:'scale(.85)'},{transform:'scale(1)'}], {duration:180});
+        if (!modal.open || session !== modalSession || complete || bubble.disabled) return;
+        if (letter === 'A') {
+          bubble.disabled = true;
+          bubble.classList.add('popping');
+          score++;
+          qs('#bubbleScore').textContent = score;
+          qs('#bubblePaws').innerHTML = pawMarkup(score);
+          qs('#bubblePaws').setAttribute('aria-label', `${score} de 5 patitas doradas`);
+          qs('#bubbleHint').textContent = score === 5 ? '¡Juntaste las cinco patitas!' : '¡Muy bien! Encontraste una A.';
+          const finished = score === 5;
+          if (finished) complete = true;
+          setTimeout(() => {
+            if (!modal.open || session !== modalSession) return;
+            bubble.remove();
+            if (finished) {
+              openModal(`<h2 class="modal-title">¡Explotaste las cinco A!</h2><div class="activity-celebration"><img src="assets/milo-fiesta-4.webp" alt="Milo festeja tu logro"><p role="status">¡Burbujas completado!</p></div><div class="bubble-win-paws" aria-hidden="true">${pawMarkup(5)}</div><div class="word-footer memory-finish"><button class="btn secondary" id="playBubblesAgain">Jugar de nuevo</button><button class="btn secondary" id="continueBubbles">Continuar</button></div>`);
+              qs('#playBubblesAgain').onclick = () => premium.bubbles();
+              qs('#continueBubbles').onclick = () => modal.close();
+            }
+          }, 350);
+        } else {
+          qs('#bubbleHint').textContent = `Esa es la ${letter}. ¡Buscá una A!`;
+          bubble.classList.add('bubble-wrong');
+          setTimeout(() => { if (session === modalSession) bubble.classList.remove('bubble-wrong'); }, 450);
+        }
       };
-      board.appendChild(bubble);
-    }
+      slot.appendChild(bubble);
+      board.appendChild(slot);
+    });
   },
 
   word(){
