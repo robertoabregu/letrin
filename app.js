@@ -6,9 +6,10 @@ const modal = qs('#modal');
 const modalContent = qs('#modalContent');
 const toast = qs('#toast');
 let progress = {A: []};
+const activityIds = ['know','trace','paint','starts','catch'];
 try {
   const saved = JSON.parse(localStorage.getItem('letrin_progress_v03') || '{}');
-  if (Array.isArray(saved?.A)) progress.A = [...new Set(saved.A)].filter(activity => ['know','repeat','trace','paint','starts','catch'].includes(activity));
+  if (Array.isArray(saved?.A)) progress.A = [...new Set(saved.A)].filter(activity => activityIds.includes(activity));
 } catch {}
 let modalSession = 0;
 modal.addEventListener('close', () => { modalSession++; window.speechSynthesis?.cancel(); });
@@ -46,8 +47,10 @@ function saveProgress(){
   refreshProgress();
 }
 function refreshProgress(){
-  const done = progress.A || [];
-  qs('#progressText').textContent = `${done.length} de 6 actividades completas`;
+  const done = activityIds.filter(activity => progress.A.includes(activity));
+  const counter = qs('#pawProgress');
+  counter.setAttribute('aria-label', `${done.length} de 5 actividades completas`);
+  counter.innerHTML = activityIds.map((activity,index) => `<svg class="paw${index<done.length?' earned':''}" viewBox="0 0 40 40" aria-hidden="true"><ellipse cx="9" cy="14" rx="4" ry="6" transform="rotate(-25 9 14)"/><ellipse cx="17" cy="8" rx="4" ry="6"/><ellipse cx="26" cy="9" rx="4" ry="6"/><ellipse cx="33" cy="16" rx="4" ry="6" transform="rotate(25 33 16)"/><path d="M10 30C10 25 15 19 20 19S31 26 31 31C31 37 25 35 21 34C17 35 10 37 10 30Z"/></svg>`).join('');
   qsa('[data-activity]').forEach(btn => btn.classList.toggle('done', done.includes(btn.dataset.activity)));
 }
 function showToast(text){
@@ -64,25 +67,9 @@ function markDone(activity, title='¡Muy bien!'){
   }
   showToast(`${title} ⭐ Actividad completada`);
 }
-function finishButton(activity, title){
-  const row = document.createElement('div');
-  row.className = 'complete-row';
-  const done = document.createElement('button');
-  done.className = 'btn primary';
-  done.textContent = activity === 'repeat' ? '¡Ya practiqué!' : '¡Terminé!';
-  done.onclick = () => {
-    celebrate(activity, title);
-  };
-  const later = document.createElement('button');
-  later.className = 'btn secondary';
-  later.textContent = 'Continuar';
-  later.onclick = () => modal.close();
-  row.append(done, later);
-  return row;
-}
 function celebrate(activity, title){
   markDone(activity,title);
-  const poses = {know:'milo-celebrando',repeat:'milo-fiesta-0',trace:'milo-fiesta-1',paint:'milo-fiesta-2',starts:'milo-fiesta-3',catch:'milo-fiesta-4'};
+  const poses = {know:'milo-fiesta-0',trace:'milo-fiesta-1',paint:'milo-fiesta-2',starts:'milo-fiesta-3',catch:'milo-fiesta-4'};
   openModal(`<h2 class="modal-title">${title}</h2><div class="activity-celebration"><img src="assets/${poses[activity]}.webp" alt="Milo festeja tu logro"><p role="status">¡Actividad completada!</p></div><div class="word-footer"><button class="btn secondary" id="continueActivity">Continuar</button></div>`);
   qs('#continueActivity').onclick=()=>modal.close();
 }
@@ -153,10 +140,6 @@ const actions = {
       <h2 class="modal-title">Empieza con la letra A</h2>
       <p class="helper word-instruction">Tocá cada imagen para escuchar cómo se pronuncia.</p>
       <div class="word-list" id="wordChoices"></div>
-      <div class="word-celebration" id="wordCelebration" hidden>
-        <img src="assets/milo-celebrando.webp" alt="Milo celebra tu logro">
-        <p role="status">¡Muy bien! Escuchaste las cuatro palabras.</p>
-      </div>
       <div class="word-footer"><button id="continueWords" class="btn secondary">Continuar</button></div>
     `);
     modal.classList.add('word-modal');
@@ -177,28 +160,13 @@ const actions = {
           button.setAttribute('aria-label', `Escuchar ${word.name}, escuchada`);
           if (heard.size === words.length && !completed) {
             completed = true;
-            markDone('know', '¡Excelente!');
-            qs('#wordCelebration').hidden = false;
+            celebrate('know', '¡Escuchaste las cuatro palabras!');
           }
         });
       };
       qs('#wordChoices').appendChild(button);
     });
     qs('#continueWords').onclick = () => modal.close();
-  },
-
-  repeat(){
-    openModal(`
-      <div class="confetti">🎧💬</div>
-      <h2 class="modal-title">Escuchar y repetir</h2>
-      <p class="helper">Primero escuchá la letra y una palabra ejemplo. Después repetila a tu ritmo.</p>
-      <div class="game-panel">
-        <button id="playRepeat" class="btn primary">🔊 A — Abeja</button>
-        <p class="helper">En esta versión inicial no evaluamos la pronunciación: la idea es practicar sin presión.</p>
-      </div>
-    `);
-    modalContent.appendChild(finishButton('repeat', '¡Muy bien!'));
-    qs('#playRepeat').onclick = () => speak('A. Abeja.');
   },
 
   trace(){ drawingActivity('trace'); },

@@ -19,7 +19,8 @@ Los cambios futuros en `main` se publican automáticamente. Para probar localmen
 - El modo sin conexión requiere una primera visita completa con internet y un navegador compatible. El progreso es local al dispositivo.
 - El trazado de A se aprueba automáticamente al cubrir al menos el 80 % de cada uno de sus tres recorridos, con tolerancia para el dedo.
 - La pintura queda recortada dentro de la A, respetando también su hueco. «¡Terminé!» se habilita después de pintar.
-- Las seis actividades usan distintas poses de Milo con entrada animada al completarse; se respeta la preferencia de movimiento reducido.
+- Las cinco actividades usan distintas poses de Milo con la misma pantalla de festejo y entrada animada; se respeta la preferencia de movimiento reducido.
+- El encabezado muestra cinco patitas: vacías al comenzar y doradas a medida que se completan actividades. El progreso anterior se conserva, excluyendo «Escuchar y repetir», que fue retirada.
 - La tipografía redonda Nunito está incluida localmente con su licencia SIL OFL en `assets/fonts/OFL.txt`.
 
 ## Ajustes incluidos
@@ -36,7 +37,6 @@ Los cambios futuros en `main` se publican automáticamente. Para probar localmen
 ## Alcance del checkpoint
 ### Gratis
 - Conocer la letra
-- Escuchar y repetir
 - Trazar la letra
 - Pintar la letra
 - ¿Cuál empieza con A?
@@ -52,7 +52,7 @@ Los cambios futuros en `main` se publican automáticamente. Para probar localmen
 - [x] Mensaje claro para padres
 - [x] Mascota basada en Milo
 - [x] Regla freemium clara
-- [x] Seis actividades de la letra A
+- [x] Cinco actividades de la letra A
 - [x] Demos premium
 - [x] Offline
 - [x] Sin anuncios
