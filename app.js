@@ -91,6 +91,7 @@ function refreshProgress(){
   qsa('[data-letter]').forEach(button => {
     const letter = button.dataset.letter;
     const count = activityIds.filter(activity => (progress[letter] || []).includes(activity)).length;
+    button.classList.toggle('completed', count === activityIds.length);
     button.querySelector('.letter-paws').innerHTML = pawMarkup(count);
     button.setAttribute('aria-label', `Letra ${letter}: ${letter==='A'?'jugar':'próximamente gratis'}, ${count} de 5 actividades completas`);
   });
