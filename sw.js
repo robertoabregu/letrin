@@ -1,6 +1,6 @@
 
-const CACHE = 'letrin-v0-5';
-const ASSETS = ['./', 'index.html', 'styles.css', 'app.js', 'manifest.json', 'assets/milo.webp', 'assets/garden.svg'];
+const CACHE = 'letrin-v0-6';
+const ASSETS = ['./', 'index.html', 'styles.css', 'app.js', 'manifest.json', 'assets/milo.webp', 'assets/garden.svg', 'assets/milo-peeking.webp', 'assets/milo-celebrando.webp', 'assets/abeja.webp', 'assets/avion.webp', 'assets/arbol.webp', 'assets/arana.webp'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(ASSETS)).then(() => self.skipWaiting()));
 });

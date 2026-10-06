@@ -19,15 +19,16 @@ function go(id){
 }
 qsa('[data-go]').forEach(b => b.addEventListener('click', () => go(b.dataset.go)));
 
-function speak(text){
-  if(!('speechSynthesis' in window)) return;
+function speak(text, onEnd){
+  if(!('speechSynthesis' in window)) { showToast('Este navegador no permite reproducir las palabras'); return; }
   const u = new SpeechSynthesisUtterance(text);
   u.lang = 'es-AR';
   u.rate = .9;
+  u.onend = () => onEnd?.();
+  u.onerror = event => { if (!['canceled', 'interrupted'].includes(event.error)) showToast('No se pudo reproducir el audio. Probá de nuevo.'); };
   speechSynthesis.cancel();
   speechSynthesis.speak(u);
 }
-qs('#speakA').onclick = () => speak('A. Abeja. Árbol. Avión. Araña.');
 
 const letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','Ñ','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
 const alphabet = qs('#alphabet');
@@ -82,6 +83,7 @@ function finishButton(activity, title){
 }
 function openModal(html){
   modalSession++;
+  modal.classList.remove('word-modal');
   modalContent.innerHTML = html;
   if (!modal.open) modal.showModal();
 }
@@ -97,19 +99,42 @@ function showInfo(letter){
 const actions = {
   know(){ 
     openModal(`
-      <div class="confetti">🔤✨</div>
-      <h2 class="modal-title">Conocer la letra A</h2>
-      <p class="helper">La A puede verse en mayúscula y minúscula. Escuchala y asociála con palabras simples.</p>
-      <div class="word-list">
-        <div class="word-chip">🐝 Abeja</div>
-        <div class="word-chip">✈️ Avión</div>
-        <div class="word-chip">🌳 Árbol</div>
-        <div class="word-chip">🕷️ Araña</div>
+      <img class="word-heading-art" src="assets/abeja.webp" alt="">
+      <h2 class="modal-title">Empieza con la letra A</h2>
+      <p class="helper word-instruction">Tocá cada imagen para escuchar cómo se pronuncia.</p>
+      <div class="word-list" id="wordChoices"></div>
+      <div class="word-celebration" id="wordCelebration" hidden>
+        <img src="assets/milo-celebrando.webp" alt="Milo celebra tu logro">
+        <p role="status">¡Muy bien! Escuchaste las cuatro palabras.</p>
       </div>
-      <button id="listenExamples" class="btn secondary">🔊 Escuchar ejemplos</button>
+      <div class="word-footer"><button id="continueWords" class="btn secondary">Continuar</button></div>
     `);
-    modalContent.appendChild(finishButton('know', '¡Genial!'));
-    qs('#listenExamples').onclick = () => speak('A. Abeja. Avión. Árbol. Araña.');
+    modal.classList.add('word-modal');
+    const session = modalSession;
+    const heard = new Set();
+    let completed = false;
+    const words = [{name:'Abeja',asset:'abeja'}, {name:'Avión',asset:'avion'}, {name:'Árbol',asset:'arbol'}, {name:'Araña',asset:'arana'}];
+    words.forEach(word => {
+      const button = document.createElement('button');
+      button.className = 'word-chip';
+      button.setAttribute('aria-label', `Escuchar ${word.name}`);
+      button.innerHTML = `<img src="assets/${word.asset}.webp" alt=""><b>${word.name}</b><span class="word-speaker" aria-hidden="true">🔊</span>`;
+      button.onclick = () => {
+        speak(word.name, () => {
+          if (!modal.open || session !== modalSession) return;
+          heard.add(word.asset);
+          button.classList.add('heard');
+          button.setAttribute('aria-label', `Escuchar ${word.name}, escuchada`);
+          if (heard.size === words.length && !completed) {
+            completed = true;
+            markDone('know', '¡Excelente!');
+            qs('#wordCelebration').hidden = false;
+          }
+        });
+      };
+      qs('#wordChoices').appendChild(button);
+    });
+    qs('#continueWords').onclick = () => modal.close();
   },
 
   repeat(){
