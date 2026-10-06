@@ -172,6 +172,7 @@ function openModal(html){
   modal.classList.remove('word-modal');
   modal.classList.remove('memory-modal');
   modal.classList.remove('bubbles-modal');
+  modal.classList.remove('builder-modal');
   modalContent.innerHTML = html;
   if (!modal.open) modal.showModal();
   modal.scrollTop = 0;
@@ -476,34 +477,81 @@ const premium = {
   },
 
   word(){
-    premiumShell('Construí la palabra', `
-      <div class="word-builder">
-        <p>Armá la palabra <strong>ALA</strong>.</p>
-        <div class="slots"><div class="slot"></div><div class="slot"></div><div class="slot"></div></div>
-        <div class="bank"></div>
-        <p id="wordState" class="helper"></p>
-      </div>
-    `);
-    const tiles = ['A','L','A'].sort(() => Math.random() - .5);
-    const bank = qs('.bank');
-    const slots = qsa('.slot');
-    let index = 0;
-    tiles.forEach(val => {
-      const tile = document.createElement('button');
-      tile.className = 'tile';
-      tile.textContent = val;
-      tile.onclick = () => {
-        if(index >= slots.length) return;
-        slots[index].textContent = val;
-        tile.disabled = true;
-        index++;
-        if(index === slots.length){
-          const result = slots.map(s => s.textContent).join('');
-          qs('#wordState').innerHTML = result === 'ALA' ? `<strong class="paw-score">${pawIcon(true)} ¡Muy bien!</strong>` : '<strong>Probá de nuevo</strong>';
-        }
-      };
-      bank.appendChild(tile);
-    });
+    const words = [{name:'Abeja',letters:'ABEJA',asset:'abeja'},{name:'Avión',letters:'AVIÓN',asset:'avion'},{name:'Árbol',letters:'ÁRBOL',asset:'arbol'}];
+    let round = 0, completed = 0;
+    const paws = () => words.map((word,index) => pawIcon(index < completed)).join('');
+    const render = () => {
+      const word = words[round];
+      openModal(`<img class="word-heading-art" src="assets/letra-a-roja.webp" alt=""><h2 class="modal-title">Construí la palabra</h2><p class="helper memory-instruction">Tocá las letras en orden. Podés tocar una letra colocada para devolverla.</p><div class="builder-status"><span>Palabra ${round+1} de 3</span><div id="builderPaws" class="paw-progress" role="img" aria-label="${completed} de 3 palabras completas">${paws()}</div></div><div class="builder-picture"><img src="assets/${word.asset}.webp" alt="${word.name}"><strong>${word.letters}</strong><button class="btn secondary" id="hearWord" aria-label="Escuchar ${word.name}">${uiIcon('sound')} Escuchar</button></div><div class="slots" id="wordSlots" aria-label="Letras colocadas"></div><div class="bank" id="letterBank" aria-label="Letras para elegir"></div><p id="wordState" class="bubble-hint" role="status">¡Armá ${word.letters}!</p><div class="word-footer memory-finish"><button class="btn secondary" id="restartBuilder">Volver a empezar</button><button class="btn secondary" id="nextWord" disabled>Siguiente palabra</button></div>`);
+      modal.classList.add('builder-modal');
+      const session = modalSession;
+      const letters = [...word.letters];
+      for (let index = letters.length - 1; index > 0; index--) {
+        const randomIndex = Math.floor(Math.random() * (index + 1));
+        [letters[index], letters[randomIndex]] = [letters[randomIndex], letters[index]];
+      }
+      const placed = Array(letters.length).fill(null);
+      const slots = [], tiles = [];
+      let solved = false;
+      const active = () => modal.open && session === modalSession && !solved;
+      qs('#hearWord').onclick = () => speak(word.name);
+      qs('#restartBuilder').onclick = () => { window.speechSynthesis?.cancel(); premium.word(); };
+      qs('#nextWord').onclick = () => { if (!solved || session !== modalSession) return; window.speechSynthesis?.cancel(); round++; render(); };
+      letters.forEach((letter,index) => {
+        const slot = document.createElement('button');
+        slot.className = 'slot';
+        slot.disabled = true;
+        slot.setAttribute('aria-label', `Espacio ${index+1}, vacío`);
+        slot.onclick = () => {
+          if (!active() || placed[index] === null) return;
+          tiles[placed[index]].disabled = false;
+          placed[index] = null;
+          slot.textContent = '';
+          slot.disabled = true;
+          slot.setAttribute('aria-label', `Espacio ${index+1}, vacío`);
+          qs('#wordState').textContent = '¡Podés seguir probando!';
+        };
+        slots.push(slot);
+        qs('#wordSlots').appendChild(slot);
+      });
+      letters.forEach((letter,index) => {
+        const tile = document.createElement('button');
+        tile.className = 'tile';
+        tile.textContent = letter;
+        tile.setAttribute('aria-label', `Elegir la letra ${letter}`);
+        tile.onclick = () => {
+          if (!active() || tile.disabled) return;
+          const position = placed.indexOf(null);
+          if (position < 0) return;
+          placed[position] = index;
+          slots[position].textContent = letter;
+          slots[position].disabled = false;
+          slots[position].setAttribute('aria-label', `Devolver la letra ${letter} del espacio ${position+1}`);
+          tile.disabled = true;
+          if (placed.every(value => value !== null)) {
+            const result = placed.map(value => letters[value]).join('');
+            if (result !== word.letters) { qs('#wordState').textContent = '¡Casi! Tocá una letra colocada para corregirla.'; return; }
+            solved = true;
+            completed++;
+            slots.forEach(item => { item.disabled = true; item.classList.add('word-correct'); });
+            qs('#builderPaws').innerHTML = paws();
+            qs('#builderPaws').setAttribute('aria-label', `${completed} de 3 palabras completas`);
+            qs('#wordState').textContent = `¡Muy bien! Armaste ${word.letters}.`;
+            if (completed < words.length) { qs('#nextWord').disabled = false; return; }
+            setTimeout(() => {
+              if (!modal.open || session !== modalSession) return;
+              window.speechSynthesis?.cancel();
+              openModal(`<h2 class="modal-title">¡Armaste las tres palabras!</h2><div class="activity-celebration"><img src="assets/milo-fiesta-2.webp" alt="Milo festeja tu logro"><p role="status">¡Desafío completado!</p></div><div class="bubble-win-paws" aria-hidden="true">${paws()}</div><div class="word-footer memory-finish"><button class="btn secondary" id="playBuilderAgain">Jugar de nuevo</button><button class="btn secondary" id="continueBuilder">Continuar</button></div>`);
+              qs('#playBuilderAgain').onclick = () => premium.word();
+              qs('#continueBuilder').onclick = () => modal.close();
+            }, 650);
+          }
+        };
+        tiles.push(tile);
+        qs('#letterBank').appendChild(tile);
+      });
+    };
+    render();
   }
 };
 qsa('[data-premium]').forEach(btn => btn.addEventListener('click', () => premium[btn.dataset.premium]()));
