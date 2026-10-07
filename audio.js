@@ -79,7 +79,7 @@ const LetrinAudio = (() => {
     const pack = LetrinAudioCatalog[locale()];
     const label = pack.label;
     const recordings = Object.keys(pack.clips).length;
-    const recordedStatus = recordings ? ` ${recordings} palabras con audio grabado; las demás usan la voz del dispositivo.` : ' No hay grabaciones disponibles para esta región.';
+    const recordedStatus = recordings ? ` ${recordings} grabaciones de letras y palabras; los demás textos usan la voz del dispositivo.` : ' No hay grabaciones disponibles para esta región.';
     if (!selected) return `${label}.${recordedStatus} No se encontró una voz compatible para los textos sin grabación.`;
     return `${label}. Voz del dispositivo: ${selected.name} (${selected.lang}).${normalize(selected.lang) !== normalize(locale()) ? ' Se usa un acento alternativo disponible.' : ''}${selected.localService ? ' Voz local; probá también sin conexión.' : ' Esta voz puede necesitar internet.'}${recordedStatus}`;
   }

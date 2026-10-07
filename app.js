@@ -5,11 +5,16 @@ const screens = qsa('.screen');
 const modal = qs('#modal');
 const modalContent = qs('#modalContent');
 const toast = qs('#toast');
-let progress = {A: []};
+let progress = Object.fromEntries(Object.keys(LetrinLetters).map(letter => [letter, []]));
+let currentLetter = 'A';
+try { const savedLetter = localStorage.getItem('letrin_last_letter'); if (LetrinLetters[savedLetter]) currentLetter = savedLetter; } catch {}
+const letterData = () => LetrinLetters[currentLetter];
+const letterArt = (complete=false) => `assets/letra-${letterData().art}-${complete?'verde':'roja'}.${currentLetter==='A'?'webp':'svg'}`;
+const wordArt = word => `<img src="assets/${word.asset}.webp" alt="">`;
 const activityIds = ['know','trace','paint','starts','catch'];
 try {
   const saved = JSON.parse(localStorage.getItem('letrin_progress_v03') || '{}');
-  if (Array.isArray(saved?.A)) progress.A = [...new Set(saved.A)].filter(activity => activityIds.includes(activity));
+  Object.keys(LetrinLetters).forEach(letter => { if (Array.isArray(saved?.[letter])) progress[letter] = [...new Set(saved[letter])].filter(activity => activityIds.includes(activity)); });
 } catch {}
 let modalSession = 0;
 let letterWasComplete = null;
@@ -44,12 +49,36 @@ function celebrateLetter(){
 }
 
 function go(id){
+  if (id === 'letterA') renderLetter();
   screens.forEach(s => s.classList.toggle('active', s.id === id));
   window.scrollTo({top:0, behavior:'smooth'});
 }
 qsa('[data-go]').forEach(b => b.addEventListener('click', () => go(b.dataset.go)));
-qs('#homePlay').onclick=()=>go(progress.A.some(activity=>activityIds.includes(activity))?'letterA':'letters');
-qs('#letterA .big-letter').onclick=()=>speak('A');
+qs('#homePlay').onclick=()=>go(progress[currentLetter].some(activity=>activityIds.includes(activity))?'letterA':'letters');
+qs('#letterA .big-letter').onclick=()=>speak(currentLetter);
+function selectLetter(letter){
+  currentLetter = letter;
+  letterWasComplete = null;
+  letterCelebrationPending = false;
+  try { localStorage.setItem('letrin_last_letter',letter); } catch {}
+  go('letterA');
+}
+function renderLetter(){
+  const section=qs('#letterA');
+  section.querySelector('.topbar strong').textContent=`Letra ${currentLetter}`;
+  section.querySelector('.letter-red').src=letterArt();
+  section.querySelector('.letter-green').src=letterArt(true);
+  const know=section.querySelector('[data-activity="know"]');
+  know.querySelector('b').textContent=`Empieza con '${currentLetter}'`;
+  know.setAttribute('aria-label',`Empieza con la letra ${currentLetter}`);
+  know.querySelector('img').src=`assets/${letterData().words[0].asset}.webp`;
+  section.querySelector('[data-activity="starts"] b').textContent=`¿Cuál empieza con ${currentLetter}?`;
+  section.querySelector('[data-activity="catch"] em').textContent=`Tocá solo las ${currentLetter}`;
+  section.querySelector('[data-premium="word"]>img').src=letterArt();
+  const memory=section.querySelectorAll('.memory-art img');
+  memory.forEach((image,index)=>image.src=`assets/${letterData().words[index].asset}.webp`);
+  refreshProgress();
+}
 
 function speak(text, onEnd){
   LetrinAudio.speak(text, onEnd, showToast);
@@ -75,8 +104,8 @@ letters.forEach(letter => {
   btn.className = 'letter-btn' + (letter === 'A' ? ' a' : '');
   btn.dataset.letter = letter;
   btn.innerHTML = `<span class="letter-label">${letter}</span><span class="letter-paws" aria-hidden="true"></span>`;
-  btn.setAttribute('aria-label', letter === 'A' ? 'Letra A: jugar' : `Letra ${letter}: próximamente gratis`);
-  btn.onclick = () => letter === 'A' ? go('letterA') : showInfo(letter);
+  btn.setAttribute('aria-label', LetrinLetters[letter] ? `Letra ${letter}: jugar` : `Letra ${letter}: próximamente gratis`);
+  btn.onclick = () => LetrinLetters[letter] ? selectLetter(letter) : showInfo(letter);
   alphabet.appendChild(btn);
 });
 
@@ -94,7 +123,7 @@ function uiIcon(name){
   return `<svg class="ui-icon" aria-hidden="true" focusable="false"><use href="assets/ui-icons.svg#${name}"/></svg>`;
 }
 function refreshProgress(){
-  const done = activityIds.filter(activity => progress.A.includes(activity));
+  const done = activityIds.filter(activity => progress[currentLetter].includes(activity));
   const complete = done.length === activityIds.length;
   qs('#homeProgress').hidden=done.length===0;
   qs('#homePaws').innerHTML=pawMarkup(done.length);
@@ -102,10 +131,12 @@ function refreshProgress(){
   qs('#homeProgressText').classList.toggle('complete',complete);
   qs('#homeHeading').textContent=done.length?'¿Seguimos jugando?':'¿Jugamos con las letras?';
   qs('#homePlayLabel').textContent=complete?'Volver a jugar':done.length?'Seguir jugando':'¡A jugar!';
-  qs('#homeLetterArt').src=`assets/letra-a-${complete?'verde':'roja'}.webp`;
+  qs('#homeLetterArt').src=letterArt(complete);
+  qs('#homeLetterArt').alt=`Letra ${currentLetter}`;
+  qs('#homeProgress h2').textContent=`Letra ${currentLetter}`;
   if (complete && letterWasComplete === false) letterCelebrationPending = true;
   qs('#letterA .letter-hero').classList.toggle('letter-complete', complete && !letterCelebrationPending);
-  qs('#letterA .big-letter').setAttribute('aria-label', `Escuchar el sonido de la letra A${complete?'; todas las actividades completas':''}`);
+  qs('#letterA .big-letter').setAttribute('aria-label', `Escuchar el sonido de la letra ${currentLetter}${complete?'; todas las actividades completas':''}`);
   letterWasComplete = complete;
   const counter = qs('#pawProgress');
   counter.setAttribute('aria-label', `${done.length} de 5 actividades completas`);
@@ -115,7 +146,7 @@ function refreshProgress(){
     const count = activityIds.filter(activity => (progress[letter] || []).includes(activity)).length;
     button.classList.toggle('completed', count === activityIds.length);
     button.querySelector('.letter-paws').innerHTML = pawMarkup(count);
-    button.setAttribute('aria-label', `Letra ${letter}: ${letter==='A'?'jugar':'próximamente gratis'}, ${count} de 5 actividades completas`);
+    button.setAttribute('aria-label', `Letra ${letter}: ${LetrinLetters[letter]?'jugar':'próximamente gratis'}, ${count} de 5 actividades completas`);
   });
   qsa('[data-activity]').forEach(btn => btn.classList.toggle('done', done.includes(btn.dataset.activity)));
 }
@@ -126,9 +157,9 @@ function showToast(text){
   window.toastTimer = setTimeout(() => toast.classList.remove('show'), 1800);
 }
 function markDone(activity){
-  progress.A = progress.A || [];
-  if(!progress.A.includes(activity)){
-    progress.A.push(activity);
+  progress[currentLetter] = progress[currentLetter] || [];
+  if(!progress[currentLetter].includes(activity)){
+    progress[currentLetter].push(activity);
     saveProgress();
   }
 }
@@ -138,39 +169,46 @@ function celebrate(activity, title){
   openModal(`<h2 class="modal-title">${title}</h2><div class="activity-celebration"><img src="assets/${poses[activity]}.webp" alt="Milo festeja tu logro"><p role="status">¡Actividad completada!</p></div><div class="word-footer"><button class="btn secondary" id="continueActivity">Continuar</button></div>`);
   qs('#continueActivity').onclick=()=>modal.close();
 }
+function strokePath(context,points){
+  context.beginPath();context.moveTo(points[0].x,points[0].y);
+  points.slice(1).forEach(point=>context.lineTo(point.x,point.y));context.stroke();
+}
 function letterMask(){
+  const paths=LetterPath.forLetter(currentLetter);
   const mask=document.createElement('canvas');
   mask.width=420; mask.height=420;
   const context=mask.getContext('2d');
   context.strokeStyle='#d5eaf5'; context.lineWidth=54; context.lineCap='round'; context.lineJoin='round';
-  LetterPath.strokes.forEach(([start,end])=>{context.beginPath();context.moveTo(start.x,start.y);context.lineTo(end.x,end.y);context.stroke();});
+  paths.strokes.forEach(points=>strokePath(context,points));
   return mask;
 }
 function drawingActivity(activity){
   const tracing=activity==='trace';
-  openModal(`<div class="drawing-header"><img class="word-heading-art" src="assets/actividad-${tracing?'trazar':'pintar'}.webp" alt=""><h2 class="modal-title">${tracing?'Trazar':'Pintar'} la letra A</h2><p class="helper">${tracing?'Seguí el camino, paso a paso.':'¡Dale color a tu letra!'}</p></div>${tracing?'<ol class="trace-steps" aria-label="Pasos del trazado"><li class="current" aria-current="step">1</li><li>2</li><li>3</li></ol>':'<div class="palette" id="palette" role="group" aria-label="Elegí un color"></div>'}<div class="canvas-wrap drawing-board ${tracing?'tracing-board':'painting-board'}"><div class="drawing-workspace">${tracing?'<img class="drawing-milo trace-milo" src="assets/milo-trazar.webp" alt="Milo chusmea el trazado desde el borde izquierdo">':''}<div class="trace-stage"><canvas id="letterCanvas" width="420" height="420" aria-label="${tracing?'Trazar la letra A siguiendo las guías numeradas':'Pintar dentro de la letra A con el color elegido'}"></canvas></div></div><div class="drawing-feedback">${tracing?`<div class="trace-rewards" aria-hidden="true">${pawIcon()}${pawIcon()}${pawIcon()}</div><p id="drawingStatus" role="status">0 de 3 trazos</p>`:'<p id="drawingStatus" role="status">Elegí un color y empezá a pintar</p><img class="drawing-milo paint-milo" src="assets/milo-pintar.webp" alt="Milo se asoma por el borde inferior derecho">'}</div><div class="progressbar" role="progressbar" aria-label="${tracing?'Recorrido trazado':'Superficie pintada'}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="traceFill"></div></div><div class="complete-row"><button id="clearLetter" class="btn secondary">Borrar</button>${tracing?'':'<button id="finishPaint" class="btn paint-finish" disabled>¡Terminé!</button>'}</div></div>`);
+  const paths=LetterPath.forLetter(currentLetter);
+  openModal(`<div class="drawing-header"><img class="word-heading-art" src="${currentLetter==='A'?`assets/actividad-${tracing?'trazar':'pintar'}.webp`:letterArt()}" alt=""><h2 class="modal-title">${tracing?'Trazar':'Pintar'} la letra ${currentLetter}</h2><p class="helper">${tracing?'Seguí el camino, paso a paso.':'¡Dale color a tu letra!'}</p></div>${tracing?'<ol class="trace-steps" aria-label="Pasos del trazado"><li class="current" aria-current="step">1</li><li>2</li><li>3</li></ol>':'<div class="palette" id="palette" role="group" aria-label="Elegí un color"></div>'}<div class="canvas-wrap drawing-board ${tracing?'tracing-board':'painting-board'}"><div class="drawing-workspace">${tracing?'<img class="drawing-milo trace-milo" src="assets/milo-trazar.webp" alt="Milo chusmea el trazado desde el borde izquierdo">':''}<div class="trace-stage"><canvas id="letterCanvas" width="420" height="420" aria-label="${tracing?`Trazar la letra ${currentLetter} siguiendo las guías numeradas`:'Pintar dentro de la letra ${currentLetter} con el color elegido'}"></canvas></div></div><div class="drawing-feedback">${tracing?`<div class="trace-rewards" aria-hidden="true">${pawIcon()}${pawIcon()}${pawIcon()}</div><p id="drawingStatus" role="status">0 de 3 trazos</p>`:'<p id="drawingStatus" role="status">Elegí un color y empezá a pintar</p><img class="drawing-milo paint-milo" src="assets/milo-pintar.webp" alt="Milo se asoma por el borde inferior derecho">'}</div><div class="progressbar" role="progressbar" aria-label="${tracing?'Recorrido trazado':'Superficie pintada'}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="traceFill"></div></div><div class="complete-row"><button id="clearLetter" class="btn secondary">Borrar</button>${tracing?'':'<button id="finishPaint" class="btn paint-finish" disabled>¡Terminé!</button>'}</div></div>`);
   modal.classList.add('drawing-modal');
   modal.classList.add('activity-modal');
   if(tracing)qs('.trace-stage').appendChild(qs('.trace-milo'));
   const canvas=qs('#letterCanvas'), context=canvas.getContext('2d'), mask=letterMask();
   const ink=document.createElement('canvas'); ink.width=420; ink.height=420;
   const brush=ink.getContext('2d'); brush.lineWidth=tracing?22:32; brush.lineCap='round';
-  let color=tracing?'#20b9ed':'#ff5f73', drawing=false, last=null, tracker=LetterPath.coverage(), ratios=[0,0,0];
+  let color=tracing?'#20b9ed':'#ff5f73', drawing=false, last=null, tracker=paths.coverage(), ratios=[0,0,0];
   const maskPixels=mask.getContext('2d').getImageData(0,0,420,420).data;
   const maskCount=maskPixels.filter((value,index)=>index%4===3 && value>128).length;
   function redraw(){
     context.clearRect(0,0,420,420);
     context.strokeStyle=tracing?'#e0f4fc':'#addcf3';context.lineWidth=tracing?58:62;context.lineCap='round';
-    LetterPath.strokes.forEach(([start,end])=>{context.beginPath();context.moveTo(start.x,start.y);context.lineTo(end.x,end.y);context.stroke();});
-    if(!tracing){context.strokeStyle='#fff';context.lineWidth=54;LetterPath.strokes.forEach(([start,end])=>{context.beginPath();context.moveTo(start.x,start.y);context.lineTo(end.x,end.y);context.stroke();});}
+    paths.strokes.forEach(points=>strokePath(context,points));
+    if(!tracing){context.strokeStyle='#fff';context.lineWidth=54;paths.strokes.forEach(points=>strokePath(context,points));}
     context.drawImage(ink,0,0);
     if(tracing){
       const active=ratios.findIndex(value=>value<1);
-      LetterPath.strokes.forEach(([start,end],index)=>{
+      paths.strokes.forEach((points,index)=>{
+        const start=points[0],end=points[points.length-1],beforeEnd=points[points.length-2];
         if(ratios[index]===1)return;
         context.strokeStyle=index===active?'#237fb1':'#8bafc3';context.lineWidth=4;context.setLineDash([3,11]);
-        context.beginPath();context.moveTo(start.x,start.y);context.lineTo(end.x,end.y);context.stroke();context.setLineDash([]);
-        const angle=Math.atan2(end.y-start.y,end.x-start.x);
+        strokePath(context,points);context.setLineDash([]);
+        const angle=Math.atan2(end.y-beforeEnd.y,end.x-beforeEnd.x);
         context.beginPath();context.moveTo(end.x-12*Math.cos(angle-.6),end.y-12*Math.sin(angle-.6));context.lineTo(end.x,end.y);context.lineTo(end.x-12*Math.cos(angle+.6),end.y-12*Math.sin(angle+.6));context.stroke();
         context.beginPath();context.arc(start.x,start.y,15,0,Math.PI*2);context.fillStyle=index===active?'#168dd4':'#8bafc3';context.fill();context.strokeStyle='#fff';context.lineWidth=3;context.stroke();
         context.fillStyle='#fff';context.font='900 18px Nunito, sans-serif';context.textAlign='center';context.textBaseline='middle';context.fillText(String(index+1),start.x,start.y+1);
@@ -211,7 +249,7 @@ function drawingActivity(activity){
   canvas.onpointermove=event=>{if(drawing){event.preventDefault();draw(position(event));}};
   canvas.onpointerup=event=>{if(drawing)draw(position(event));drawing=false;};
   canvas.onpointercancel=()=>{drawing=false;};
-  qs('#clearLetter').onclick=()=>{drawing=false;brush.clearRect(0,0,420,420);tracker=LetterPath.coverage();ratios=[0,0,0];redraw();qs('#traceFill').style.width='0%';qs('.drawing-board .progressbar').setAttribute('aria-valuenow','0');qs('#drawingStatus').textContent=tracing?'0 de 3 trazos':'Elegí un color y empezá a pintar';if(tracing){qsa('.trace-steps li').forEach((step,index)=>{step.classList.remove('finished');step.classList.toggle('current',index===0);step.textContent=String(index+1);if(index===0)step.setAttribute('aria-current','step');else step.removeAttribute('aria-current');});qsa('.trace-rewards .paw').forEach(paw=>paw.classList.remove('earned'));}else qs('#finishPaint').disabled=true;};
+  qs('#clearLetter').onclick=()=>{drawing=false;brush.clearRect(0,0,420,420);tracker=paths.coverage();ratios=[0,0,0];redraw();qs('#traceFill').style.width='0%';qs('.drawing-board .progressbar').setAttribute('aria-valuenow','0');qs('#drawingStatus').textContent=tracing?'0 de 3 trazos':'Elegí un color y empezá a pintar';if(tracing){qsa('.trace-steps li').forEach((step,index)=>{step.classList.remove('finished');step.classList.toggle('current',index===0);step.textContent=String(index+1);if(index===0)step.setAttribute('aria-current','step');else step.removeAttribute('aria-current');});qsa('.trace-rewards .paw').forEach(paw=>paw.classList.remove('earned'));}else qs('#finishPaint').disabled=true;};
 }
 function openModal(html){
   LetrinAudio.cancel();
@@ -233,15 +271,15 @@ qs('#closeModal').onclick = () => modal.close();
 function showInfo(letter){
   openModal(`
     <h2 class="modal-title">Letra ${letter}</h2>
-    <p class="helper">La ${letter} llegará gratis en una próxima actualización. Mientras tanto, ¡podés jugar con la A!</p>
+    <p class="helper">La ${letter} llegará gratis en una próxima actualización. Mientras tanto, ¡podés jugar con la A y la B!</p>
   `);
 }
 
 const actions = {
   know(){ 
     openModal(`
-      <header class="activity-header"><img class="word-heading-art" src="assets/abeja.webp" alt="">
-      <h2 class="modal-title">Empieza con la letra A</h2>
+      <header class="activity-header"><img class="word-heading-art" src="assets/${letterData().words[0].asset}.webp" alt="">
+      <h2 class="modal-title">Empieza con la letra ${currentLetter}</h2>
       <p class="helper word-instruction">Tocá cada imagen para escuchar cómo se pronuncia.</p></header>
       <div class="word-list" id="wordChoices"></div>
       <div class="word-footer"><button id="continueWords" class="btn secondary">Continuar</button></div>
@@ -250,12 +288,12 @@ const actions = {
     const session = modalSession;
     const heard = new Set();
     let completed = false;
-    const words = [{name:'Abeja',asset:'abeja'}, {name:'Avión',asset:'avion'}, {name:'Árbol',asset:'arbol'}, {name:'Araña',asset:'arana'}];
+    const words = letterData().words;
     words.forEach(word => {
       const button = document.createElement('button');
       button.className = 'word-chip';
       button.setAttribute('aria-label', `Escuchar ${word.name}`);
-      button.innerHTML = `<img src="assets/${word.asset}.webp" alt=""><b>${word.name}</b><span class="word-speaker" aria-hidden="true">${uiIcon('sound')}</span>`;
+      button.innerHTML = `${wordArt(word)}<b>${word.name}</b><span class="word-speaker" aria-hidden="true">${uiIcon('sound')}</span>`;
       button.onclick = () => {
         speak(word.name, () => {
           if (!modal.open || session !== modalSession) return;
@@ -277,11 +315,11 @@ const actions = {
   paint(){ drawingActivity('paint'); },
 
   starts(){
-    const rounds = [
-      [{asset:'avion', word:'Avión', ok:true}, {asset:'sol', word:'Sol', ok:false}, {asset:'oso', word:'Oso', ok:false}, {asset:'casa', word:'Casa', ok:false}],
-      [{asset:'arbol', word:'Árbol', ok:true}, {asset:'pelota', word:'Pelota', ok:false}, {asset:'luna', word:'Luna', ok:false}, {asset:'barco', word:'Barco', ok:false}],
-      [{asset:'arana', word:'Araña', ok:true}, {asset:'flor', word:'Flor', ok:false}, {asset:'gato', word:'Gato', ok:false}, {asset:'banana', word:'Banana', ok:false}]
-    ];
+    const targets=currentLetter==='A'?letterData().words.slice(1):letterData().words.slice(0,3);
+    const rounds=targets.map((word,index)=>[
+      {asset:word.asset,word:word.name,ok:true},
+      ...letterData().distractors.slice(index*3,index*3+3).map(item=>({asset:item.asset,word:item.name,ok:false}))
+    ]);
     let round = 0, score = 0;
 
     const render = () => {
@@ -292,8 +330,8 @@ const actions = {
       }
       openModal(`
         <header class="activity-header"><img class="word-heading-art" src="assets/actividad-elegir.webp" alt="">
-        <h2 class="modal-title">¿Cuál empieza con A?</h2>
-        <p class="helper activity-instruction">Elegí la imagen que empieza con A.</p></header>
+        <h2 class="modal-title">¿Cuál empieza con ${currentLetter}?</h2>
+        <p class="helper activity-instruction">Elegí la imagen que empieza con ${currentLetter}.</p></header>
         <div class="status-line"><span>Pregunta ${round+1} de 3</span><span class="paw-score"><span class="sr-only">Patitas doradas:</span>${pawIcon(true)} ${score}</span></div>
         <div class="choice-grid" id="choices"></div>
       `);
@@ -332,7 +370,7 @@ const actions = {
     openModal(`
       <header class="activity-header"><img class="word-heading-art" src="assets/actividad-atrapar.webp" alt="">
       <h2 class="modal-title">Atrapa la letra</h2>
-      <p class="helper activity-instruction">Tocá solo las letras A.</p></header>
+      <p class="helper activity-instruction">Tocá solo las letras ${currentLetter}.</p></header>
       <div class="status-line"><span>Tiempo: <b id="time">15</b>s</span><span class="paw-score"><span class="sr-only">Patitas doradas:</span>${pawIcon(true)} <b id="score">0</b></span></div>
       <div id="catchBoard" class="catch-board"></div>
     `);
@@ -340,7 +378,7 @@ const actions = {
 
     const board = qs('#catchBoard');
     let time = 15, score = 0, active = true;
-    const pool = ['A','B','C','A','M','O','A','S','P','A'];
+    const pool = letterData().pool;
     const falls = [];
 
     function spawn(){
@@ -351,7 +389,7 @@ const actions = {
       el.textContent = val;
       el.style.left = Math.random() * 84 + '%';
       el.style.top = '-60px';
-      el.style.background = val === 'A' ? '#fff1a9' : '#dbedff';
+      el.style.background = val === currentLetter ? '#fff1a9' : '#dbedff';
       board.appendChild(el);
 
       let y = -60;
@@ -377,7 +415,7 @@ const actions = {
           fragment.style.setProperty('--dx',Math.cos(angle)*46+'px');fragment.style.setProperty('--dy',Math.sin(angle)*46+'px');fragment.style.setProperty('--turn',index*71+'deg');burst.appendChild(fragment);
         }
         board.appendChild(burst);setTimeout(()=>burst.remove(),550);
-        if(val === 'A'){ score++; qs('#score').textContent = score; }
+        if(val === currentLetter){ score++; qs('#score').textContent = score; }
         else{ score = Math.max(0, score-1); qs('#score').textContent = score; }
         el.remove();
         clearInterval(timer);
@@ -392,8 +430,8 @@ const actions = {
       if(time <= 0){
         clearInterval(timer); clearInterval(spawner); active = false;
         falls.forEach(id => clearInterval(id));
-        if(score>0) celebrate('catch',`¡Atrapaste ${score} ${score===1?'letra':'letras'} A!`);
-        else {board.innerHTML='';modalContent.insertAdjacentHTML('beforeend','<p class="helper">¡Intentá atrapar una A! Podés volver a jugar.</p>');}
+        if(score>0) celebrate('catch',`¡Atrapaste ${score} ${score===1?'letra':'letras'} ${currentLetter}!`);
+        else {board.innerHTML='';modalContent.insertAdjacentHTML('beforeend',`<p class="helper">¡Intentá atrapar una ${currentLetter}! Podés volver a jugar.</p>`);}
       }
     }, 1000);
 
@@ -435,9 +473,9 @@ function premiumShell(title, inner){
 
 const premium = {
   memory(){
-    openModal(`<div class="memory-heading"><span class="memory-art"><img src="assets/abeja.webp" alt=""><img src="assets/avion.webp" alt=""></span><h2 class="modal-title">Memotest de la A</h2></div><p class="helper memory-instruction">Encontrá las cuatro parejas de imágenes iguales.</p><div class="memory-status"><span class="paw-score"><span class="sr-only">Parejas encontradas:</span>${pawIcon(true)} <b id="memoryPairs">0</b>/4</span><span>Intentos: <b id="memoryMoves">0</b></span></div><div class="memory-grid" id="memgrid"></div><div class="word-footer"><button class="btn secondary" id="restartMemory">Volver a empezar</button></div>`);
+    openModal(`<div class="memory-heading"><span class="memory-art">${wordArt(letterData().words[0])}${wordArt(letterData().words[1])}</span><h2 class="modal-title">Memotest de la ${currentLetter}</h2></div><p class="helper memory-instruction">Encontrá las cuatro parejas de imágenes iguales.</p><div class="memory-status"><span class="paw-score"><span class="sr-only">Parejas encontradas:</span>${pawIcon(true)} <b id="memoryPairs">0</b>/4</span><span>Intentos: <b id="memoryMoves">0</b></span></div><div class="memory-grid" id="memgrid"></div><div class="word-footer"><button class="btn secondary" id="restartMemory">Volver a empezar</button></div>`);
     modal.classList.add('memory-modal');
-    const words = [{asset:'abeja',name:'Abeja'},{asset:'avion',name:'Avión'},{asset:'arbol',name:'Árbol'},{asset:'arana',name:'Araña'}];
+    const words = letterData().words;
     const values = [...words,...words];
     for (let index = values.length - 1; index > 0; index--) {
       const randomIndex = Math.floor(Math.random() * (index + 1));
@@ -450,7 +488,7 @@ const premium = {
     values.forEach((word,index) => {
       const card = document.createElement('button');
       card.className = 'memcard';
-      card.innerHTML = `<span class="memory-back">${pawIcon(true)}</span><span class="memory-front"><img src="assets/${word.asset}.webp" alt=""><b>${word.name}</b></span>`;
+      card.innerHTML = `<span class="memory-back">${pawIcon(true)}</span><span class="memory-front">${wordArt(word)}<b>${word.name}</b></span>`;
       card.dataset.val = word.asset;
       card.setAttribute('aria-label', `Carta ${index+1}, boca abajo`);
       card.setAttribute('aria-pressed', 'false');
@@ -489,11 +527,11 @@ const premium = {
   },
 
   bubbles(){
-    openModal(`<div class="bubble-heading-art">${uiIcon('bubbles')}</div><h2 class="modal-title">Burbujas de la A</h2><p class="helper memory-instruction">Tocá las burbujas con A y juntá cinco patitas doradas.</p><div class="bubble-status"><div id="bubblePaws" class="paw-progress" role="img" aria-label="0 de 5 patitas doradas">${pawMarkup(0)}</div><span><b id="bubbleScore">0</b>/5</span></div><div id="bubbleBoard" class="bubble-board"></div><p id="bubbleHint" class="bubble-hint" role="status">¡Buscá las cinco letras A!</p><div class="word-footer"><button class="btn secondary" id="restartBubbles">Volver a empezar</button></div>`);
+    openModal(`<div class="bubble-heading-art">${uiIcon('bubbles')}</div><h2 class="modal-title">Burbujas de la ${currentLetter}</h2><p class="helper memory-instruction">Tocá las burbujas con ${currentLetter} y juntá cinco patitas doradas.</p><div class="bubble-status"><div id="bubblePaws" class="paw-progress" role="img" aria-label="0 de 5 patitas doradas">${pawMarkup(0)}</div><span><b id="bubbleScore">0</b>/5</span></div><div id="bubbleBoard" class="bubble-board"></div><p id="bubbleHint" class="bubble-hint" role="status">¡Buscá las cinco letras ${currentLetter}!</p><div class="word-footer"><button class="btn secondary" id="restartBubbles">Volver a empezar</button></div>`);
     modal.classList.add('bubbles-modal');
     const board = qs('#bubbleBoard');
     const session = modalSession;
-    const values = ['A','A','A','A','A','B','C','M','S','O','L','P'];
+    const values = [...Array(5).fill(currentLetter),...['A','B','C','M','S','O','L','P'].filter(letter=>letter!==currentLetter)];
     for (let index = values.length - 1; index > 0; index--) {
       const randomIndex = Math.floor(Math.random() * (index + 1));
       [values[index], values[randomIndex]] = [values[randomIndex], values[index]];
@@ -511,27 +549,27 @@ const premium = {
       bubble.style.setProperty('--float-delay', `${index * -.31}s`);
       bubble.onclick = () => {
         if (!modal.open || session !== modalSession || complete || bubble.disabled) return;
-        if (letter === 'A') {
+        if (letter === currentLetter) {
           bubble.disabled = true;
           bubble.classList.add('popping');
           score++;
           qs('#bubbleScore').textContent = score;
           qs('#bubblePaws').innerHTML = pawMarkup(score);
           qs('#bubblePaws').setAttribute('aria-label', `${score} de 5 patitas doradas`);
-          qs('#bubbleHint').textContent = score === 5 ? '¡Juntaste las cinco patitas!' : '¡Muy bien! Encontraste una A.';
+          qs('#bubbleHint').textContent = score === 5 ? '¡Juntaste las cinco patitas!' : `¡Muy bien! Encontraste una ${currentLetter}.`;
           const finished = score === 5;
           if (finished) complete = true;
           setTimeout(() => {
             if (!modal.open || session !== modalSession) return;
             bubble.remove();
             if (finished) {
-              openModal(`<h2 class="modal-title">¡Explotaste las cinco A!</h2><div class="activity-celebration"><img src="assets/milo-fiesta-4.webp" alt="Milo festeja tu logro"><p role="status">¡Burbujas completado!</p></div><div class="bubble-win-paws" aria-hidden="true">${pawMarkup(5)}</div><div class="word-footer memory-finish"><button class="btn secondary" id="playBubblesAgain">Jugar de nuevo</button><button class="btn secondary" id="continueBubbles">Continuar</button></div>`);
+              openModal(`<h2 class="modal-title">¡Explotaste las cinco ${currentLetter}!</h2><div class="activity-celebration"><img src="assets/milo-fiesta-4.webp" alt="Milo festeja tu logro"><p role="status">¡Burbujas completado!</p></div><div class="bubble-win-paws" aria-hidden="true">${pawMarkup(5)}</div><div class="word-footer memory-finish"><button class="btn secondary" id="playBubblesAgain">Jugar de nuevo</button><button class="btn secondary" id="continueBubbles">Continuar</button></div>`);
               qs('#playBubblesAgain').onclick = () => premium.bubbles();
               qs('#continueBubbles').onclick = () => modal.close();
             }
           }, 350);
         } else {
-          qs('#bubbleHint').textContent = `Esa es la ${letter}. ¡Buscá una A!`;
+          qs('#bubbleHint').textContent = `Esa es la ${letter}. ¡Buscá una ${currentLetter}!`;
           bubble.classList.add('bubble-wrong');
           setTimeout(() => { if (session === modalSession) bubble.classList.remove('bubble-wrong'); }, 450);
         }
@@ -542,12 +580,12 @@ const premium = {
   },
 
   word(){
-    const words = [{name:'Abeja',letters:'ABEJA',asset:'abeja'},{name:'Avión',letters:'AVIÓN',asset:'avion'},{name:'Árbol',letters:'ÁRBOL',asset:'arbol'}];
+    const words = letterData().words.slice(0,3).map(word=>({...word,letters:word.name.toLocaleUpperCase('es')}));
     let round = 0, completed = 0;
     const paws = () => words.map((word,index) => pawIcon(index < completed)).join('');
     const render = () => {
       const word = words[round];
-      openModal(`<img class="word-heading-art" src="assets/letra-a-roja.webp" alt=""><h2 class="modal-title">Construí la palabra</h2><p class="helper memory-instruction">Tocá las letras en orden. Podés tocar una letra colocada para devolverla.</p><div class="builder-status"><span>Palabra ${round+1} de 3</span><div id="builderPaws" class="paw-progress" role="img" aria-label="${completed} de 3 palabras completas">${paws()}</div></div><div class="builder-picture"><img src="assets/${word.asset}.webp" alt="${word.name}"><strong>${word.letters}</strong><button class="btn secondary" id="hearWord" aria-label="Escuchar ${word.name}">${uiIcon('sound')} Escuchar</button></div><div class="slots" id="wordSlots" aria-label="Letras colocadas"></div><div class="bank" id="letterBank" aria-label="Letras para elegir"></div><p id="wordState" class="bubble-hint" role="status">¡Armá ${word.letters}!</p><div class="word-footer memory-finish"><button class="btn secondary" id="restartBuilder">Volver a empezar</button><button class="btn secondary" id="nextWord" disabled>Siguiente palabra</button></div>`);
+      openModal(`<img class="word-heading-art" src="${letterArt()}" alt=""><h2 class="modal-title">Construí la palabra</h2><p class="helper memory-instruction">Tocá las letras en orden. Podés tocar una letra colocada para devolverla.</p><div class="builder-status"><span>Palabra ${round+1} de 3</span><div id="builderPaws" class="paw-progress" role="img" aria-label="${completed} de 3 palabras completas">${paws()}</div></div><div class="builder-picture"><img src="assets/${word.asset}.webp" alt="${word.name}"><strong>${word.letters}</strong><button class="btn secondary" id="hearWord" aria-label="Escuchar ${word.name}">${uiIcon('sound')} Escuchar</button></div><div class="slots" id="wordSlots" aria-label="Letras colocadas"></div><div class="bank" id="letterBank" aria-label="Letras para elegir"></div><p id="wordState" class="bubble-hint" role="status">¡Armá ${word.letters}!</p><div class="word-footer memory-finish"><button class="btn secondary" id="restartBuilder">Volver a empezar</button><button class="btn secondary" id="nextWord" disabled>Siguiente palabra</button></div>`);
       modal.classList.add('builder-modal');
       const session = modalSession;
       const letters = [...word.letters];
@@ -624,7 +662,7 @@ qsa('[data-premium]').forEach(btn => {
   btn.addEventListener('click', () => premium[btn.dataset.premium]());
 });
 
-refreshProgress();
+renderLetter();
 
 if('serviceWorker' in navigator){
   const alreadyControlled = Boolean(navigator.serviceWorker.controller);
@@ -635,8 +673,8 @@ if('serviceWorker' in navigator){
     try {
       const registration = await navigator.serviceWorker.register('sw.js', {updateViaCache:'none'});
       const updateStatus = async () => {
-        const cache = await caches.open('letrin-v0-38');
-        const required = ['index.html','app.js?v=38',...['abeja','avion','arbol','arana','letra-a'].map(word => `assets/audio/es-AR/${word}.mp3`)];
+        const cache = await caches.open('letrin-v0-39');
+        const required = ['index.html','app.js?v=39','letters.js?v=39','assets/ballena.webp','assets/bicicleta.webp','assets/letra-b-roja.svg','assets/letra-b-verde.svg',...['abeja','avion','arbol','arana','letra-a','letra-b','barco','banana','ballena','bicicleta'].map(word => `assets/audio/es-AR/${word}.mp3`)];
         const downloaded = await Promise.all(required.map(path => cache.match(path)));
         if (downloaded.every(Boolean)) qs('#offlineStatus').textContent = 'Juego descargado · Algunas voces pueden necesitar internet';
       };
