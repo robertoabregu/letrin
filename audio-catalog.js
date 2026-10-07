@@ -1,6 +1,7 @@
 const LetrinAudioCatalog = {
   'es-AR': {label:'Español de Argentina', clips:{
     Abeja: 'assets/audio/es-AR/abeja.mp3',
+    'Avión': 'assets/audio/es-AR/avion.mp3',
     'Árbol': 'assets/audio/es-AR/arbol.mp3',
     'Araña': 'assets/audio/es-AR/arana.mp3'
   }},
