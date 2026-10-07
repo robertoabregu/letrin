@@ -49,6 +49,7 @@ function go(id){
 }
 qsa('[data-go]').forEach(b => b.addEventListener('click', () => go(b.dataset.go)));
 qs('#homePlay').onclick=()=>go(progress.A.some(activity=>activityIds.includes(activity))?'letterA':'letters');
+qs('#letterA .big-letter').onclick=()=>speak('A');
 
 function speak(text, onEnd){
   LetrinAudio.speak(text, onEnd, showToast);
@@ -104,7 +105,7 @@ function refreshProgress(){
   qs('#homeLetterArt').src=`assets/letra-a-${complete?'verde':'roja'}.webp`;
   if (complete && letterWasComplete === false) letterCelebrationPending = true;
   qs('#letterA .letter-hero').classList.toggle('letter-complete', complete && !letterCelebrationPending);
-  qs('#letterA .big-letter').setAttribute('aria-label', `A mayúscula y a minúscula${complete?': todas las actividades completas':''}`);
+  qs('#letterA .big-letter').setAttribute('aria-label', `Escuchar el sonido de la letra A${complete?'; todas las actividades completas':''}`);
   letterWasComplete = complete;
   const counter = qs('#pawProgress');
   counter.setAttribute('aria-label', `${done.length} de 5 actividades completas`);
@@ -634,8 +635,8 @@ if('serviceWorker' in navigator){
     try {
       const registration = await navigator.serviceWorker.register('sw.js', {updateViaCache:'none'});
       const updateStatus = async () => {
-        const cache = await caches.open('letrin-v0-37');
-        const required = ['index.html','app.js?v=37',...['abeja','avion','arbol','arana'].map(word => `assets/audio/es-AR/${word}.mp3`)];
+        const cache = await caches.open('letrin-v0-38');
+        const required = ['index.html','app.js?v=38',...['abeja','avion','arbol','arana','letra-a'].map(word => `assets/audio/es-AR/${word}.mp3`)];
         const downloaded = await Promise.all(required.map(path => cache.match(path)));
         if (downloaded.every(Boolean)) qs('#offlineStatus').textContent = 'Juego descargado · Algunas voces pueden necesitar internet';
       };

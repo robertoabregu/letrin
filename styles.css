@@ -238,8 +238,10 @@ button:focus-visible{outline:4px solid #184ddb;outline-offset:4px}button{transit
 
 #letterA .letter-hero{position:relative;display:block;margin-bottom:30px}
 #letterA .letter-block{min-height:42svh;display:flex;align-items:flex-start;justify-content:center;padding:18px 16px 100px;background:#fffbea;border:3px solid #fff;border-radius:32px}
-#letterA .big-letter{position:relative;width:min(100%,560px);height:clamp(155px,32svh,310px);margin:0;text-shadow:none;-webkit-text-stroke:0}
-#letterA .big-letter img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;transition:opacity .55s ease;filter:drop-shadow(0 7px 6px #45302220)}
+#letterA .big-letter{position:relative;width:min(100%,560px);height:clamp(155px,32svh,310px);margin:0;text-shadow:none;-webkit-text-stroke:0;border:0;background:none;padding:0;cursor:pointer}
+#letterA .big-letter img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;transition:opacity .55s ease,transform .12s ease,filter .12s ease;filter:drop-shadow(0 7px 6px #45302220)}
+#letterA .big-letter:active img{transform:translateY(5px) scale(.96);filter:drop-shadow(0 2px 2px #45302220)}
+@media(prefers-reduced-motion:reduce){#letterA .big-letter img{transition:none}}
 #letterA .letter-green{opacity:0}#letterA .letter-complete .letter-green{opacity:1}#letterA .letter-complete .letter-red{opacity:0}
 .letter-celebrating .big-letter{animation:letterPop 1.4s cubic-bezier(.2,.8,.3,1) both}
 .letter-celebrating .letter-block{animation:partyGlow 1.1s ease-in-out 3}

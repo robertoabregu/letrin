@@ -1,14 +1,15 @@
 
-const CACHE = 'letrin-v0-37';
+const CACHE = 'letrin-v0-38';
 const ASSETS = ['./', 'index.html', 'styles.css', 'app.js', 'manifest.json', 'assets/milo.webp', 'assets/garden.svg', 'assets/milo-peeking.webp', 'assets/milo-celebrando.webp', 'assets/abeja.webp', 'assets/avion.webp', 'assets/arbol.webp', 'assets/arana.webp'];
 self.addEventListener('install', event => {
-  ASSETS.push('styles.css?v=37','app.js?v=37');
+  ASSETS.push('styles.css?v=38','app.js?v=38');
   ASSETS.push('assets/app-icon-192.png','assets/app-icon-512.png','assets/app-icon-maskable-512.png');
   ASSETS.push(...['abeja','avion','arbol','arana'].map(word => `assets/audio/es-AR/${word}.mp3`));
+  ASSETS.push('assets/audio/es-AR/letra-a.mp3');
   ASSETS.push('styles.css?v=30','app.js?v=30','letter-path.js?v=30');
   ASSETS.push('styles.css?v=29','app.js?v=29');
   ASSETS.push('styles.css?v=28','app.js?v=28','letter-path.js?v=28','assets/milo-pintar.webp','assets/milo-trazar.webp');
-  ASSETS.push('audio.js?v=26','audio-catalog.js?v=27');
+  ASSETS.push('audio.js?v=26','audio-catalog.js?v=38');
   ASSETS.push('styles.css?v=25','app.js?v=25','letter-path.js?v=25','audio.js','audio-catalog.js','audio.js?v=25','audio-catalog.js?v=25','assets/ui-icons.svg','assets/letra-a-roja.webp','assets/letra-a-verde.webp');
   ASSETS.push(...['trazar','pintar','elegir','atrapar'].map(asset => `assets/actividad-${asset}.webp`));
   ASSETS.push(...['sol','oso','casa','pelota','luna','barco','flor','gato','banana'].map(asset => `assets/${asset}.webp`));
