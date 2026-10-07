@@ -9,7 +9,7 @@ let progress = Object.fromEntries(Object.keys(LetrinLetters).map(letter => [lett
 let currentLetter = 'A';
 try { const savedLetter = localStorage.getItem('letrin_last_letter'); if (LetrinLetters[savedLetter]) currentLetter = savedLetter; } catch {}
 const letterData = () => LetrinLetters[currentLetter];
-const letterArt = (complete=false) => `assets/letra-${letterData().art}-${complete?'verde':'roja'}.${currentLetter==='A'?'webp':'svg'}`;
+const letterArt = (complete=false) => `assets/letra-${letterData().art}-${complete?'verde':'roja'}.webp`;
 const wordArt = word => `<img src="assets/${word.asset}.webp" alt="">`;
 const activityIds = ['know','trace','paint','starts','catch'];
 try {
@@ -74,6 +74,8 @@ function renderLetter(){
   know.querySelector('img').src=`assets/${letterData().words[0].asset}.webp`;
   section.querySelector('[data-activity="starts"] b').textContent=`¿Cuál empieza con ${currentLetter}?`;
   section.querySelector('[data-activity="catch"] em').textContent=`Tocá solo las ${currentLetter}`;
+  section.querySelector('[data-premium="bubbles"] em').textContent=`Explotá solo las ${currentLetter}`;
+  section.querySelector('[data-premium="bubbles"] .activity-art use').setAttribute('href',`assets/ui-icons.svg#bubbles-${currentLetter.toLowerCase()}`);
   section.querySelector('[data-premium="word"]>img').src=letterArt();
   const memory=section.querySelectorAll('.memory-art img');
   memory.forEach((image,index)=>image.src=`assets/${letterData().words[index].asset}.webp`);
@@ -101,7 +103,7 @@ const letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','Ñ','O
 const alphabet = qs('#alphabet');
 letters.forEach(letter => {
   const btn = document.createElement('button');
-  btn.className = 'letter-btn' + (letter === 'A' ? ' a' : '');
+  btn.className = 'letter-btn' + (LetrinLetters[letter] ? ' a' : '');
   btn.dataset.letter = letter;
   btn.innerHTML = `<span class="letter-label">${letter}</span><span class="letter-paws" aria-hidden="true"></span>`;
   btn.setAttribute('aria-label', LetrinLetters[letter] ? `Letra ${letter}: jugar` : `Letra ${letter}: próximamente gratis`);
@@ -120,7 +122,8 @@ function pawMarkup(count){
   return activityIds.map((activity,index) => pawIcon(index<count)).join('');
 }
 function uiIcon(name){
-  return `<svg class="ui-icon" aria-hidden="true" focusable="false"><use href="assets/ui-icons.svg#${name}"/></svg>`;
+  const icon=name==='bubbles'?`bubbles-${currentLetter.toLowerCase()}`:name;
+  return `<svg class="ui-icon" aria-hidden="true" focusable="false"><use href="assets/ui-icons.svg#${icon}"/></svg>`;
 }
 function refreshProgress(){
   const done = activityIds.filter(activity => progress[currentLetter].includes(activity));
@@ -673,8 +676,8 @@ if('serviceWorker' in navigator){
     try {
       const registration = await navigator.serviceWorker.register('sw.js', {updateViaCache:'none'});
       const updateStatus = async () => {
-        const cache = await caches.open('letrin-v0-39');
-        const required = ['index.html','app.js?v=39','letters.js?v=39','assets/ballena.webp','assets/bicicleta.webp','assets/letra-b-roja.svg','assets/letra-b-verde.svg',...['abeja','avion','arbol','arana','letra-a','letra-b','barco','banana','ballena','bicicleta'].map(word => `assets/audio/es-AR/${word}.mp3`)];
+        const cache = await caches.open('letrin-v0-40');
+        const required = ['index.html','app.js?v=40','letters.js?v=39','assets/ballena.webp','assets/bicicleta.webp','assets/letra-b-roja.webp','assets/letra-b-verde.webp',...['abeja','avion','arbol','arana','letra-a','letra-b','barco','banana','ballena','bicicleta'].map(word => `assets/audio/es-AR/${word}.mp3`)];
         const downloaded = await Promise.all(required.map(path => cache.match(path)));
         if (downloaded.every(Boolean)) qs('#offlineStatus').textContent = 'Juego descargado · Algunas voces pueden necesitar internet';
       };

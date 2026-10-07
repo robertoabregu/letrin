@@ -1,9 +1,9 @@
 
-const CACHE = 'letrin-v0-39';
+const CACHE = 'letrin-v0-40';
 const ASSETS = ['./', 'index.html', 'styles.css', 'app.js', 'manifest.json', 'assets/milo.webp', 'assets/garden.svg', 'assets/milo-peeking.webp', 'assets/milo-celebrando.webp', 'assets/abeja.webp', 'assets/avion.webp', 'assets/arbol.webp', 'assets/arana.webp'];
 self.addEventListener('install', event => {
-  ASSETS.push('styles.css?v=39','app.js?v=39','letters.js?v=39','letter-path.js?v=39');
-  ASSETS.push('assets/ballena.webp','assets/bicicleta.webp','assets/letra-b-roja.svg','assets/letra-b-verde.svg');
+  ASSETS.push('styles.css?v=40','app.js?v=40','letters.js?v=39','letter-path.js?v=39');
+  ASSETS.push('assets/ballena.webp','assets/bicicleta.webp','assets/letra-b-roja.webp','assets/letra-b-verde.webp');
   ASSETS.push('assets/app-icon-192.png','assets/app-icon-512.png','assets/app-icon-maskable-512.png');
   ASSETS.push(...['abeja','avion','arbol','arana'].map(word => `assets/audio/es-AR/${word}.mp3`));
   ASSETS.push('assets/audio/es-AR/letra-a.mp3');
