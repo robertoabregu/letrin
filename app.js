@@ -141,6 +141,8 @@ function drawingActivity(activity){
   const tracing=activity==='trace';
   openModal(`<div class="drawing-header"><img class="word-heading-art" src="assets/actividad-${tracing?'trazar':'pintar'}.webp" alt=""><h2 class="modal-title">${tracing?'Trazar':'Pintar'} la letra A</h2><p class="helper">${tracing?'Seguí el camino, paso a paso.':'¡Dale color a tu letra!'}</p></div>${tracing?'<ol class="trace-steps" aria-label="Pasos del trazado"><li class="current" aria-current="step">1</li><li>2</li><li>3</li></ol>':'<div class="palette" id="palette" role="group" aria-label="Elegí un color"></div>'}<div class="canvas-wrap drawing-board ${tracing?'tracing-board':'painting-board'}"><div class="drawing-workspace">${tracing?'<img class="drawing-milo trace-milo" src="assets/milo-trazar.webp" alt="Milo chusmea el trazado desde el borde izquierdo">':''}<div class="trace-stage"><canvas id="letterCanvas" width="420" height="420" aria-label="${tracing?'Trazar la letra A siguiendo las guías numeradas':'Pintar dentro de la letra A con el color elegido'}"></canvas></div></div><div class="drawing-feedback">${tracing?`<div class="trace-rewards" aria-hidden="true">${pawIcon()}${pawIcon()}${pawIcon()}</div><p id="drawingStatus" role="status">0 de 3 trazos</p>`:'<p id="drawingStatus" role="status">Elegí un color y empezá a pintar</p><img class="drawing-milo paint-milo" src="assets/milo-pintar.webp" alt="Milo se asoma por el borde inferior derecho">'}</div><div class="progressbar" role="progressbar" aria-label="${tracing?'Recorrido trazado':'Superficie pintada'}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="traceFill"></div></div><div class="complete-row"><button id="clearLetter" class="btn secondary">Borrar</button>${tracing?'':'<button id="finishPaint" class="btn paint-finish" disabled>¡Terminé!</button>'}</div></div>`);
   modal.classList.add('drawing-modal');
+  modal.classList.add('activity-modal');
+  if(tracing)qs('.trace-stage').appendChild(qs('.trace-milo'));
   const canvas=qs('#letterCanvas'), context=canvas.getContext('2d'), mask=letterMask();
   const ink=document.createElement('canvas'); ink.width=420; ink.height=420;
   const brush=ink.getContext('2d'); brush.lineWidth=tracing?22:32; brush.lineCap='round';
@@ -210,6 +212,9 @@ function openModal(html){
   modal.classList.remove('bubbles-modal');
   modal.classList.remove('builder-modal');
   modal.classList.remove('drawing-modal');
+  modal.classList.remove('activity-modal');
+  modal.classList.remove('choice-modal');
+  modal.classList.remove('catch-modal');
   modalContent.innerHTML = html;
   if (!modal.open) modal.showModal();
   modal.scrollTop = 0;
@@ -226,13 +231,13 @@ function showInfo(letter){
 const actions = {
   know(){ 
     openModal(`
-      <img class="word-heading-art" src="assets/abeja.webp" alt="">
+      <header class="activity-header"><img class="word-heading-art" src="assets/abeja.webp" alt="">
       <h2 class="modal-title">Empieza con la letra A</h2>
-      <p class="helper word-instruction">Tocá cada imagen para escuchar cómo se pronuncia.</p>
+      <p class="helper word-instruction">Tocá cada imagen para escuchar cómo se pronuncia.</p></header>
       <div class="word-list" id="wordChoices"></div>
       <div class="word-footer"><button id="continueWords" class="btn secondary">Continuar</button></div>
     `);
-    modal.classList.add('word-modal');
+    modal.classList.add('word-modal','activity-modal');
     const session = modalSession;
     const heard = new Set();
     let completed = false;
@@ -277,11 +282,13 @@ const actions = {
         return;
       }
       openModal(`
-        <img class="word-heading-art" src="assets/actividad-elegir.webp" alt="">
+        <header class="activity-header"><img class="word-heading-art" src="assets/actividad-elegir.webp" alt="">
         <h2 class="modal-title">¿Cuál empieza con A?</h2>
+        <p class="helper activity-instruction">Elegí la imagen que empieza con A.</p></header>
         <div class="status-line"><span>Pregunta ${round+1} de 3</span><span class="paw-score"><span class="sr-only">Patitas doradas:</span>${pawIcon(true)} ${score}</span></div>
         <div class="choice-grid" id="choices"></div>
       `);
+      modal.classList.add('activity-modal','choice-modal');
       const container = qs('#choices');
       const session = modalSession;
       let answered = false;
@@ -314,12 +321,13 @@ const actions = {
 
   catch(){
     openModal(`
-      <img class="word-heading-art" src="assets/actividad-atrapar.webp" alt="">
+      <header class="activity-header"><img class="word-heading-art" src="assets/actividad-atrapar.webp" alt="">
       <h2 class="modal-title">Atrapa la letra</h2>
+      <p class="helper activity-instruction">Tocá solo las letras A.</p></header>
       <div class="status-line"><span>Tiempo: <b id="time">15</b>s</span><span class="paw-score"><span class="sr-only">Patitas doradas:</span>${pawIcon(true)} <b id="score">0</b></span></div>
       <div id="catchBoard" class="catch-board"></div>
-      <p class="helper">Tocá solo las letras A.</p>
     `);
+    modal.classList.add('activity-modal','catch-modal');
 
     const board = qs('#catchBoard');
     let time = 15, score = 0, active = true;

@@ -335,3 +335,35 @@ html:has(dialog[open]){overflow:hidden}
 .activity-celebration{text-align:center}.activity-celebration img{width:min(280px,70vw);height:260px;object-fit:contain;animation:miloZoom .65s cubic-bezier(.16,1,.3,1) both}.activity-celebration p{color:#197b43;font-size:21px;font-weight:900}
 @media(max-width:600px){dialog,.word-modal{padding:16px}.helper{font-size:16px}.modal-title{padding:0 38px;font-size:25px}.close-btn{right:12px;top:12px;width:40px;height:40px}.choice{min-height:120px;font-size:21px;padding:10px;gap:8px}.canvas-wrap{padding:10px}.palette{gap:9px}.color{width:36px;height:36px;min-width:36px}.status-line{font-size:17px}.activity-celebration img{height:220px}}
 @media(max-width:600px){#letterA .activity{min-height:130px;padding:12px 4px;border-radius:22px}#letterA .activity-grid{gap:8px;padding:8px 10px 14px}#letterA .activity span{font-size:40px}#letterA .activity b{font-size:14px}.activity-art{width:58px;height:58px}.word-modal{padding:14px}.word-modal .word-list{gap:10px}.word-modal .word-chip{padding:8px;border-radius:24px}.word-heading-art{width:52px;height:52px}.word-instruction{font-size:14px}.word-celebration img{height:100px}.word-footer{margin-top:12px}}
+.activity-modal{height:min(850px,calc(100dvh - 24px));max-height:calc(100dvh - 24px);padding:clamp(12px,2.2dvh,22px);overflow:auto}
+.activity-modal #modalContent{height:100%;min-height:0;display:flex;flex-direction:column;gap:clamp(6px,1.1dvh,12px)}
+.activity-modal :is(.activity-header,.drawing-header){text-align:center;flex:none}
+.activity-modal :is(.activity-header,.drawing-header) .word-heading-art{display:block;width:clamp(40px,7dvh,64px);height:clamp(40px,7dvh,64px);margin:0 auto;object-fit:contain}
+.activity-modal :is(.activity-header,.drawing-header) .modal-title{font-size:clamp(23px,min(3.8dvh,5.6vw),34px);font-weight:800;line-height:1.2;max-width:none;margin:8px 0;padding:0 24px;text-align:center}
+.activity-modal :is(.activity-header,.drawing-header) .helper{font-size:clamp(14px,2.1dvh,18px);font-weight:600;line-height:1.4;margin:0 auto;max-width:540px;text-align:center}
+.activity-modal .status-line{flex:none;margin:0;font-size:clamp(16px,2.3dvh,20px)}
+.activity-modal :is(.word-list,.choice-grid){flex:1;min-height:0;grid-template-rows:repeat(2,minmax(0,1fr));margin:0;gap:clamp(8px,1.5dvh,14px)}
+.activity-modal :is(.word-chip,.choice){aspect-ratio:auto;min-height:0;padding:clamp(6px,1.2dvh,12px);gap:4px;overflow:hidden}
+.activity-modal :is(.word-chip img,.choice-art){width:70%;height:0;flex:1;min-height:0;object-fit:contain}
+.activity-modal :is(.word-chip b,.choice span){font-size:clamp(18px,2.7dvh,26px);line-height:1.15;flex:none}
+.activity-modal .word-speaker{width:28px;height:28px;flex:none}
+.activity-modal .word-footer{margin:0;flex:none}
+.activity-modal .btn{padding:clamp(9px,1.5dvh,14px) 22px;min-height:42px}
+.activity-modal .catch-board{height:auto;flex:1;min-height:0;margin:0}
+.activity-modal.drawing-modal :is(.palette,.trace-steps){flex:none;margin:4px 0 6px}
+.activity-modal.drawing-modal .drawing-board{flex:1;min-height:0;display:flex;flex-direction:column;gap:8px;margin:0;padding:clamp(10px,1.5dvh,16px)}
+.activity-modal.drawing-modal .drawing-workspace{flex:1;min-height:0;padding:0;container-type:size;display:grid;place-items:center}
+.activity-modal.drawing-modal .trace-stage{width:min(420px,100cqw,100cqh);height:min(420px,100cqw,100cqh);aspect-ratio:1;margin:0;overflow:visible;flex:none}
+.activity-modal.drawing-modal .trace-stage canvas{border-radius:22px}
+.activity-modal.drawing-modal .trace-milo{left:0;top:45%;width:clamp(48px,14cqw,90px);transform:translate(-75%,-50%);z-index:1}
+.activity-modal.drawing-modal .drawing-feedback{flex:none;min-height:34px;padding-top:0;gap:8px}
+.activity-modal.drawing-modal .painting-board .drawing-feedback{min-height:clamp(54px,8dvh,76px);padding-right:86px}
+.activity-modal.drawing-modal .paint-milo{width:clamp(54px,8dvh,76px);right:0;bottom:0}
+.activity-modal.drawing-modal .drawing-feedback p{font-size:clamp(13px,1.9dvh,16px)}
+.activity-modal.drawing-modal .progressbar{flex:none;margin:0;height:12px}
+.activity-modal.drawing-modal .complete-row{flex:none;margin:0}
+.activity-modal.drawing-modal .color{width:clamp(32px,5.2dvh,44px);height:clamp(32px,5.2dvh,44px);min-width:32px}
+.activity-modal.drawing-modal .palette{gap:clamp(3px,1vw,10px)}
+#letterA .topbar strong{font-size:clamp(23px,min(3.8dvh,5.6vw),34px);font-weight:800;line-height:1.2}
+#letterA .letter-header-details{gap:clamp(8px,2vw,24px)}
+@media(max-height:500px) and (min-width:600px){.activity-modal{width:min(920px,96vw)}.activity-modal #modalContent{display:grid;grid-template-columns:minmax(220px,1fr) minmax(0,1.5fr);grid-template-rows:auto auto minmax(0,1fr);gap:8px 20px}.activity-modal :is(.activity-header,.drawing-header){grid-column:1;grid-row:1}.activity-modal :is(.word-list,.choice-grid,.drawing-board,.catch-board){grid-column:2;grid-row:1/-1}.activity-modal :is(.status-line,.palette,.trace-steps){grid-column:1;grid-row:2}.activity-modal .word-footer{grid-column:1;grid-row:3;align-self:end}.activity-modal.drawing-modal .trace-milo{transform:translate(-60%,-50%);width:48px}}
