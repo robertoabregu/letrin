@@ -48,6 +48,7 @@ function go(id){
   window.scrollTo({top:0, behavior:'smooth'});
 }
 qsa('[data-go]').forEach(b => b.addEventListener('click', () => go(b.dataset.go)));
+qs('#homePlay').onclick=()=>go(progress.A.some(activity=>activityIds.includes(activity))?'letterA':'letters');
 
 function speak(text, onEnd){
   LetrinAudio.speak(text, onEnd, showToast);
@@ -96,7 +97,10 @@ function refreshProgress(){
   const complete = done.length === activityIds.length;
   qs('#homeProgress').hidden=done.length===0;
   qs('#homePaws').innerHTML=pawMarkup(done.length);
-  qs('#homeProgressText').textContent=`${done.length} de 5 actividades${complete?' · ¡Letra completada!':''}`;
+  qs('#homeProgressText').textContent=complete?'¡Completaste las 5 actividades!':`${done.length} de 5 actividades completadas`;
+  qs('#homeProgressText').classList.toggle('complete',complete);
+  qs('#homeHeading').textContent=done.length?'¿Seguimos jugando?':'¿Jugamos con las letras?';
+  qs('#homePlayLabel').textContent=complete?'Volver a jugar':done.length?'Seguir jugando':'¡A jugar!';
   qs('#homeLetterArt').src=`assets/letra-a-${complete?'verde':'roja'}.webp`;
   if (complete && letterWasComplete === false) letterCelebrationPending = true;
   qs('#letterA .letter-hero').classList.toggle('letter-complete', complete && !letterCelebrationPending);

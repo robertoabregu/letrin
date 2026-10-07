@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#34b6ff">
   <title>Letrín</title>
   <link rel="manifest" href="manifest.json">
-  <link rel="stylesheet" href="styles.css?v=31">
+  <link rel="stylesheet" href="styles.css?v=32">
 </head>
 <body>
   <main>
@@ -14,21 +14,21 @@
       <div class="hero">
         <div class="logo-wrap">
           <h1 class="logo" aria-label="Letrín"><span>L</span><span>e</span><span>t</span><span>r</span><span>í</span><span>n</span></h1>
-          <p class="tag">Jugá y aprendé las letras.</p>
+          <p class="tag">Aprendé jugando con Milo</p>
         </div>
         <div class="home-welcome">
           <img class="mascot" src="assets/milo-fiesta-3.webp" alt="Milo te saluda con su patita" width="360" height="360">
-          <p class="milo-message"><strong>¡Hola! Soy Milo.</strong><span>¿Jugamos con las letras?</span></p>
         </div>
-        <button class="btn primary home-play" data-go="letters">¡A jugar! <span aria-hidden="true">➜</span></button>
+        <h2 class="home-heading" id="homeHeading">¿Jugamos con las letras?</h2>
         <div class="home-progress" id="homeProgress" hidden>
           <img id="homeLetterArt" src="assets/letra-a-roja.webp" alt="Letra A" width="90" height="70">
-          <div><h2>Tu aventura con la A</h2><div id="homePaws" class="home-paws" aria-hidden="true"></div><p id="homeProgressText"></p></div>
-          <button class="home-continue" data-go="letterA">Seguir jugando <span aria-hidden="true">➜</span></button>
+          <div><h2>Letra A</h2><div id="homePaws" class="home-paws" aria-hidden="true"></div><p id="homeProgressText"></p></div>
         </div>
+        <button class="btn primary home-play" id="homePlay"><span id="homePlayLabel">¡A jugar!</span> <span aria-hidden="true">➜</span></button>
+        <button class="home-choose" data-go="letters">Elegir una letra</button>
         <button class="btn secondary audio-settings-button" id="audioSettings"><svg class="ui-icon" aria-hidden="true"><use href="assets/ui-icons.svg#sound"/></svg> Audio y acento</button>
-        <footer class="home-family"><p><strong>✓ Sin anuncios</strong><span>Empezá con la A. ¡Más letras próximamente!</span></p><small>Sin conexión con contenido descargado.</small></footer>
       </div>
+      <footer class="home-family">Sin anuncios · Más letras próximamente</footer>
     </section>
 
     <section id="letters" class="screen">
@@ -90,6 +90,6 @@
   <script src="letter-path.js?v=30"></script>
   <script src="audio-catalog.js?v=27"></script>
   <script src="audio.js?v=26"></script>
-  <script src="app.js?v=31"></script>
+  <script src="app.js?v=32"></script>
 </body>
 </html>
