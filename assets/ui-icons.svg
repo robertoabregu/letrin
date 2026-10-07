@@ -25,6 +25,13 @@
     <path d="M12 28q2-8 11-9m18-8 4-2m-5 36 3-3" stroke="white" stroke-width="4" fill="none" stroke-linecap="round"/>
     <path d="M32 27c-14-12-24 18-9 18q5 0 9-4" fill="none" stroke="white" stroke-width="4" stroke-linecap="round"/>
   </symbol>
+  <symbol id="bubbles-d" viewBox="0 0 64 64">
+    <circle cx="46" cy="17" r="13" fill="url(#blue)" stroke="#c2efff" stroke-width="2"/>
+    <circle cx="47" cy="47" r="11" fill="url(#blue)" stroke="#c2efff" stroke-width="2"/>
+    <circle cx="24" cy="35" r="21" fill="url(#blue)" stroke="#c2efff" stroke-width="2"/>
+    <path d="M12 28q2-8 11-9m18-8 4-2m-5 36 3-3" stroke="white" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M18 24v22h6c15 0 15-22 0-22Z" fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
   <symbol id="back" viewBox="0 0 64 64">
     <path d="M30 14 11 32q-4 4 0 8l19 18q5 4 9-1t-1-9l-8-7h23q7 0 7-7t-7-7H30l8-7q5-4 1-9t-9 3Z" fill="#155d9e" transform="translate(0 2)"/>
     <path d="M29 9 10 27q-4 4 0 8l19 18q5 4 9-1t-1-9l-8-7h23q7 0 7-7t-7-7H29l8-7q5-4 1-9t-9 3Z" fill="url(#blue)"/>

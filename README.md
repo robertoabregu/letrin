@@ -61,9 +61,12 @@ Los cambios futuros en `main` se publican automáticamente. Para probar localmen
 - [ ] Revisión final en navegador publicado
 
 ## Siguiente paso
-Las letras A, B y C tienen cinco actividades y tres juegos adicionales, con progreso independiente. La C usa Casa, Cama, Conejo y Corazón, todas con sonido inicial /k/, y un trazado curvo continuo de un paso.
+Las letras A, B, C y D tienen cinco actividades y tres juegos adicionales, con progreso independiente. La C usa Casa, Cama, Conejo y Corazón, todas con sonido inicial /k/, y un trazado curvo continuo de un paso.
 
 La C y sus cuatro palabras incluyen las grabaciones argentinas suministradas por el usuario, disponibles sin conexión después de la descarga inicial. Validar en la tablet Android real antes del empaquetado para Play Store. La versión web sigue disponible para iPhone.
 
 ### Ilustraciones de C
 Generadas con la herramienta integrada de imágenes, con fondo transparente, y optimizadas a WebP en `assets/`. Prompts: cama de madera con manta azul y almohada crema en estilo infantil 3D (`cama.webp`); conejo blanco y beige sentado, ojos grandes y sonrisa (`conejo.webp`); corazón rojo sonriente y redondeado (`corazon.webp`); par Cc inflado rojo con el estilo de Aa, y variante idéntica verde (`letra-c-roja.webp`, `letra-c-verde.webp`); lápiz amarillo junto a C azul con guía punteada (`actividad-trazar-c.webp`); globo rojo con C blanca y cuerda dorada (`actividad-atrapar-c.webp`). Casa reutiliza la ilustración existente.
+
+## Letra D
+Dado, Delfín, Diente y Durazno: cinco actividades y tres juegos adicionales con progreso independiente. Trazado de dos pasos, íconos propios en tarjetas y actividades, Dd roja y verde. Incluye las cinco grabaciones argentinas del usuario y todos los dibujos en la descarga sin conexión.

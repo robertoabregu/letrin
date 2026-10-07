@@ -278,7 +278,7 @@ qs('#closeModal').onclick = () => modal.close();
 function showInfo(letter){
   openModal(`
     <h2 class="modal-title">Letra ${letter}</h2>
-    <p class="helper">La ${letter} llegará gratis en una próxima actualización. Mientras tanto, ¡podés jugar con la A, la B y la C!</p>
+    <p class="helper">La ${letter} llegará gratis en una próxima actualización. Mientras tanto, ¡podés jugar con la A, la B, la C y la D!</p>
   `);
 }
 
@@ -680,8 +680,8 @@ if('serviceWorker' in navigator){
     try {
       const registration = await navigator.serviceWorker.register('sw.js', {updateViaCache:'none'});
       const updateStatus = async () => {
-        const cache = await caches.open('letrin-v0-42');
-        const required = [...['cama','conejo','corazon','letra-c-roja','letra-c-verde','actividad-trazar-c','actividad-atrapar-c'].map(asset=>`assets/${asset}.webp`),'index.html','app.js?v=42','letters.js?v=42','assets/actividad-trazar-b.webp','assets/actividad-atrapar-b.webp','assets/ballena.webp','assets/bicicleta.webp','assets/letra-b-roja.webp','assets/letra-b-verde.webp',...['abeja','avion','arbol','arana','letra-a','letra-b','barco','banana','ballena','bicicleta','letra-c','casa','cama','conejo','corazon'].map(word => `assets/audio/es-AR/${word}.mp3`)];
+        const cache = await caches.open('letrin-v0-43');
+        const required = [...['dado','delfin','diente','durazno','letra-d-roja','letra-d-verde','actividad-trazar-d','actividad-atrapar-d'].map(asset=>`assets/${asset}.webp`),...['letra-d','dado','delfin','diente','durazno'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['cama','conejo','corazon','letra-c-roja','letra-c-verde','actividad-trazar-c','actividad-atrapar-c'].map(asset=>`assets/${asset}.webp`),'index.html','app.js?v=43','letters.js?v=43','assets/actividad-trazar-b.webp','assets/actividad-atrapar-b.webp','assets/ballena.webp','assets/bicicleta.webp','assets/letra-b-roja.webp','assets/letra-b-verde.webp',...['abeja','avion','arbol','arana','letra-a','letra-b','barco','banana','ballena','bicicleta','letra-c','casa','cama','conejo','corazon'].map(word => `assets/audio/es-AR/${word}.mp3`)];
         const downloaded = await Promise.all(required.map(path => cache.match(path)));
         if (downloaded.every(Boolean)) qs('#offlineStatus').textContent = 'Juego descargado · Algunas voces pueden necesitar internet';
       };

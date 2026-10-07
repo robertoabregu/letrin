@@ -1,8 +1,10 @@
 
-const CACHE = 'letrin-v0-42';
+const CACHE = 'letrin-v0-43';
 const ASSETS = ['./', 'index.html', 'styles.css', 'app.js', 'manifest.json', 'assets/milo.webp', 'assets/garden.svg', 'assets/milo-peeking.webp', 'assets/milo-celebrando.webp', 'assets/abeja.webp', 'assets/avion.webp', 'assets/arbol.webp', 'assets/arana.webp'];
 self.addEventListener('install', event => {
-  ASSETS.push('styles.css?v=40','app.js?v=42','letters.js?v=42','letter-path.js?v=42');
+  ASSETS.push(...['dado','delfin','diente','durazno','letra-d-roja','letra-d-verde','actividad-trazar-d','actividad-atrapar-d'].map(asset=>`assets/${asset}.webp`));
+  ASSETS.push(...['letra-d','dado','delfin','diente','durazno'].map(word=>`assets/audio/es-AR/${word}.mp3`));
+  ASSETS.push('styles.css?v=40','app.js?v=43','letters.js?v=43','letter-path.js?v=43');
   ASSETS.push(...['cama','conejo','corazon','letra-c-roja','letra-c-verde','actividad-trazar-c','actividad-atrapar-c'].map(asset=>`assets/${asset}.webp`));
   ASSETS.push('assets/actividad-trazar-b.webp','assets/actividad-atrapar-b.webp');
   ASSETS.push('assets/ballena.webp','assets/bicicleta.webp','assets/letra-b-roja.webp','assets/letra-b-verde.webp');
@@ -14,7 +16,7 @@ self.addEventListener('install', event => {
   ASSETS.push('styles.css?v=30','app.js?v=30','letter-path.js?v=30');
   ASSETS.push('styles.css?v=29','app.js?v=29');
   ASSETS.push('styles.css?v=28','app.js?v=28','letter-path.js?v=28','assets/milo-pintar.webp','assets/milo-trazar.webp');
-  ASSETS.push('audio.js?v=39','audio-catalog.js?v=42');
+  ASSETS.push('audio.js?v=39','audio-catalog.js?v=43');
   ASSETS.push('styles.css?v=25','app.js?v=25','letter-path.js?v=25','audio.js','audio-catalog.js','audio.js?v=25','audio-catalog.js?v=25','assets/ui-icons.svg','assets/letra-a-roja.webp','assets/letra-a-verde.webp');
   ASSETS.push(...['trazar','pintar','elegir','atrapar'].map(asset => `assets/actividad-${asset}.webp`));
   ASSETS.push(...['sol','oso','casa','pelota','luna','barco','flor','gato','banana'].map(asset => `assets/${asset}.webp`));

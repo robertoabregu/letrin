@@ -19,5 +19,12 @@ const LetrinLetters = {
     words:[{name:'Casa',asset:'casa'},{name:'Cama',asset:'cama'},{name:'Conejo',asset:'conejo'},{name:'Corazón',asset:'corazon'}],
     distractors:[{name:'Sol',asset:'sol'},{name:'Oso',asset:'oso'},{name:'Barco',asset:'barco'},{name:'Pelota',asset:'pelota'},{name:'Luna',asset:'luna'},{name:'Árbol',asset:'arbol'},{name:'Flor',asset:'flor'},{name:'Gato',asset:'gato'},{name:'Avión',asset:'avion'}],
     pool:['C','B','A','C','M','O','C','S','P','C']
+  },
+  D: {
+    lower:'d', art:'d',
+    activityArt:{trace:'actividad-trazar-d',catch:'actividad-atrapar-d',paint:'actividad-pintar'},
+    words:[{name:'Dado',asset:'dado'},{name:'Delfín',asset:'delfin'},{name:'Diente',asset:'diente'},{name:'Durazno',asset:'durazno'}],
+    distractors:[{name:'Sol',asset:'sol'},{name:'Oso',asset:'oso'},{name:'Casa',asset:'casa'},{name:'Pelota',asset:'pelota'},{name:'Luna',asset:'luna'},{name:'Árbol',asset:'arbol'},{name:'Flor',asset:'flor'},{name:'Gato',asset:'gato'},{name:'Avión',asset:'avion'}],
+    pool:['D','B','C','D','M','O','D','S','P','D']
   }
 };
