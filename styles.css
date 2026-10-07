@@ -355,7 +355,7 @@ html:has(dialog[open]){overflow:hidden}
 .activity-modal.drawing-modal .drawing-workspace{flex:1;min-height:0;padding:0;container-type:size;display:grid;place-items:center}
 .activity-modal.drawing-modal .trace-stage{width:min(420px,100cqw,100cqh);height:min(420px,100cqw,100cqh);aspect-ratio:1;margin:0;overflow:visible;flex:none}
 .activity-modal.drawing-modal .trace-stage canvas{border-radius:22px}
-.activity-modal.drawing-modal .drawing-workspace .trace-stage .trace-milo{left:0;top:45%;width:clamp(52px,18cqw,108px);transform:translate(-50%,-50%);z-index:1}
+.activity-modal.drawing-modal .drawing-workspace .trace-stage .trace-milo{left:0;top:45%;width:clamp(52px,18cqw,108px);transform:translate(-18%,-50%);z-index:1}
 @media(max-width:600px){.activity-modal.drawing-modal .drawing-workspace .trace-stage .trace-milo{width:clamp(58px,23cqw,100px)}}
 .activity-modal.drawing-modal .drawing-feedback{flex:none;min-height:34px;padding-top:0;gap:8px}
 .activity-modal.drawing-modal .painting-board .drawing-feedback{min-height:clamp(54px,8dvh,76px);padding-right:86px}
