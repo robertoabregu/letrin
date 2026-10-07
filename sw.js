@@ -1,8 +1,9 @@
 
-const CACHE = 'letrin-v0-40';
+const CACHE = 'letrin-v0-41';
 const ASSETS = ['./', 'index.html', 'styles.css', 'app.js', 'manifest.json', 'assets/milo.webp', 'assets/garden.svg', 'assets/milo-peeking.webp', 'assets/milo-celebrando.webp', 'assets/abeja.webp', 'assets/avion.webp', 'assets/arbol.webp', 'assets/arana.webp'];
 self.addEventListener('install', event => {
-  ASSETS.push('styles.css?v=40','app.js?v=40','letters.js?v=39','letter-path.js?v=39');
+  ASSETS.push('styles.css?v=40','app.js?v=41','letters.js?v=41','letter-path.js?v=39');
+  ASSETS.push('assets/actividad-trazar-b.webp','assets/actividad-atrapar-b.webp');
   ASSETS.push('assets/ballena.webp','assets/bicicleta.webp','assets/letra-b-roja.webp','assets/letra-b-verde.webp');
   ASSETS.push('assets/app-icon-192.png','assets/app-icon-512.png','assets/app-icon-maskable-512.png');
   ASSETS.push(...['abeja','avion','arbol','arana'].map(word => `assets/audio/es-AR/${word}.mp3`));

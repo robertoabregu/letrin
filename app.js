@@ -10,6 +10,7 @@ let currentLetter = 'A';
 try { const savedLetter = localStorage.getItem('letrin_last_letter'); if (LetrinLetters[savedLetter]) currentLetter = savedLetter; } catch {}
 const letterData = () => LetrinLetters[currentLetter];
 const letterArt = (complete=false) => `assets/letra-${letterData().art}-${complete?'verde':'roja'}.webp`;
+const activityArt = activity => `assets/${letterData().activityArt[activity]}.webp`;
 const wordArt = word => `<img src="assets/${word.asset}.webp" alt="">`;
 const activityIds = ['know','trace','paint','starts','catch'];
 try {
@@ -74,6 +75,7 @@ function renderLetter(){
   know.querySelector('img').src=`assets/${letterData().words[0].asset}.webp`;
   section.querySelector('[data-activity="starts"] b').textContent=`¿Cuál empieza con ${currentLetter}?`;
   section.querySelector('[data-activity="catch"] em').textContent=`Tocá solo las ${currentLetter}`;
+  ['trace','catch','paint'].forEach(activity=>section.querySelector(`[data-activity="${activity}"] .activity-art`).src=activityArt(activity));
   section.querySelector('[data-premium="bubbles"] em').textContent=`Explotá solo las ${currentLetter}`;
   section.querySelector('[data-premium="bubbles"] .activity-art use').setAttribute('href',`assets/ui-icons.svg#bubbles-${currentLetter.toLowerCase()}`);
   section.querySelector('[data-premium="word"]>img').src=letterArt();
@@ -188,7 +190,7 @@ function letterMask(){
 function drawingActivity(activity){
   const tracing=activity==='trace';
   const paths=LetterPath.forLetter(currentLetter);
-  openModal(`<div class="drawing-header"><img class="word-heading-art" src="${currentLetter==='A'?`assets/actividad-${tracing?'trazar':'pintar'}.webp`:letterArt()}" alt=""><h2 class="modal-title">${tracing?'Trazar':'Pintar'} la letra ${currentLetter}</h2><p class="helper">${tracing?'Seguí el camino, paso a paso.':'¡Dale color a tu letra!'}</p></div>${tracing?'<ol class="trace-steps" aria-label="Pasos del trazado"><li class="current" aria-current="step">1</li><li>2</li><li>3</li></ol>':'<div class="palette" id="palette" role="group" aria-label="Elegí un color"></div>'}<div class="canvas-wrap drawing-board ${tracing?'tracing-board':'painting-board'}"><div class="drawing-workspace">${tracing?'<img class="drawing-milo trace-milo" src="assets/milo-trazar.webp" alt="Milo chusmea el trazado desde el borde izquierdo">':''}<div class="trace-stage"><canvas id="letterCanvas" width="420" height="420" aria-label="${tracing?`Trazar la letra ${currentLetter} siguiendo las guías numeradas`:'Pintar dentro de la letra ${currentLetter} con el color elegido'}"></canvas></div></div><div class="drawing-feedback">${tracing?`<div class="trace-rewards" aria-hidden="true">${pawIcon()}${pawIcon()}${pawIcon()}</div><p id="drawingStatus" role="status">0 de 3 trazos</p>`:'<p id="drawingStatus" role="status">Elegí un color y empezá a pintar</p><img class="drawing-milo paint-milo" src="assets/milo-pintar.webp" alt="Milo se asoma por el borde inferior derecho">'}</div><div class="progressbar" role="progressbar" aria-label="${tracing?'Recorrido trazado':'Superficie pintada'}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="traceFill"></div></div><div class="complete-row"><button id="clearLetter" class="btn secondary">Borrar</button>${tracing?'':'<button id="finishPaint" class="btn paint-finish" disabled>¡Terminé!</button>'}</div></div>`);
+  openModal(`<div class="drawing-header"><img class="word-heading-art" src="${activityArt(activity)}" alt=""><h2 class="modal-title">${tracing?'Trazar':'Pintar'} la letra ${currentLetter}</h2><p class="helper">${tracing?'Seguí el camino, paso a paso.':'¡Dale color a tu letra!'}</p></div>${tracing?'<ol class="trace-steps" aria-label="Pasos del trazado"><li class="current" aria-current="step">1</li><li>2</li><li>3</li></ol>':'<div class="palette" id="palette" role="group" aria-label="Elegí un color"></div>'}<div class="canvas-wrap drawing-board ${tracing?'tracing-board':'painting-board'}"><div class="drawing-workspace">${tracing?'<img class="drawing-milo trace-milo" src="assets/milo-trazar.webp" alt="Milo chusmea el trazado desde el borde izquierdo">':''}<div class="trace-stage"><canvas id="letterCanvas" width="420" height="420" aria-label="${tracing?`Trazar la letra ${currentLetter} siguiendo las guías numeradas`:`Pintar dentro de la letra ${currentLetter} con el color elegido`}"></canvas></div></div><div class="drawing-feedback">${tracing?`<div class="trace-rewards" aria-hidden="true">${pawIcon()}${pawIcon()}${pawIcon()}</div><p id="drawingStatus" role="status">0 de 3 trazos</p>`:'<p id="drawingStatus" role="status">Elegí un color y empezá a pintar</p><img class="drawing-milo paint-milo" src="assets/milo-pintar.webp" alt="Milo se asoma por el borde inferior derecho">'}</div><div class="progressbar" role="progressbar" aria-label="${tracing?'Recorrido trazado':'Superficie pintada'}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="traceFill"></div></div><div class="complete-row"><button id="clearLetter" class="btn secondary">Borrar</button>${tracing?'':'<button id="finishPaint" class="btn paint-finish" disabled>¡Terminé!</button>'}</div></div>`);
   modal.classList.add('drawing-modal');
   modal.classList.add('activity-modal');
   if(tracing)qs('.trace-stage').appendChild(qs('.trace-milo'));
@@ -371,7 +373,7 @@ const actions = {
 
   catch(){
     openModal(`
-      <header class="activity-header"><img class="word-heading-art" src="assets/actividad-atrapar.webp" alt="">
+      <header class="activity-header"><img class="word-heading-art" src="${activityArt('catch')}" alt="">
       <h2 class="modal-title">Atrapa la letra</h2>
       <p class="helper activity-instruction">Tocá solo las letras ${currentLetter}.</p></header>
       <div class="status-line"><span>Tiempo: <b id="time">15</b>s</span><span class="paw-score"><span class="sr-only">Patitas doradas:</span>${pawIcon(true)} <b id="score">0</b></span></div>
@@ -676,8 +678,8 @@ if('serviceWorker' in navigator){
     try {
       const registration = await navigator.serviceWorker.register('sw.js', {updateViaCache:'none'});
       const updateStatus = async () => {
-        const cache = await caches.open('letrin-v0-40');
-        const required = ['index.html','app.js?v=40','letters.js?v=39','assets/ballena.webp','assets/bicicleta.webp','assets/letra-b-roja.webp','assets/letra-b-verde.webp',...['abeja','avion','arbol','arana','letra-a','letra-b','barco','banana','ballena','bicicleta'].map(word => `assets/audio/es-AR/${word}.mp3`)];
+        const cache = await caches.open('letrin-v0-41');
+        const required = ['index.html','app.js?v=41','letters.js?v=41','assets/actividad-trazar-b.webp','assets/actividad-atrapar-b.webp','assets/ballena.webp','assets/bicicleta.webp','assets/letra-b-roja.webp','assets/letra-b-verde.webp',...['abeja','avion','arbol','arana','letra-a','letra-b','barco','banana','ballena','bicicleta'].map(word => `assets/audio/es-AR/${word}.mp3`)];
         const downloaded = await Promise.all(required.map(path => cache.match(path)));
         if (downloaded.every(Boolean)) qs('#offlineStatus').textContent = 'Juego descargado · Algunas voces pueden necesitar internet';
       };
