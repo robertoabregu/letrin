@@ -355,7 +355,7 @@ html:has(dialog[open]){overflow:hidden}
 .activity-modal.drawing-modal .drawing-workspace{flex:1;min-height:0;padding:0;container-type:size;display:grid;place-items:center}
 .activity-modal.drawing-modal .trace-stage{width:min(420px,100cqw,100cqh);height:min(420px,100cqw,100cqh);aspect-ratio:1;margin:0;overflow:visible;flex:none}
 .activity-modal.drawing-modal .trace-stage canvas{border-radius:22px}
-.activity-modal.drawing-modal .trace-milo{left:0;top:45%;width:clamp(48px,14cqw,90px);transform:translate(-75%,-50%);z-index:1}
+.activity-modal.drawing-modal .drawing-workspace .trace-stage .trace-milo{left:0;top:45%;width:clamp(36px,14cqw,90px);transform:translate(-18%,-50%);z-index:1}
 .activity-modal.drawing-modal .drawing-feedback{flex:none;min-height:34px;padding-top:0;gap:8px}
 .activity-modal.drawing-modal .painting-board .drawing-feedback{min-height:clamp(54px,8dvh,76px);padding-right:86px}
 .activity-modal.drawing-modal .paint-milo{width:clamp(54px,8dvh,76px);right:0;bottom:0}
@@ -366,4 +366,10 @@ html:has(dialog[open]){overflow:hidden}
 .activity-modal.drawing-modal .palette{gap:clamp(3px,1vw,10px)}
 #letterA .topbar strong{font-size:clamp(23px,min(3.8dvh,5.6vw),34px);font-weight:800;line-height:1.2}
 #letterA .letter-header-details{gap:clamp(8px,2vw,24px)}
+.balloon-burst{position:absolute;width:1px;height:1px;pointer-events:none;z-index:2;color:#fff}
+.balloon-burst::before{content:'';position:absolute;width:24px;height:24px;left:-12px;top:-12px;border:3px solid #fff;border-radius:50%;animation:balloonRing .45s ease-out forwards}
+.balloon-burst i{position:absolute;width:10px;height:15px;left:-5px;top:-7px;background:var(--burst-color,#ffd34d);border:1px solid #fff;border-radius:3px 9px 4px 7px;animation:balloonFragment .5s ease-out forwards}
+@keyframes balloonRing{from{transform:scale(.3);opacity:1}to{transform:scale(3.4);opacity:0}}
+@keyframes balloonFragment{from{transform:translate(0,0) rotate(0);opacity:1}to{transform:translate(var(--dx),var(--dy)) rotate(var(--turn));opacity:0}}
+@media(prefers-reduced-motion:reduce){.balloon-burst i{display:none}.balloon-burst::before{animation:none;opacity:.8}}
 @media(max-height:500px) and (min-width:600px){.activity-modal{width:min(920px,96vw)}.activity-modal #modalContent{display:grid;grid-template-columns:minmax(220px,1fr) minmax(0,1.5fr);grid-template-rows:auto auto minmax(0,1fr);gap:8px 20px}.activity-modal :is(.activity-header,.drawing-header){grid-column:1;grid-row:1}.activity-modal :is(.word-list,.choice-grid,.drawing-board,.catch-board){grid-column:2;grid-row:1/-1}.activity-modal :is(.status-line,.palette,.trace-steps){grid-column:1;grid-row:2}.activity-modal .word-footer{grid-column:1;grid-row:3;align-self:end}.activity-modal.drawing-modal .trace-milo{transform:translate(-60%,-50%);width:48px}}

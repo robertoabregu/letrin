@@ -156,9 +156,9 @@ function drawingActivity(activity){
     if(!tracing){context.strokeStyle='#fff';context.lineWidth=54;LetterPath.strokes.forEach(([start,end])=>{context.beginPath();context.moveTo(start.x,start.y);context.lineTo(end.x,end.y);context.stroke();});}
     context.drawImage(ink,0,0);
     if(tracing){
-      const active=ratios.findIndex(value=>value<.8);
+      const active=ratios.findIndex(value=>value<1);
       LetterPath.strokes.forEach(([start,end],index)=>{
-        if(ratios[index]>=.8)return;
+        if(ratios[index]===1)return;
         context.strokeStyle=index===active?'#237fb1':'#8bafc3';context.lineWidth=4;context.setLineDash([3,11]);
         context.beginPath();context.moveTo(start.x,start.y);context.lineTo(end.x,end.y);context.stroke();context.setLineDash([]);
         const angle=Math.atan2(end.y-start.y,end.x-start.x);
@@ -182,10 +182,10 @@ function drawingActivity(activity){
     brush.globalCompositeOperation='destination-in';brush.drawImage(mask,0,0);brush.globalCompositeOperation='source-over';redraw();
     if(tracing){
       const result=tracker.add(last,point);ratios=result.ratios;redraw();qs('#traceFill').style.width=result.percent+'%';qs('.drawing-board .progressbar').setAttribute('aria-valuenow',result.percent);
-      const completed=ratios.filter(value=>value>=.8).length, active=ratios.findIndex(value=>value<.8);
+      const completed=ratios.filter(value=>value===1).length, active=ratios.findIndex(value=>value<1);
       qs('#drawingStatus').textContent=`${completed} de 3 trazos`;
-      qsa('.trace-steps li').forEach((step,index)=>{step.classList.toggle('finished',ratios[index]>=.8);step.classList.toggle('current',index===active);step.textContent=ratios[index]>=.8?'✓':String(index+1);if(index===active)step.setAttribute('aria-current','step');else step.removeAttribute('aria-current');});
-      qsa('.trace-rewards .paw').forEach((paw,index)=>paw.classList.toggle('earned',ratios[index]>=.8));
+      qsa('.trace-steps li').forEach((step,index)=>{step.classList.toggle('finished',ratios[index]===1);step.classList.toggle('current',index===active);step.textContent=ratios[index]===1?'✓':String(index+1);if(index===active)step.setAttribute('aria-current','step');else step.removeAttribute('aria-current');});
+      qsa('.trace-rewards .paw').forEach((paw,index)=>paw.classList.toggle('earned',ratios[index]===1));
       if(result.complete){drawing=false;celebrate('trace','¡Trazado listo!');}
     } else {
       const pixels=brush.getImageData(0,0,420,420).data;
@@ -349,7 +349,7 @@ const actions = {
       const timer = setInterval(() => {
         y += 4;
         el.style.top = y + 'px';
-        if(y > 380){
+        if(y > board.clientHeight){
           clearInterval(timer);
           el.remove();
         }
@@ -357,6 +357,17 @@ const actions = {
       falls.push(timer);
 
       el.onclick = () => {
+        if(el.disabled || !active)return;
+        el.disabled=true;
+        const burst=document.createElement('div');
+        burst.className='balloon-burst';burst.setAttribute('aria-hidden','true');
+        burst.style.left=(el.offsetLeft+el.offsetWidth/2)+'px';burst.style.top=(el.offsetTop+el.offsetHeight/2)+'px';
+        burst.style.setProperty('--burst-color',getComputedStyle(el).backgroundColor);
+        for(let index=0;index<8;index++){
+          const fragment=document.createElement('i'),angle=index*Math.PI/4;
+          fragment.style.setProperty('--dx',Math.cos(angle)*46+'px');fragment.style.setProperty('--dy',Math.sin(angle)*46+'px');fragment.style.setProperty('--turn',index*71+'deg');burst.appendChild(fragment);
+        }
+        board.appendChild(burst);setTimeout(()=>burst.remove(),550);
         if(val === 'A'){ score++; qs('#score').textContent = score; }
         else{ score = Math.max(0, score-1); qs('#score').textContent = score; }
         el.remove();

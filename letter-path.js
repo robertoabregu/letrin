@@ -9,9 +9,9 @@
     const samples = strokes.map(([start,end]) => Array.from({length:41}, (_,index) => ({x:start.x+(end.x-start.x)*index/40,y:start.y+(end.y-start.y)*index/40,hit:false})));
     return {
       add(start,end){
-        samples.forEach(points => points.forEach(point => { if(distance(point,start,end)<=23) point.hit=true; }));
+        samples.forEach(points => points.forEach((point,index) => { if(distance(point,start,end)<=(index===0 || index===points.length-1 ? 8 : 12)) point.hit=true; }));
         const ratios = samples.map(points => points.filter(point=>point.hit).length/points.length);
-        return {ratios,percent:Math.round(ratios.reduce((sum,ratio)=>sum+ratio,0)/3*100),complete:ratios.every(ratio=>ratio>=.8)};
+        return {ratios,percent:Math.round(ratios.reduce((sum,ratio)=>sum+ratio,0)/3*100),complete:ratios.every(ratio=>ratio===1)};
       }
     };
   }
