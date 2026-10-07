@@ -219,7 +219,7 @@ body{background:#27b5f1 url('assets/garden.svg') center/cover fixed;color:#14295
 .hero{background:none;box-shadow:none;max-width:540px;min-height:calc(100svh - 48px);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px}
 .logo-wrap{background:linear-gradient(#fff9dc,#ffe9a5);border:5px solid #ffd17a;border-radius:38% 32% 28% 24% / 18% 20% 22% 24%;padding:30px 20px 22px;box-shadow:0 7px 0 #d89e48,0 14px 26px #22763630;transform:rotate(-2deg)}
 .logo{font-size:clamp(58px,11vw,90px);font-weight:1000;letter-spacing:-5px;-webkit-text-stroke:1px #fff;text-shadow:0 4px 0 #0004,0 7px 10px #0002}
-.logo span{display:inline-block}.logo span:nth-child(1){color:#ed323a;transform:rotate(-8deg)}.logo span:nth-child(2){color:#ffbf0b}.logo span:nth-child(3){color:#26c63c;transform:rotate(5deg)}.logo span:nth-child(4){color:#ab36d4}.logo span:nth-child(5){color:#df3ecb;transform:rotate(7deg)}.logo span:nth-child(6){color:#217bed;transform:rotate(8deg)}
+.logo span{display:inline-block}.logo span:nth-child(1){color:#26c63c;transform:rotate(-8deg)}.logo span:nth-child(2){color:#ffbf0b}.logo span:nth-child(3){color:#ed323a;transform:rotate(5deg)}.logo span:nth-child(4){color:#ab36d4}.logo span:nth-child(5){color:#df3ecb;transform:rotate(7deg)}.logo span:nth-child(6){color:#217bed;transform:rotate(8deg)}
 .tag{font-size:clamp(18px,4vw,25px);max-width:330px;margin:15px auto 0;color:#102351}
 .mascot{width:min(300px,72vw);max-height:36svh;object-fit:contain;margin:20px auto 0;filter:drop-shadow(0 10px 8px #32542d40)}
 .feature-row{gap:6px;margin:12px 0}.feature-row span{font-size:12px;padding:6px 10px;background:#fff8e6dc;border-color:#e4efb1}
