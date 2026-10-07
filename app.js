@@ -190,14 +190,16 @@ function letterMask(){
 function drawingActivity(activity){
   const tracing=activity==='trace';
   const paths=LetterPath.forLetter(currentLetter);
-  openModal(`<div class="drawing-header"><img class="word-heading-art" src="${activityArt(activity)}" alt=""><h2 class="modal-title">${tracing?'Trazar':'Pintar'} la letra ${currentLetter}</h2><p class="helper">${tracing?'Seguí el camino, paso a paso.':'¡Dale color a tu letra!'}</p></div>${tracing?'<ol class="trace-steps" aria-label="Pasos del trazado"><li class="current" aria-current="step">1</li><li>2</li><li>3</li></ol>':'<div class="palette" id="palette" role="group" aria-label="Elegí un color"></div>'}<div class="canvas-wrap drawing-board ${tracing?'tracing-board':'painting-board'}"><div class="drawing-workspace">${tracing?'<img class="drawing-milo trace-milo" src="assets/milo-trazar.webp" alt="Milo chusmea el trazado desde el borde izquierdo">':''}<div class="trace-stage"><canvas id="letterCanvas" width="420" height="420" aria-label="${tracing?`Trazar la letra ${currentLetter} siguiendo las guías numeradas`:`Pintar dentro de la letra ${currentLetter} con el color elegido`}"></canvas></div></div><div class="drawing-feedback">${tracing?`<div class="trace-rewards" aria-hidden="true">${pawIcon()}${pawIcon()}${pawIcon()}</div><p id="drawingStatus" role="status">0 de 3 trazos</p>`:'<p id="drawingStatus" role="status">Elegí un color y empezá a pintar</p><img class="drawing-milo paint-milo" src="assets/milo-pintar.webp" alt="Milo se asoma por el borde inferior derecho">'}</div><div class="progressbar" role="progressbar" aria-label="${tracing?'Recorrido trazado':'Superficie pintada'}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="traceFill"></div></div><div class="complete-row"><button id="clearLetter" class="btn secondary">Borrar</button>${tracing?'':'<button id="finishPaint" class="btn paint-finish" disabled>¡Terminé!</button>'}</div></div>`);
+  const strokeCount=paths.strokes.length, strokeLabel=strokeCount===1?'trazo':'trazos';
+  const steps=paths.strokes.map((points,index)=>`<li${index===0?' class="current" aria-current="step"':''}>${index+1}</li>`).join('');
+  openModal(`<div class="drawing-header"><img class="word-heading-art" src="${activityArt(activity)}" alt=""><h2 class="modal-title">${tracing?'Trazar':'Pintar'} la letra ${currentLetter}</h2><p class="helper">${tracing?'Seguí el camino, paso a paso.':'¡Dale color a tu letra!'}</p></div>${tracing?`<ol class="trace-steps" aria-label="Pasos del trazado">${steps}</ol>`:'<div class="palette" id="palette" role="group" aria-label="Elegí un color"></div>'}<div class="canvas-wrap drawing-board ${tracing?'tracing-board':'painting-board'}"><div class="drawing-workspace">${tracing?'<img class="drawing-milo trace-milo" src="assets/milo-trazar.webp" alt="Milo chusmea el trazado desde el borde izquierdo">':''}<div class="trace-stage"><canvas id="letterCanvas" width="420" height="420" aria-label="${tracing?`Trazar la letra ${currentLetter} siguiendo las guías numeradas`:`Pintar dentro de la letra ${currentLetter} con el color elegido`}"></canvas></div></div><div class="drawing-feedback">${tracing?`<div class="trace-rewards" aria-hidden="true">${paths.strokes.map(()=>pawIcon()).join('')}</div><p id="drawingStatus" role="status">0 de ${strokeCount} ${strokeLabel}</p>`:'<p id="drawingStatus" role="status">Elegí un color y empezá a pintar</p><img class="drawing-milo paint-milo" src="assets/milo-pintar.webp" alt="Milo se asoma por el borde inferior derecho">'}</div><div class="progressbar" role="progressbar" aria-label="${tracing?'Recorrido trazado':'Superficie pintada'}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="traceFill"></div></div><div class="complete-row"><button id="clearLetter" class="btn secondary">Borrar</button>${tracing?'':'<button id="finishPaint" class="btn paint-finish" disabled>¡Terminé!</button>'}</div></div>`);
   modal.classList.add('drawing-modal');
   modal.classList.add('activity-modal');
   if(tracing)qs('.trace-stage').appendChild(qs('.trace-milo'));
   const canvas=qs('#letterCanvas'), context=canvas.getContext('2d'), mask=letterMask();
   const ink=document.createElement('canvas'); ink.width=420; ink.height=420;
   const brush=ink.getContext('2d'); brush.lineWidth=tracing?22:32; brush.lineCap='round';
-  let color=tracing?'#20b9ed':'#ff5f73', drawing=false, last=null, tracker=paths.coverage(), ratios=[0,0,0];
+  let color=tracing?'#20b9ed':'#ff5f73', drawing=false, last=null, tracker=paths.coverage(), ratios=Array(strokeCount).fill(0);
   const maskPixels=mask.getContext('2d').getImageData(0,0,420,420).data;
   const maskCount=maskPixels.filter((value,index)=>index%4===3 && value>128).length;
   function redraw(){
@@ -235,7 +237,7 @@ function drawingActivity(activity){
     if(tracing){
       const result=tracker.add(last,point);ratios=result.ratios;redraw();qs('#traceFill').style.width=result.percent+'%';qs('.drawing-board .progressbar').setAttribute('aria-valuenow',result.percent);
       const completed=ratios.filter(value=>value===1).length, active=ratios.findIndex(value=>value<1);
-      qs('#drawingStatus').textContent=`${completed} de 3 trazos`;
+      qs('#drawingStatus').textContent=`${completed} de ${strokeCount} ${strokeLabel}`;
       qsa('.trace-steps li').forEach((step,index)=>{step.classList.toggle('finished',ratios[index]===1);step.classList.toggle('current',index===active);step.textContent=ratios[index]===1?'✓':String(index+1);if(index===active)step.setAttribute('aria-current','step');else step.removeAttribute('aria-current');});
       qsa('.trace-rewards .paw').forEach((paw,index)=>paw.classList.toggle('earned',ratios[index]===1));
       if(result.complete){drawing=false;celebrate('trace','¡Trazado listo!');}
@@ -254,7 +256,7 @@ function drawingActivity(activity){
   canvas.onpointermove=event=>{if(drawing){event.preventDefault();draw(position(event));}};
   canvas.onpointerup=event=>{if(drawing)draw(position(event));drawing=false;};
   canvas.onpointercancel=()=>{drawing=false;};
-  qs('#clearLetter').onclick=()=>{drawing=false;brush.clearRect(0,0,420,420);tracker=paths.coverage();ratios=[0,0,0];redraw();qs('#traceFill').style.width='0%';qs('.drawing-board .progressbar').setAttribute('aria-valuenow','0');qs('#drawingStatus').textContent=tracing?'0 de 3 trazos':'Elegí un color y empezá a pintar';if(tracing){qsa('.trace-steps li').forEach((step,index)=>{step.classList.remove('finished');step.classList.toggle('current',index===0);step.textContent=String(index+1);if(index===0)step.setAttribute('aria-current','step');else step.removeAttribute('aria-current');});qsa('.trace-rewards .paw').forEach(paw=>paw.classList.remove('earned'));}else qs('#finishPaint').disabled=true;};
+  qs('#clearLetter').onclick=()=>{drawing=false;brush.clearRect(0,0,420,420);tracker=paths.coverage();ratios=Array(strokeCount).fill(0);redraw();qs('#traceFill').style.width='0%';qs('.drawing-board .progressbar').setAttribute('aria-valuenow','0');qs('#drawingStatus').textContent=tracing?`0 de ${strokeCount} ${strokeLabel}`:'Elegí un color y empezá a pintar';if(tracing){qsa('.trace-steps li').forEach((step,index)=>{step.classList.remove('finished');step.classList.toggle('current',index===0);step.textContent=String(index+1);if(index===0)step.setAttribute('aria-current','step');else step.removeAttribute('aria-current');});qsa('.trace-rewards .paw').forEach(paw=>paw.classList.remove('earned'));}else qs('#finishPaint').disabled=true;};
 }
 function openModal(html){
   LetrinAudio.cancel();
@@ -276,7 +278,7 @@ qs('#closeModal').onclick = () => modal.close();
 function showInfo(letter){
   openModal(`
     <h2 class="modal-title">Letra ${letter}</h2>
-    <p class="helper">La ${letter} llegará gratis en una próxima actualización. Mientras tanto, ¡podés jugar con la A y la B!</p>
+    <p class="helper">La ${letter} llegará gratis en una próxima actualización. Mientras tanto, ¡podés jugar con la A, la B y la C!</p>
   `);
 }
 
@@ -678,8 +680,8 @@ if('serviceWorker' in navigator){
     try {
       const registration = await navigator.serviceWorker.register('sw.js', {updateViaCache:'none'});
       const updateStatus = async () => {
-        const cache = await caches.open('letrin-v0-41');
-        const required = ['index.html','app.js?v=41','letters.js?v=41','assets/actividad-trazar-b.webp','assets/actividad-atrapar-b.webp','assets/ballena.webp','assets/bicicleta.webp','assets/letra-b-roja.webp','assets/letra-b-verde.webp',...['abeja','avion','arbol','arana','letra-a','letra-b','barco','banana','ballena','bicicleta'].map(word => `assets/audio/es-AR/${word}.mp3`)];
+        const cache = await caches.open('letrin-v0-42');
+        const required = [...['cama','conejo','corazon','letra-c-roja','letra-c-verde','actividad-trazar-c','actividad-atrapar-c'].map(asset=>`assets/${asset}.webp`),'index.html','app.js?v=42','letters.js?v=42','assets/actividad-trazar-b.webp','assets/actividad-atrapar-b.webp','assets/ballena.webp','assets/bicicleta.webp','assets/letra-b-roja.webp','assets/letra-b-verde.webp',...['abeja','avion','arbol','arana','letra-a','letra-b','barco','banana','ballena','bicicleta','letra-c','casa','cama','conejo','corazon'].map(word => `assets/audio/es-AR/${word}.mp3`)];
         const downloaded = await Promise.all(required.map(path => cache.match(path)));
         if (downloaded.every(Boolean)) qs('#offlineStatus').textContent = 'Juego descargado · Algunas voces pueden necesitar internet';
       };

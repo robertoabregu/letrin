@@ -32,7 +32,11 @@
   }
   const upperB=[{x:170,y:80},{x:215,y:80},...curve({x:215,y:80},{x:325,y:80},{x:325,y:210},{x:215,y:210}).slice(1),{x:125,y:210}];
   const lowerB=[{x:170,y:210},{x:220,y:210},...curve({x:220,y:210},{x:345,y:210},{x:345,y:345},{x:220,y:345}).slice(1),{x:125,y:345}];
-  const pathsByLetter={A:strokes,B:[[{x:125,y:80},{x:125,y:345}],upperB,lowerB]};
+  const curvedC=Array.from({length:65},(_,index)=>{
+    const angle=(-45-270*index/64)*Math.PI/180;
+    return {x:210+120*Math.cos(angle),y:210+135*Math.sin(angle)};
+  });
+  const pathsByLetter={A:strokes,B:[[{x:125,y:80},{x:125,y:345}],upperB,lowerB],C:[curvedC]};
   function forLetter(letter){
     const paths=pathsByLetter[letter];
     if(!paths)throw new Error(`No hay trazado para ${letter}`);
