@@ -355,7 +355,8 @@ html:has(dialog[open]){overflow:hidden}
 .activity-modal.drawing-modal .drawing-workspace{flex:1;min-height:0;padding:0;container-type:size;display:grid;place-items:center}
 .activity-modal.drawing-modal .trace-stage{width:min(420px,100cqw,100cqh);height:min(420px,100cqw,100cqh);aspect-ratio:1;margin:0;overflow:visible;flex:none}
 .activity-modal.drawing-modal .trace-stage canvas{border-radius:22px}
-.activity-modal.drawing-modal .drawing-workspace .trace-stage .trace-milo{left:0;top:45%;width:clamp(36px,14cqw,90px);transform:translate(-18%,-50%);z-index:1}
+.activity-modal.drawing-modal .drawing-workspace .trace-stage .trace-milo{left:0;top:45%;width:clamp(52px,18cqw,108px);transform:translate(-50%,-50%);z-index:1}
+@media(max-width:600px){.activity-modal.drawing-modal .drawing-workspace .trace-stage .trace-milo{width:clamp(58px,23cqw,100px)}}
 .activity-modal.drawing-modal .drawing-feedback{flex:none;min-height:34px;padding-top:0;gap:8px}
 .activity-modal.drawing-modal .painting-board .drawing-feedback{min-height:clamp(54px,8dvh,76px);padding-right:86px}
 .activity-modal.drawing-modal .paint-milo{width:clamp(54px,8dvh,76px);right:0;bottom:0}
@@ -408,7 +409,7 @@ html:has(dialog[open]){overflow:hidden}
 #home .hero .mascot{width:100%;height:100%;max-height:260px;margin:0;object-fit:contain}
 .home-heading{font-size:clamp(21px,3.8dvh,32px);font-weight:1000;text-align:center;line-height:1.2;margin:0;flex:none}
 #home .hero .home-progress{width:100%;max-width:510px;grid-template-columns:clamp(58px,10dvh,90px) minmax(0,1fr);gap:16px;padding:clamp(10px,2dvh,18px);border:0;border-radius:24px;background:#eaf8dc;box-shadow:none;align-items:center}
-#home .hero .home-progress>img{width:100%;height:clamp(56px,9dvh,84px);padding:8px;background:#fff9df;border-radius:50%;object-fit:contain}
+#home .hero .home-progress>img{width:100%;height:clamp(56px,9dvh,84px);padding:8px;background:#fff9df;border-radius:50%;object-fit:contain;transform:translateX(8px)}
 #home .hero .home-progress h2{font-size:clamp(18px,2.6dvh,24px);margin:0 0 6px;line-height:1.2}
 #home .hero .home-progress>div{text-align:center}
 #home .hero .home-paws{gap:clamp(5px,1vw,10px);margin:0;justify-content:center}
