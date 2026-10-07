@@ -11,7 +11,7 @@
       add(start,end){
         samples.forEach(points => points.forEach(point => { if(distance(point,start,end)<=23) point.hit=true; }));
         const ratios = samples.map(points => points.filter(point=>point.hit).length/points.length);
-        return {percent:Math.round(ratios.reduce((sum,ratio)=>sum+ratio,0)/3*100),complete:ratios.every(ratio=>ratio>=.8)};
+        return {ratios,percent:Math.round(ratios.reduce((sum,ratio)=>sum+ratio,0)/3*100),complete:ratios.every(ratio=>ratio>=.8)};
       }
     };
   }
@@ -19,4 +19,3 @@
   if(typeof module!=='undefined') module.exports=api;
   else root.LetterPath=api;
 })(typeof window!=='undefined'?window:globalThis);
-

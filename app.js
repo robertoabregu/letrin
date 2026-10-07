@@ -1,3 +1,4 @@
+
 const qs = s => document.querySelector(s);
 const qsa = s => [...document.querySelectorAll(s)];
 const screens = qsa('.screen');
@@ -138,18 +139,38 @@ function letterMask(){
 }
 function drawingActivity(activity){
   const tracing=activity==='trace';
-  openModal(`<img class="word-heading-art" src="assets/actividad-${tracing?'trazar':'pintar'}.webp" alt=""><h2 class="modal-title">${tracing?'Trazar':'Pintar'} la letra A</h2><p class="helper">${tracing?'Seguí los dos lados y la rayita del medio. ¡Milo festeja cuando terminás!':'Elegí un color y pintá adentro de la letra.'}</p>${tracing?'':'<div class="palette" id="palette"></div>'}<div class="canvas-wrap"><div class="trace-stage"><canvas id="letterCanvas" width="420" height="420" aria-label="${tracing?'Trazar':'Pintar'} la letra A"></canvas></div>${tracing?'<div class="progressbar" role="progressbar" aria-label="Recorrido trazado" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="traceFill"></div></div>':''}<div class="complete-row"><button id="clearLetter" class="btn secondary">Borrar</button>${tracing?'':'<button id="finishPaint" class="btn secondary" disabled>¡Terminé!</button>'}</div></div>`);
+  openModal(`<div class="drawing-header"><img class="word-heading-art" src="assets/actividad-${tracing?'trazar':'pintar'}.webp" alt=""><h2 class="modal-title">${tracing?'Trazar':'Pintar'} la letra A</h2><p class="helper">${tracing?'Seguí el camino, paso a paso.':'¡Dale color a tu letra!'}</p></div>${tracing?'<ol class="trace-steps" aria-label="Pasos del trazado"><li class="current" aria-current="step">1</li><li>2</li><li>3</li></ol>':'<div class="palette" id="palette" role="group" aria-label="Elegí un color"></div>'}<div class="canvas-wrap drawing-board ${tracing?'tracing-board':'painting-board'}"><div class="drawing-workspace">${tracing?'<img class="drawing-milo trace-milo" src="assets/milo-trazar.webp" alt="Milo chusmea el trazado desde el borde izquierdo">':''}<div class="trace-stage"><canvas id="letterCanvas" width="420" height="420" aria-label="${tracing?'Trazar la letra A siguiendo las guías numeradas':'Pintar dentro de la letra A con el color elegido'}"></canvas></div></div><div class="drawing-feedback">${tracing?`<div class="trace-rewards" aria-hidden="true">${pawIcon()}${pawIcon()}${pawIcon()}</div><p id="drawingStatus" role="status">0 de 3 trazos</p>`:'<p id="drawingStatus" role="status">Elegí un color y empezá a pintar</p><img class="drawing-milo paint-milo" src="assets/milo-pintar.webp" alt="Milo se asoma por el borde inferior derecho">'}</div><div class="progressbar" role="progressbar" aria-label="${tracing?'Recorrido trazado':'Superficie pintada'}" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="traceFill"></div></div><div class="complete-row"><button id="clearLetter" class="btn secondary">Borrar</button>${tracing?'':'<button id="finishPaint" class="btn paint-finish" disabled>¡Terminé!</button>'}</div></div>`);
+  modal.classList.add('drawing-modal');
   const canvas=qs('#letterCanvas'), context=canvas.getContext('2d'), mask=letterMask();
   const ink=document.createElement('canvas'); ink.width=420; ink.height=420;
   const brush=ink.getContext('2d'); brush.lineWidth=tracing?22:32; brush.lineCap='round';
-  let color='#ff5f73', drawing=false, last=null, tracker=LetterPath.coverage();
+  let color=tracing?'#20b9ed':'#ff5f73', drawing=false, last=null, tracker=LetterPath.coverage(), ratios=[0,0,0];
   const maskPixels=mask.getContext('2d').getImageData(0,0,420,420).data;
-  const redraw=()=>{context.clearRect(0,0,420,420);context.drawImage(mask,0,0);context.drawImage(ink,0,0);};
+  const maskCount=maskPixels.filter((value,index)=>index%4===3 && value>128).length;
+  function redraw(){
+    context.clearRect(0,0,420,420);
+    context.strokeStyle=tracing?'#e0f4fc':'#addcf3';context.lineWidth=tracing?58:62;context.lineCap='round';
+    LetterPath.strokes.forEach(([start,end])=>{context.beginPath();context.moveTo(start.x,start.y);context.lineTo(end.x,end.y);context.stroke();});
+    if(!tracing){context.strokeStyle='#fff';context.lineWidth=54;LetterPath.strokes.forEach(([start,end])=>{context.beginPath();context.moveTo(start.x,start.y);context.lineTo(end.x,end.y);context.stroke();});}
+    context.drawImage(ink,0,0);
+    if(tracing){
+      const active=ratios.findIndex(value=>value<.8);
+      LetterPath.strokes.forEach(([start,end],index)=>{
+        if(ratios[index]>=.8)return;
+        context.strokeStyle=index===active?'#237fb1':'#8bafc3';context.lineWidth=4;context.setLineDash([3,11]);
+        context.beginPath();context.moveTo(start.x,start.y);context.lineTo(end.x,end.y);context.stroke();context.setLineDash([]);
+        const angle=Math.atan2(end.y-start.y,end.x-start.x);
+        context.beginPath();context.moveTo(end.x-12*Math.cos(angle-.6),end.y-12*Math.sin(angle-.6));context.lineTo(end.x,end.y);context.lineTo(end.x-12*Math.cos(angle+.6),end.y-12*Math.sin(angle+.6));context.stroke();
+        context.beginPath();context.arc(start.x,start.y,15,0,Math.PI*2);context.fillStyle=index===active?'#168dd4':'#8bafc3';context.fill();context.strokeStyle='#fff';context.lineWidth=3;context.stroke();
+        context.fillStyle='#fff';context.font='900 18px Nunito, sans-serif';context.textAlign='center';context.textBaseline='middle';context.fillText(String(index+1),start.x,start.y+1);
+      });
+    }
+  }
   redraw();
   if(!tracing){
     ['#ff5f73','#ff9b1f','#ffd447','#35cc76','#2c9fff','#8f67ff','#ff85be'].forEach((value,index)=>{
-      const button=document.createElement('button');button.className='color'+(index===0?' active':'');button.style.background=value;button.setAttribute('aria-label',['Rosa coral','Naranja','Amarillo','Verde','Azul','Violeta','Rosa'][index]);
-      button.onclick=()=>{qsa('.color').forEach(item=>item.classList.remove('active'));button.classList.add('active');color=value;};qs('#palette').appendChild(button);
+      const button=document.createElement('button');button.className='color'+(index===0?' active':'');button.style.setProperty('--paint-color',value);button.setAttribute('aria-label',['Rosa coral','Naranja','Amarillo','Verde','Azul','Violeta','Rosa'][index]);button.setAttribute('aria-pressed',String(index===0));
+      button.onclick=()=>{qsa('.color').forEach(item=>{item.classList.remove('active');item.setAttribute('aria-pressed','false');});button.classList.add('active');button.setAttribute('aria-pressed','true');color=value;};qs('#palette').appendChild(button);
     });
     qs('#finishPaint').onclick=()=>celebrate('paint','¡Qué lindo dibujo!');
   }
@@ -158,11 +179,19 @@ function drawingActivity(activity){
     brush.globalCompositeOperation='source-over';brush.strokeStyle=color;brush.beginPath();brush.moveTo(last.x,last.y);brush.lineTo(point.x,point.y);brush.stroke();
     brush.globalCompositeOperation='destination-in';brush.drawImage(mask,0,0);brush.globalCompositeOperation='source-over';redraw();
     if(tracing){
-      const result=tracker.add(last,point);qs('#traceFill').style.width=result.percent+'%';qs('.progressbar').setAttribute('aria-valuenow',result.percent);
+      const result=tracker.add(last,point);ratios=result.ratios;redraw();qs('#traceFill').style.width=result.percent+'%';qs('.drawing-board .progressbar').setAttribute('aria-valuenow',result.percent);
+      const completed=ratios.filter(value=>value>=.8).length, active=ratios.findIndex(value=>value<.8);
+      qs('#drawingStatus').textContent=`${completed} de 3 trazos`;
+      qsa('.trace-steps li').forEach((step,index)=>{step.classList.toggle('finished',ratios[index]>=.8);step.classList.toggle('current',index===active);step.textContent=ratios[index]>=.8?'✓':String(index+1);if(index===active)step.setAttribute('aria-current','step');else step.removeAttribute('aria-current');});
+      qsa('.trace-rewards .paw').forEach((paw,index)=>paw.classList.toggle('earned',ratios[index]>=.8));
       if(result.complete){drawing=false;celebrate('trace','¡Trazado listo!');}
     } else {
       const pixels=brush.getImageData(0,0,420,420).data;
-      const painted=pixels.some((value,index)=>index%4===3 && value>128 && maskPixels[index]>128);
+      let painted=0;
+      for(let index=3;index<pixels.length;index+=4){if(pixels[index]>128 && maskPixels[index]>128)painted++;}
+      const percent=Math.round(painted/maskCount*100);
+      qs('#traceFill').style.width=percent+'%';qs('.drawing-board .progressbar').setAttribute('aria-valuenow',percent);
+      qs('#drawingStatus').textContent=painted?'¡Tu obra va tomando color!':'Elegí un color y empezá a pintar';
       qs('#finishPaint').disabled=!painted;
     }
     last=point;
@@ -171,7 +200,7 @@ function drawingActivity(activity){
   canvas.onpointermove=event=>{if(drawing){event.preventDefault();draw(position(event));}};
   canvas.onpointerup=event=>{if(drawing)draw(position(event));drawing=false;};
   canvas.onpointercancel=()=>{drawing=false;};
-  qs('#clearLetter').onclick=()=>{drawing=false;brush.clearRect(0,0,420,420);tracker=LetterPath.coverage();redraw();if(tracing){qs('#traceFill').style.width='0%';qs('.progressbar').setAttribute('aria-valuenow','0');}else qs('#finishPaint').disabled=true;};
+  qs('#clearLetter').onclick=()=>{drawing=false;brush.clearRect(0,0,420,420);tracker=LetterPath.coverage();ratios=[0,0,0];redraw();qs('#traceFill').style.width='0%';qs('.drawing-board .progressbar').setAttribute('aria-valuenow','0');qs('#drawingStatus').textContent=tracing?'0 de 3 trazos':'Elegí un color y empezá a pintar';if(tracing){qsa('.trace-steps li').forEach((step,index)=>{step.classList.remove('finished');step.classList.toggle('current',index===0);step.textContent=String(index+1);if(index===0)step.setAttribute('aria-current','step');else step.removeAttribute('aria-current');});qsa('.trace-rewards .paw').forEach(paw=>paw.classList.remove('earned'));}else qs('#finishPaint').disabled=true;};
 }
 function openModal(html){
   LetrinAudio.cancel();
@@ -180,6 +209,7 @@ function openModal(html){
   modal.classList.remove('memory-modal');
   modal.classList.remove('bubbles-modal');
   modal.classList.remove('builder-modal');
+  modal.classList.remove('drawing-modal');
   modalContent.innerHTML = html;
   if (!modal.open) modal.showModal();
   modal.scrollTop = 0;

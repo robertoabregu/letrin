@@ -1,3 +1,4 @@
+
 :root{
   --sky:#c8f1ff;
   --blue:#34b6ff;
@@ -123,6 +124,38 @@ canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
   width:40px;height:40px;border-radius:50%;border:3px solid white;box-shadow:0 4px 10px rgba(0,0,0,.15);cursor:pointer
 }
 .color.active{outline:4px solid #87d4ff}
+.drawing-modal .drawing-header{text-align:center}
+.drawing-modal .drawing-header .word-heading-art{width:64px;height:64px;margin:0 auto;display:block}
+.drawing-modal .drawing-header .modal-title{margin:8px 0}
+.drawing-modal .drawing-header .helper{margin:0 0 18px}
+.drawing-modal .drawing-board{background:linear-gradient(145deg,#e9f9ff,#f3fcff);margin-bottom:0;box-shadow:inset 0 2px 0 #fff;padding:16px}
+.drawing-modal .drawing-workspace{position:relative}
+.drawing-modal .trace-stage{border:2px solid #ddf2fc;box-shadow:0 5px 16px #438ca00b;width:min(420px,100%);background:#fff}
+.drawing-modal .tracing-board .drawing-workspace{padding-left:80px}
+.drawing-modal .drawing-milo{position:absolute;object-fit:contain;pointer-events:none;filter:drop-shadow(0 3px 3px #27471c20)}
+.drawing-modal .trace-milo{left:-13px;top:42%;width:90px;transform:translateY(-50%);z-index:1}
+.drawing-modal .drawing-feedback{position:relative;display:flex;gap:12px;align-items:center;justify-content:center;min-height:60px;padding-top:10px}
+.drawing-modal .drawing-feedback p{font-weight:900;font-size:16px;color:#547d96;margin:0}
+.drawing-modal .painting-board .drawing-feedback{justify-content:flex-start;min-height:112px;padding-right:110px}
+.drawing-modal .paint-milo{right:-8px;bottom:-2px;width:110px}
+.drawing-modal .trace-rewards{display:flex;gap:7px}
+.drawing-modal .trace-rewards .paw{width:30px;height:34px;stroke:#e0aa36}
+.drawing-modal .progressbar{height:13px;background:#d7effc;border:2px solid #fff;margin:4px 0 16px}
+.drawing-modal .progressbar>div{background:linear-gradient(90deg,#35d2f6,#149ee6);border-radius:999px}
+.drawing-modal .painting-board .progressbar>div{background:linear-gradient(90deg,#ff8596,#ff4c70)}
+.drawing-modal .complete-row{display:flex;gap:14px;margin:0;justify-content:center}
+.drawing-modal .paint-finish{color:#fff;background:linear-gradient(#39c6ff,#048eee);border:3px solid #96e1ff;box-shadow:inset 0 2px 0 #ffffff70,0 5px 12px #239bdf25}
+.drawing-modal .paint-finish:disabled{opacity:.45;box-shadow:none;cursor:not-allowed}
+.drawing-modal .palette{gap:12px;margin:20px 0}
+.drawing-modal .color{background:radial-gradient(circle at 32% 20%,#ffffff60,transparent 55%),var(--paint-color);width:48px;height:48px;min-width:48px;box-shadow:inset 0 -4px 0 #00000012,0 4px 8px #21375120;position:relative}
+.drawing-modal .color.active::after{content:'✓';position:absolute;inset:0;display:grid;place-items:center;color:#fff;font-size:22px;font-weight:1000;text-shadow:0 1px 3px #0006}
+.trace-steps{display:flex;list-style:none;justify-content:center;gap:42px;padding:0;margin:20px 0;isolation:isolate}
+.trace-steps li{position:relative;width:44px;height:44px;border-radius:50%;border:3px solid #d3e7f1;background:#eff8fc;color:#7599ae;display:grid;place-items:center;font-size:23px;font-weight:1000}
+.trace-steps li:not(:last-child)::after{content:'';position:absolute;height:7px;background:#d3e7f1;left:100%;width:46px;top:17px;z-index:-1}
+.trace-steps li.current{color:white;background:linear-gradient(#44c9ff,#068fe6);border-color:#fff;box-shadow:0 0 0 3px #91dfff,0 4px 8px #1686bc25}
+.trace-steps li.finished{color:#fff;background:linear-gradient(#69df8c,#23bb61);border-color:#fff;box-shadow:0 0 0 2px #96e7b2}
+.trace-steps li.finished::after{background:#70db9c}
+@media(max-width:600px){.drawing-modal .drawing-header .word-heading-art{width:50px;height:50px}.drawing-modal .drawing-board{padding:10px}.drawing-modal .palette{gap:7px;margin:16px 0}.drawing-modal .color{width:36px;height:36px;min-width:36px;border-width:3px}.drawing-modal .tracing-board .drawing-workspace{padding-left:58px}.drawing-modal .trace-milo{width:65px;left:-10px}.drawing-modal .paint-milo{width:90px;right:-5px}.drawing-modal .painting-board .drawing-feedback{padding-right:86px;min-height:92px}.drawing-modal .drawing-feedback{gap:7px}.drawing-modal .drawing-feedback p{font-size:14px}.drawing-modal .trace-rewards{gap:3px}.drawing-modal .trace-rewards .paw{width:24px;height:28px}.trace-steps{margin:16px 0}.drawing-modal .complete-row .btn{min-width:100px;padding:12px 18px}}
 .choice-grid{grid-template-columns:repeat(2,1fr);margin:14px 0}
 .choice{
   border:none;border-radius:22px;background:#fff;box-shadow:var(--shadow);padding:16px;cursor:pointer;
