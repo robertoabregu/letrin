@@ -6,7 +6,7 @@ El motor selecciona una voz explícita: primero la región solicitada, después 
 
 ## Paquetes grabados
 
-Todavía no se incluyen grabaciones. Para agregar una, guardar por ejemplo `assets/audio/es-AR/abeja.mp3` y registrar en `audio-catalog.js`, dentro de `es-AR.clips`, la entrada `Abeja: 'assets/audio/es-AR/abeja.mp3'`.
+Se incluyen tres grabaciones proporcionadas por el usuario para Argentina: Abeja, Árbol y Araña. Se generaron en Google AI Studio con la voz Fola y las instrucciones de acento argentino aprobadas por el usuario. Se conservan como MP3 a 64 kb/s en `assets/audio/es-AR/`, registradas en `audio-catalog.js`. El conjunto ocupa aproximadamente 34 kB. Los WAV originales permanecen sin modificar en Descargas. Avión queda pendiente porque el archivo entregado es idéntico al de Abeja. Los demás textos siguen usando la voz del dispositivo.
 
 Las claves coinciden exactamente con el texto solicitado. Usar Abeja, Avión, Árbol y Araña para el contenido actual. Verificar pronunciación, calidad, derechos de uso y ausencia de silencios largos antes de publicar.
 

@@ -78,8 +78,10 @@ const LetrinAudio = (() => {
     const selected = voice();
     const pack = LetrinAudioCatalog[locale()];
     const label = pack.label;
-    if (!selected) return `${label}. No se encontró una voz compatible en este dispositivo. Los paquetes grabados todavía no están disponibles.`;
-    return `${label}. Voz del dispositivo: ${selected.name} (${selected.lang}).${normalize(selected.lang) !== normalize(locale()) ? ' Se usa un acento alternativo disponible.' : ''}${selected.localService ? ' Voz local; probá también sin conexión.' : ' Esta voz puede necesitar internet.'} Los paquetes grabados todavía no están disponibles.`;
+    const recordings = Object.keys(pack.clips).length;
+    const recordedStatus = recordings ? ` ${recordings} palabras con audio grabado; las demás usan la voz del dispositivo.` : ' No hay grabaciones disponibles para esta región.';
+    if (!selected) return `${label}.${recordedStatus} No se encontró una voz compatible para los textos sin grabación.`;
+    return `${label}. Voz del dispositivo: ${selected.name} (${selected.lang}).${normalize(selected.lang) !== normalize(locale()) ? ' Se usa un acento alternativo disponible.' : ''}${selected.localService ? ' Voz local; probá también sin conexión.' : ' Esta voz puede necesitar internet.'}${recordedStatus}`;
   }
   return {speak,cancel,setPreference,status,getPreference:() => preference,locale};
 })();
