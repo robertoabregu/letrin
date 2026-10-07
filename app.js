@@ -94,6 +94,10 @@ function uiIcon(name){
 function refreshProgress(){
   const done = activityIds.filter(activity => progress.A.includes(activity));
   const complete = done.length === activityIds.length;
+  qs('#homeProgress').hidden=done.length===0;
+  qs('#homePaws').innerHTML=pawMarkup(done.length);
+  qs('#homeProgressText').textContent=`${done.length} de 5 actividades${complete?' · ¡Letra completada!':''}`;
+  qs('#homeLetterArt').src=`assets/letra-a-${complete?'verde':'roja'}.webp`;
   if (complete && letterWasComplete === false) letterCelebrationPending = true;
   qs('#letterA .letter-hero').classList.toggle('letter-complete', complete && !letterCelebrationPending);
   qs('#letterA .big-letter').setAttribute('aria-label', `A mayúscula y a minúscula${complete?': todas las actividades completas':''}`);
