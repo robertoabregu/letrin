@@ -618,7 +618,10 @@ const premium = {
     render();
   }
 };
-qsa('[data-premium]').forEach(btn => btn.addEventListener('click', () => premium[btn.dataset.premium]()));
+qsa('[data-premium]').forEach(btn => {
+  btn.setAttribute('aria-label', `${btn.querySelector('b').textContent}, juego para probar sin costo`);
+  btn.addEventListener('click', () => premium[btn.dataset.premium]());
+});
 
 refreshProgress();
 
@@ -627,5 +630,25 @@ if('serviceWorker' in navigator){
   navigator.serviceWorker.addEventListener('controllerchange', () => {
     if (alreadyControlled) window.location.reload();
   }, {once:true});
-  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js', {updateViaCache:'none'}).catch(() => showToast('La versión sin conexión no está disponible todavía')));
-}
+  window.addEventListener('load', async () => {
+    try {
+      const registration = await navigator.serviceWorker.register('sw.js', {updateViaCache:'none'});
+      const updateStatus = async () => {
+        const cache = await caches.open('letrin-v0-36');
+        const required = ['index.html','app.js?v=36',...['abeja','avion','arbol','arana'].map(word => `assets/audio/es-AR/${word}.mp3`)];
+        const downloaded = await Promise.all(required.map(path => cache.match(path)));
+        if (downloaded.every(Boolean)) qs('#offlineStatus').textContent = 'Juego descargado · Algunas voces pueden necesitar internet';
+      };
+      await navigator.serviceWorker.ready;
+      await updateStatus();
+      const watch = worker => worker?.addEventListener('statechange', () => {
+        if (worker.state === 'activated') updateStatus();
+        if (worker.state === 'redundant') qs('#offlineStatus').textContent = 'Descarga pendiente · Volvé a abrir con internet';
+      });
+      watch(registration.installing);
+      registration.addEventListener('updatefound', () => watch(registration.installing));
+    } catch {
+      qs('#offlineStatus').textContent = 'Descarga pendiente · Volvé a abrir con internet';
+    }
+  });
+} else qs('#offlineStatus').textContent = 'Este navegador necesita conexión para jugar';
