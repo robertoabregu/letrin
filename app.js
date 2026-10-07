@@ -66,6 +66,14 @@ function selectLetter(letter){
 }
 function renderLetter(){
   const section=qs('#letterA');
+  const availableLetters=Object.keys(LetrinLetters), letterIndex=availableLetters.indexOf(currentLetter);
+  const previous=availableLetters[letterIndex-1], next=availableLetters[letterIndex+1];
+  qs('#previousLetter').disabled=!previous;
+  qs('#nextLetter').disabled=!next;
+  qs('#previousLetter').setAttribute('aria-label',previous?`Ir a la letra ${previous}`:'No hay letra anterior');
+  qs('#nextLetter').setAttribute('aria-label',next?`Ir a la letra ${next}`:'Más letras próximamente');
+  qs('#previousLetter').onclick=()=>{if(previous)selectLetter(previous);};
+  qs('#nextLetter').onclick=()=>{if(next)selectLetter(next);};
   section.querySelector('.topbar strong').textContent=`Letra ${currentLetter}`;
   section.querySelector('.letter-red').src=letterArt();
   section.querySelector('.letter-green').src=letterArt(true);
@@ -680,8 +688,8 @@ if('serviceWorker' in navigator){
     try {
       const registration = await navigator.serviceWorker.register('sw.js', {updateViaCache:'none'});
       const updateStatus = async () => {
-        const cache = await caches.open('letrin-v0-43');
-        const required = [...['dado','delfin','diente','durazno','letra-d-roja','letra-d-verde','actividad-trazar-d','actividad-atrapar-d'].map(asset=>`assets/${asset}.webp`),...['letra-d','dado','delfin','diente','durazno'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['cama','conejo','corazon','letra-c-roja','letra-c-verde','actividad-trazar-c','actividad-atrapar-c'].map(asset=>`assets/${asset}.webp`),'index.html','app.js?v=43','letters.js?v=43','assets/actividad-trazar-b.webp','assets/actividad-atrapar-b.webp','assets/ballena.webp','assets/bicicleta.webp','assets/letra-b-roja.webp','assets/letra-b-verde.webp',...['abeja','avion','arbol','arana','letra-a','letra-b','barco','banana','ballena','bicicleta','letra-c','casa','cama','conejo','corazon'].map(word => `assets/audio/es-AR/${word}.mp3`)];
+        const cache = await caches.open('letrin-v0-44');
+        const required = [...['dado','delfin','diente','durazno','letra-d-roja','letra-d-verde','actividad-trazar-d','actividad-atrapar-d'].map(asset=>`assets/${asset}.webp`),...['letra-d','dado','delfin','diente','durazno'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['cama','conejo','corazon','letra-c-roja','letra-c-verde','actividad-trazar-c','actividad-atrapar-c'].map(asset=>`assets/${asset}.webp`),'index.html','app.js?v=44','letters.js?v=43','assets/actividad-trazar-b.webp','assets/actividad-atrapar-b.webp','assets/ballena.webp','assets/bicicleta.webp','assets/letra-b-roja.webp','assets/letra-b-verde.webp',...['abeja','avion','arbol','arana','letra-a','letra-b','barco','banana','ballena','bicicleta','letra-c','casa','cama','conejo','corazon'].map(word => `assets/audio/es-AR/${word}.mp3`)];
         const downloaded = await Promise.all(required.map(path => cache.match(path)));
         if (downloaded.every(Boolean)) qs('#offlineStatus').textContent = 'Juego descargado · Algunas voces pueden necesitar internet';
       };

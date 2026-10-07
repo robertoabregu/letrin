@@ -7,7 +7,7 @@
   <title>Letrín</title>
   <link rel="manifest" href="manifest.json">
   <link rel="icon" href="assets/app-icon-192.png" type="image/png">
-  <link rel="stylesheet" href="styles.css?v=40">
+  <link rel="stylesheet" href="styles.css?v=44">
 </head>
 <body>
   <main>
@@ -46,11 +46,16 @@
 
     <section id="letterA" class="screen">
       <header class="topbar">
-        <button class="icon-btn" data-go="letters" aria-label="Volver a elegir una letra"><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="assets/ui-icons.svg#back"/></svg></button>
+        <button class="icon-btn letter-previous" id="previousLetter" aria-label="Letra anterior"><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="assets/ui-icons.svg#back"/></svg></button>
+        <nav class="letter-navigation" aria-label="Navegación de letras">
+          <button class="icon-btn" data-go="home" aria-label="Ir a la pantalla principal"><img class="ui-icon" src="assets/casa.webp" alt=""></button>
+          <button class="icon-btn alphabet-shortcut" data-go="letters" aria-label="Ver todas las letras"><span aria-hidden="true"><span>A</span><span>B</span><span>C</span></span></button>
+        </nav>
         <div class="letter-header-details">
           <strong>Letra A</strong>
           <div id="pawProgress" class="paw-progress" role="img" aria-label="0 de 5 actividades completas"></div>
         </div>
+        <button class="icon-btn letter-next" id="nextLetter" aria-label="Letra siguiente"><svg class="ui-icon" aria-hidden="true" focusable="false"><use href="assets/ui-icons.svg#back"/></svg></button>
       </header>
 
       <div class="letter-hero">
@@ -92,6 +97,6 @@
   <script src="letter-path.js?v=43"></script>
   <script src="audio-catalog.js?v=43"></script>
   <script src="audio.js?v=39"></script>
-  <script src="app.js?v=43"></script>
+  <script src="app.js?v=44"></script>
 </body>
 </html>
