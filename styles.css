@@ -430,9 +430,9 @@ html:has(dialog[open]){overflow:hidden}
 @keyframes balloonFragment{from{transform:translate(0,0) rotate(0);opacity:1}to{transform:translate(var(--dx),var(--dy)) rotate(var(--turn));opacity:0}}
 @media(prefers-reduced-motion:reduce){.balloon-burst i{display:none}.balloon-burst::before{animation:none;opacity:.8}}
 @media(max-height:500px) and (min-width:600px){.activity-modal{width:min(920px,96vw)}.activity-modal #modalContent{display:grid;grid-template-columns:minmax(220px,1fr) minmax(0,1.5fr);grid-template-rows:auto auto minmax(0,1fr);gap:8px 20px}.activity-modal :is(.activity-header,.drawing-header){grid-column:1;grid-row:1}.activity-modal :is(.word-list,.choice-grid,.drawing-board,.catch-board){grid-column:2;grid-row:1/-1}.activity-modal :is(.status-line,.palette,.trace-steps){grid-column:1;grid-row:2}.activity-modal .word-footer{grid-column:1;grid-row:3;align-self:end}.activity-modal.drawing-modal .trace-milo{transform:translate(-60%,-50%);width:48px}}
-#letterA .topbar{display:grid;grid-template-columns:44px auto auto 1fr 44px;align-items:center;gap:16px}
+#letterA .topbar{display:grid;grid-template-columns:44px repeat(3,minmax(0,1fr)) 44px;align-items:center;gap:16px}
 #letterA .letter-header-details{display:contents}
-#letterA .letter-header-details strong{grid-column:2;grid-row:1;margin:0}
+#letterA .letter-header-details strong{grid-column:2;grid-row:1;margin:0;justify-self:center;text-align:center}
 #letterA .letter-navigation{grid-column:3;grid-row:1;display:flex;align-items:center;justify-content:center;gap:10px}
 #letterA #pawProgress{grid-column:4;grid-row:1;justify-self:center;margin:0}
 #letterA .letter-previous{grid-column:1;grid-row:1}
@@ -445,9 +445,13 @@ html:has(dialog[open]){overflow:hidden}
 #letterA .alphabet-shortcut>span>span:nth-child(3){color:#25b855}
 #letterA .topbar .icon-btn:disabled{opacity:.35;cursor:default;box-shadow:none}
 @media(max-width:600px){
-  #letterA .topbar{grid-template-columns:44px minmax(0,1fr) 44px;gap:12px 8px}
-  #letterA .letter-navigation{grid-column:2;grid-row:1}
-  #letterA .letter-next{grid-column:3;grid-row:1}
-  #letterA .letter-header-details{grid-column:1/-1;grid-row:2;display:flex;justify-content:space-between;align-items:center;width:100%;margin:0;padding-top:10px;border-top:1px solid #e7dab5}
+  #letterA .topbar{grid-template-columns:repeat(4,minmax(0,1fr));gap:12px 8px;justify-items:center}
+  #letterA .letter-navigation{display:contents}
+  #letterA .letter-navigation>button:nth-child(1){grid-column:2;grid-row:1}
+  #letterA .letter-navigation>button:nth-child(2){grid-column:3;grid-row:1}
+  #letterA .letter-next{grid-column:4;grid-row:1}
+  #letterA .letter-header-details{grid-column:1/-1;grid-row:2;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:center;justify-items:center;width:100%;margin:0;padding-top:10px;border-top:1px solid #e7dab5}
+  #letterA .letter-header-details strong{grid-column:1;grid-row:1}
+  #letterA #pawProgress{grid-column:2;grid-row:1}
   #letterA .topbar .alphabet-shortcut{width:68px}
 }
