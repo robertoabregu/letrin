@@ -91,3 +91,9 @@ Helado, Hoja, Huevo e Hilo: cinco actividades y tres juegos adicionales, progres
 
 Ilustraciones generadas con la herramienta integrada, fondo transparente, optimizadas en assets/: helado.webp (cono de waffle con bochas rosa y vainilla sonrientes); hoja.webp (hoja verde con nervaduras y rostro alegre); huevo.webp (huevo entero crema, sin romper, sonriente); hilo.webp (carrete de madera con hilo turquesa y hebra suelta, sin aguja); letra-h-roja.webp y letra-h-verde.webp (Hh inflada redondeada, mismo estilo de Aa, rojo y verde); actividad-trazar-h.webp (lápiz amarillo junto a H azul con guías punteadas); actividad-atrapar-h.webp (globo rojo con H blanca y cuerda dorada).
 
+## Letra I
+Iguana, Iglú, Isla e Imán: cinco actividades y tres juegos adicionales, progreso independiente y navegación H/I. I mayúscula con barras superior e inferior, i minúscula con punto separado; mismo estilo inflado rojo/verde. Trazado en tres pasos: vertical central, barra superior y barra inferior. Íconos propios en tarjetas y actividades, incluidos sin conexión. Incluye las cinco grabaciones argentinas suministradas por el usuario, disponibles sin conexión después de la descarga inicial.
+
+Ilustraciones realizadas con la herramienta integrada, fondo transparente, optimizadas en assets/: iguana.webp (iguana verde sonriente, cuatro patas, cresta y cola completa); iglu.webp (iglú de bloques azul hielo con entrada abovedada); isla.webp (isla de arena con palmeras rodeada por agua turquesa); iman.webp (imán rojo en herradura con extremos plateados y sonrisa); letra-i-roja.webp y letra-i-verde.webp (Ii inflada con barras en mayúscula y punto separado en minúscula); actividad-trazar-i.webp (lápiz amarillo junto a I azul con guía punteada); actividad-atrapar-i.webp (globo rojo con I blanca y cuerda dorada).
+
+

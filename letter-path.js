@@ -43,6 +43,7 @@
     return {x:210+120*Math.cos(angle),y:210+135*Math.sin(angle)};
   });
   const pathsByLetter={A:strokes,B:[[{x:125,y:80},{x:125,y:345}],upperB,lowerB],C:[curvedC],D:[[{x:125,y:80},{x:125,y:345}],bowlD],E:strokesE,F:strokesE.slice(0,3),G:[curvedG,[{x:330,y:210},{x:235,y:210}]],H:[[{x:125,y:80},{x:125,y:345}],[{x:295,y:80},{x:295,y:345}],[{x:125,y:212},{x:295,y:212}]]};
+  pathsByLetter.I=[[{x:210,y:80},{x:210,y:345}],[{x:130,y:80},{x:290,y:80}],[{x:130,y:345},{x:290,y:345}]];
   function forLetter(letter){
     const paths=pathsByLetter[letter];
     if(!paths)throw new Error(`No hay trazado para ${letter}`);
