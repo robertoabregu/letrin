@@ -56,7 +56,7 @@ function go(id){
 }
 qsa('[data-go]').forEach(b => b.addEventListener('click', () => go(b.dataset.go)));
 qs('#homePlay').onclick=()=>go(progress[currentLetter].some(activity=>activityIds.includes(activity))?'letterA':'letters');
-qs('#letterA .big-letter').onclick=()=>speak(currentLetter);
+qs('#letterA .big-letter').onclick=()=>speak(currentLetter==='H'?'hache':currentLetter);
 function selectLetter(letter){
   currentLetter = letter;
   letterWasComplete = null;
@@ -149,7 +149,7 @@ function refreshProgress(){
   qs('#homeProgress h2').textContent=`Letra ${currentLetter}`;
   if (complete && letterWasComplete === false) letterCelebrationPending = true;
   qs('#letterA .letter-hero').classList.toggle('letter-complete', complete && !letterCelebrationPending);
-  qs('#letterA .big-letter').setAttribute('aria-label', `Escuchar el sonido de la letra ${currentLetter}${complete?'; todas las actividades completas':''}`);
+  qs('#letterA .big-letter').setAttribute('aria-label', `Escuchar ${currentLetter==='H'?'el nombre':'el sonido'} de la letra ${currentLetter}${complete?'; todas las actividades completas':''}`);
   letterWasComplete = complete;
   const counter = qs('#pawProgress');
   counter.setAttribute('aria-label', `${done.length} de 5 actividades completas`);
@@ -289,7 +289,7 @@ qs('#closeModal').onclick = () => modal.close();
 function showInfo(letter){
   openModal(`
     <h2 class="modal-title">Letra ${letter}</h2>
-    <p class="helper">La ${letter} llegará gratis en una próxima actualización. Mientras tanto, ¡podés jugar con la A, la B, la C, la D, la E, la F y la G!</p>
+    <p class="helper">La ${letter} llegará gratis en una próxima actualización. Mientras tanto, ¡podés jugar con la A, la B, la C, la D, la E, la F, la G y la H!</p>
   `);
 }
 
@@ -298,7 +298,7 @@ const actions = {
     openModal(`
       <header class="activity-header"><img class="word-heading-art" src="assets/${letterData().words[0].asset}.webp" alt="">
       <h2 class="modal-title">Empieza con la letra ${currentLetter}</h2>
-      <p class="helper word-instruction">Tocá cada imagen para escuchar cómo se pronuncia.</p></header>
+      <p class="helper word-instruction">${currentLetter==='H'?'La H es muda. Tocá las imágenes para escucharlas.':'Tocá cada imagen para escuchar cómo se pronuncia.'}</p></header>
       <div class="word-list" id="wordChoices"></div>
       <div class="word-footer"><button id="continueWords" class="btn secondary">Continuar</button></div>
     `);
@@ -691,8 +691,8 @@ if('serviceWorker' in navigator){
     try {
       const registration = await navigator.serviceWorker.register('sw.js', {updateViaCache:'none'});
       const updateStatus = async () => {
-        const cache = await caches.open('letrin-v0-48');
-        const required = [...['letra-g','gato','gota','gallina','gorila'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['gato','gorila','gallina','gota','letra-g-roja','letra-g-verde','actividad-trazar-g','actividad-atrapar-g'].map(asset=>`assets/${asset}.webp`),...['letra-f','flor','fuego','fantasma','frutilla'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['fuego','flor','frutilla','fantasma','letra-f-roja','letra-f-verde','actividad-trazar-f','actividad-atrapar-f'].map(asset=>`assets/${asset}.webp`),...['letra-e','elefante','estrella','escoba','espejo'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['elefante','estrella','escoba','espejo','letra-e-roja','letra-e-verde','actividad-trazar-e','actividad-atrapar-e'].map(asset=>`assets/${asset}.webp`),...['dado','delfin','diente','durazno','letra-d-roja','letra-d-verde','actividad-trazar-d','actividad-atrapar-d'].map(asset=>`assets/${asset}.webp`),...['letra-d','dado','delfin','diente','durazno'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['cama','conejo','corazon','letra-c-roja','letra-c-verde','actividad-trazar-c','actividad-atrapar-c'].map(asset=>`assets/${asset}.webp`),'index.html','app.js?v=48','letters.js?v=48','assets/actividad-trazar-b.webp','assets/actividad-atrapar-b.webp','assets/ballena.webp','assets/bicicleta.webp','assets/letra-b-roja.webp','assets/letra-b-verde.webp',...['abeja','avion','arbol','arana','letra-a','letra-b','barco','banana','ballena','bicicleta','letra-c','casa','cama','conejo','corazon'].map(word => `assets/audio/es-AR/${word}.mp3`)];
+        const cache = await caches.open('letrin-v0-49');
+        const required = [...['helado','hilo','huevo','hoja'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['helado','hoja','huevo','hilo','letra-h-roja','letra-h-verde','actividad-trazar-h','actividad-atrapar-h'].map(asset=>`assets/${asset}.webp`),...['letra-g','gato','gota','gallina','gorila'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['gato','gorila','gallina','gota','letra-g-roja','letra-g-verde','actividad-trazar-g','actividad-atrapar-g'].map(asset=>`assets/${asset}.webp`),...['letra-f','flor','fuego','fantasma','frutilla'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['fuego','flor','frutilla','fantasma','letra-f-roja','letra-f-verde','actividad-trazar-f','actividad-atrapar-f'].map(asset=>`assets/${asset}.webp`),...['letra-e','elefante','estrella','escoba','espejo'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['elefante','estrella','escoba','espejo','letra-e-roja','letra-e-verde','actividad-trazar-e','actividad-atrapar-e'].map(asset=>`assets/${asset}.webp`),...['dado','delfin','diente','durazno','letra-d-roja','letra-d-verde','actividad-trazar-d','actividad-atrapar-d'].map(asset=>`assets/${asset}.webp`),...['letra-d','dado','delfin','diente','durazno'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['cama','conejo','corazon','letra-c-roja','letra-c-verde','actividad-trazar-c','actividad-atrapar-c'].map(asset=>`assets/${asset}.webp`),'index.html','app.js?v=49','letters.js?v=49','assets/actividad-trazar-b.webp','assets/actividad-atrapar-b.webp','assets/ballena.webp','assets/bicicleta.webp','assets/letra-b-roja.webp','assets/letra-b-verde.webp',...['abeja','avion','arbol','arana','letra-a','letra-b','barco','banana','ballena','bicicleta','letra-c','casa','cama','conejo','corazon'].map(word => `assets/audio/es-AR/${word}.mp3`)];
         const downloaded = await Promise.all(required.map(path => cache.match(path)));
         if (downloaded.every(Boolean)) qs('#offlineStatus').textContent = 'Juego descargado · Algunas voces pueden necesitar internet';
       };
