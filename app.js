@@ -220,13 +220,16 @@ function drawingActivity(activity){
       const active=ratios.findIndex(value=>value<1);
       paths.strokes.forEach((points,index)=>{
         const start=points[0],end=points[points.length-1],beforeEnd=points[points.length-2];
+        const sharedStart=paths.strokes.slice(0,index).some(stroke=>Math.hypot(stroke[0].x-start.x,stroke[0].y-start.y)<30);
+        const firstSegment=points[1],segmentLength=Math.hypot(firstSegment.x-start.x,firstSegment.y-start.y);
+        const marker=sharedStart?{x:start.x+(firstSegment.x-start.x)*Math.min(50/segmentLength,1),y:start.y+(firstSegment.y-start.y)*Math.min(50/segmentLength,1)}:start;
         if(ratios[index]===1)return;
         context.strokeStyle=index===active?'#237fb1':'#8bafc3';context.lineWidth=4;context.setLineDash([3,11]);
         strokePath(context,points);context.setLineDash([]);
         const angle=Math.atan2(end.y-beforeEnd.y,end.x-beforeEnd.x);
         context.beginPath();context.moveTo(end.x-12*Math.cos(angle-.6),end.y-12*Math.sin(angle-.6));context.lineTo(end.x,end.y);context.lineTo(end.x-12*Math.cos(angle+.6),end.y-12*Math.sin(angle+.6));context.stroke();
-        context.beginPath();context.arc(start.x,start.y,15,0,Math.PI*2);context.fillStyle=index===active?'#168dd4':'#8bafc3';context.fill();context.strokeStyle='#fff';context.lineWidth=3;context.stroke();
-        context.fillStyle='#fff';context.font='900 18px Nunito, sans-serif';context.textAlign='center';context.textBaseline='middle';context.fillText(String(index+1),start.x,start.y+1);
+        context.beginPath();context.arc(marker.x,marker.y,15,0,Math.PI*2);context.fillStyle=index===active?'#168dd4':'#8bafc3';context.fill();context.strokeStyle='#fff';context.lineWidth=3;context.stroke();
+        context.fillStyle='#fff';context.font='900 18px Nunito, sans-serif';context.textAlign='center';context.textBaseline='middle';context.fillText(String(index+1),marker.x,marker.y+1);
       });
     }
   }
@@ -286,7 +289,7 @@ qs('#closeModal').onclick = () => modal.close();
 function showInfo(letter){
   openModal(`
     <h2 class="modal-title">Letra ${letter}</h2>
-    <p class="helper">La ${letter} llegará gratis en una próxima actualización. Mientras tanto, ¡podés jugar con la A, la B, la C y la D!</p>
+    <p class="helper">La ${letter} llegará gratis en una próxima actualización. Mientras tanto, ¡podés jugar con la A, la B, la C, la D y la E!</p>
   `);
 }
 
@@ -688,8 +691,8 @@ if('serviceWorker' in navigator){
     try {
       const registration = await navigator.serviceWorker.register('sw.js', {updateViaCache:'none'});
       const updateStatus = async () => {
-        const cache = await caches.open('letrin-v0-45');
-        const required = [...['dado','delfin','diente','durazno','letra-d-roja','letra-d-verde','actividad-trazar-d','actividad-atrapar-d'].map(asset=>`assets/${asset}.webp`),...['letra-d','dado','delfin','diente','durazno'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['cama','conejo','corazon','letra-c-roja','letra-c-verde','actividad-trazar-c','actividad-atrapar-c'].map(asset=>`assets/${asset}.webp`),'index.html','app.js?v=45','letters.js?v=43','assets/actividad-trazar-b.webp','assets/actividad-atrapar-b.webp','assets/ballena.webp','assets/bicicleta.webp','assets/letra-b-roja.webp','assets/letra-b-verde.webp',...['abeja','avion','arbol','arana','letra-a','letra-b','barco','banana','ballena','bicicleta','letra-c','casa','cama','conejo','corazon'].map(word => `assets/audio/es-AR/${word}.mp3`)];
+        const cache = await caches.open('letrin-v0-46');
+        const required = [...['letra-e','elefante','estrella','escoba','espejo'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['elefante','estrella','escoba','espejo','letra-e-roja','letra-e-verde','actividad-trazar-e','actividad-atrapar-e'].map(asset=>`assets/${asset}.webp`),...['dado','delfin','diente','durazno','letra-d-roja','letra-d-verde','actividad-trazar-d','actividad-atrapar-d'].map(asset=>`assets/${asset}.webp`),...['letra-d','dado','delfin','diente','durazno'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['cama','conejo','corazon','letra-c-roja','letra-c-verde','actividad-trazar-c','actividad-atrapar-c'].map(asset=>`assets/${asset}.webp`),'index.html','app.js?v=46','letters.js?v=46','assets/actividad-trazar-b.webp','assets/actividad-atrapar-b.webp','assets/ballena.webp','assets/bicicleta.webp','assets/letra-b-roja.webp','assets/letra-b-verde.webp',...['abeja','avion','arbol','arana','letra-a','letra-b','barco','banana','ballena','bicicleta','letra-c','casa','cama','conejo','corazon'].map(word => `assets/audio/es-AR/${word}.mp3`)];
         const downloaded = await Promise.all(required.map(path => cache.match(path)));
         if (downloaded.every(Boolean)) qs('#offlineStatus').textContent = 'Juego descargado · Algunas voces pueden necesitar internet';
       };

@@ -61,7 +61,7 @@ Los cambios futuros en `main` se publican automáticamente. Para probar localmen
 - [ ] Revisión final en navegador publicado
 
 ## Siguiente paso
-Las letras A, B, C y D tienen cinco actividades y tres juegos adicionales, con progreso independiente. La C usa Casa, Cama, Conejo y Corazón, todas con sonido inicial /k/, y un trazado curvo continuo de un paso.
+Las letras A, B, C, D y E tienen cinco actividades y tres juegos adicionales, con progreso independiente. La C usa Casa, Cama, Conejo y Corazón, todas con sonido inicial /k/, y un trazado curvo continuo de un paso.
 
 La C y sus cuatro palabras incluyen las grabaciones argentinas suministradas por el usuario, disponibles sin conexión después de la descarga inicial. Validar en la tablet Android real antes del empaquetado para Play Store. La versión web sigue disponible para iPhone.
 
@@ -70,3 +70,8 @@ Generadas con la herramienta integrada de imágenes, con fondo transparente, y o
 
 ## Letra D
 Dado, Delfín, Diente y Durazno: cinco actividades y tres juegos adicionales con progreso independiente. Trazado de dos pasos, íconos propios en tarjetas y actividades, Dd roja y verde. Incluye las cinco grabaciones argentinas del usuario y todos los dibujos en la descarga sin conexión.
+
+## Letra E
+Elefante, Estrella, Escoba y Espejo: cinco actividades y tres juegos adicionales, progreso independiente y navegación D/E. Trazado de cuatro pasos, Ee roja y verde, íconos propios en tarjetas y encabezados. Los dibujos se incluyen en la descarga sin conexión. Incluye las cinco grabaciones argentinas suministradas por el usuario, disponibles sin conexión después de la descarga inicial.
+
+Ilustraciones generadas con la herramienta integrada, fondo transparente, optimizadas en assets/: elefante.webp (elefante gris sonriente, orejas rosadas, cuerpo entero); estrella.webp (estrella amarilla de cinco puntas sonriente); escoba.webp (escoba de madera y paja dorada, atadura turquesa); espejo.webp (espejo de mano ovalado con marco turquesa y cristal plateado); letra-e-roja.webp y letra-e-verde.webp (Ee inflada con el estilo de Aa, colores rojo y verde); actividad-trazar-e.webp (lápiz amarillo junto a E azul con guía punteada); actividad-atrapar-e.webp (globo rojo con E blanca y cuerda dorada).
