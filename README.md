@@ -96,4 +96,10 @@ Iguana, Iglú, Isla e Imán: cinco actividades y tres juegos adicionales, progre
 
 Ilustraciones realizadas con la herramienta integrada, fondo transparente, optimizadas en assets/: iguana.webp (iguana verde sonriente, cuatro patas, cresta y cola completa); iglu.webp (iglú de bloques azul hielo con entrada abovedada); isla.webp (isla de arena con palmeras rodeada por agua turquesa); iman.webp (imán rojo en herradura con extremos plateados y sonrisa); letra-i-roja.webp y letra-i-verde.webp (Ii inflada con barras en mayúscula y punto separado en minúscula); actividad-trazar-i.webp (lápiz amarillo junto a I azul con guía punteada); actividad-atrapar-i.webp (globo rojo con I blanca y cuerda dorada).
 
+## Letra J
+Jirafa, Jabón, Jugo y Jaula: cinco actividades y tres juegos adicionales, progreso independiente y navegación I/J. Trazado de dos pasos: vertical con gancho curvo y barra superior. Jj inflada roja/verde, minúscula con punto separado; íconos propios en tarjetas y dentro de las actividades. Dibujos incluidos sin conexión. Incluye las cinco grabaciones argentinas suministradas por el usuario, disponibles sin conexión después de la descarga inicial.
+
+Ilustraciones realizadas con la herramienta integrada, fondo transparente, optimizadas en assets/: jirafa.webp (jirafa bebé amarilla con manchas marrones y cuerpo completo); jabon.webp (jabón rosa sonriente con espuma y burbujas); jugo.webp (vaso de jugo naranja con rodaja y sorbete turquesa); jaula.webp (jaula turquesa vacía con puerta abierta, aro dorado y percha de madera); letra-j-roja.webp y letra-j-verde.webp (Jj inflada, barra superior y gancho, punto separado en minúscula); actividad-trazar-j.webp (lápiz amarillo junto a J azul con guía punteada); actividad-atrapar-j.webp (globo rojo con J blanca y cuerda dorada).
+
+
 
