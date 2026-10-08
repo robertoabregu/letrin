@@ -101,5 +101,16 @@ Jirafa, Jabón, Jugo y Jaula: cinco actividades y tres juegos adicionales, progr
 
 Ilustraciones realizadas con la herramienta integrada, fondo transparente, optimizadas en assets/: jirafa.webp (jirafa bebé amarilla con manchas marrones y cuerpo completo); jabon.webp (jabón rosa sonriente con espuma y burbujas); jugo.webp (vaso de jugo naranja con rodaja y sorbete turquesa); jaula.webp (jaula turquesa vacía con puerta abierta, aro dorado y percha de madera); letra-j-roja.webp y letra-j-verde.webp (Jj inflada, barra superior y gancho, punto separado en minúscula); actividad-trazar-j.webp (lápiz amarillo junto a J azul con guía punteada); actividad-atrapar-j.webp (globo rojo con J blanca y cuerda dorada).
 
+## Letra K
+
+Vocabulario: Koala, Kiwi, Kiosco y Kayak. Cinco actividades y tres juegos extra adaptados; trazado K en tres recorridos completos. Sin cambios al fondo ni a Milo.
+
+Imágenes generadas con la herramienta integrada, fondo transparente, guardadas en `assets/`: `koala.webp`, `kiwi.webp`, `kiosco.webp`, `kayak.webp`, `letra-k-roja.webp`, `letra-k-verde.webp`, `actividad-trazar-k.webp`, `actividad-atrapar-k.webp`.
+
+Prompts: koala gris simpático sentado de cuerpo entero; kiwi entero marrón junto a mitad verde con semillas; kiosco argentino de golosinas con toldo azul y blanco sin texto; kayak naranja con asiento azul y remo doble amarillo. Estilo infantil 3D suave, objeto centrado aislado. Kk roja inflada siguiendo Aa, misma base y composición centrada; variante verde conservando formas. Ícono de trazado K azul con guía blanca y lápiz amarillo, e ícono de globo rojo con K blanca y hilo dorado siguiendo los originales.
+
+Incluye las cinco grabaciones argentinas del usuario, disponibles sin conexión después de la descarga inicial. El archivo original `kiosko.wav` se integra como `kiosco.mp3`, manteniendo la escritura Kiosco en la app.
+
+
 
 
