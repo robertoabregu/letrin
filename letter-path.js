@@ -38,7 +38,7 @@
   });
   const bowlD=[{x:125,y:80},{x:190,y:80},...curve({x:190,y:80},{x:350,y:80},{x:350,y:345},{x:190,y:345}).slice(1),{x:125,y:345}];
   const strokesE=[[{x:125,y:80},{x:125,y:345}],[{x:125,y:80},{x:305,y:80}],[{x:125,y:212},{x:275,y:212}],[{x:125,y:345},{x:305,y:345}]];
-  const pathsByLetter={A:strokes,B:[[{x:125,y:80},{x:125,y:345}],upperB,lowerB],C:[curvedC],D:[[{x:125,y:80},{x:125,y:345}],bowlD],E:strokesE};
+  const pathsByLetter={A:strokes,B:[[{x:125,y:80},{x:125,y:345}],upperB,lowerB],C:[curvedC],D:[[{x:125,y:80},{x:125,y:345}],bowlD],E:strokesE,F:strokesE.slice(0,3)};
   function forLetter(letter){
     const paths=pathsByLetter[letter];
     if(!paths)throw new Error(`No hay trazado para ${letter}`);
