@@ -4,6 +4,7 @@ const LetrinAudio = (() => {
   try { const saved = localStorage.getItem(key); if (saved === 'auto' || LetrinAudioCatalog[saved]) preference = saved; } catch {}
   const normalize = value => (value || '').replace(/_/g,'-').toLowerCase();
   function locale(){
+    if (LetrinLanguage.current()==='en') return 'en-US';
     if (preference !== 'auto') return preference;
     const language = (navigator.languages || [navigator.language]).find(value => normalize(value).startsWith('es'));
     const exact = Object.keys(LetrinAudioCatalog).find(value => normalize(value) === normalize(language));
@@ -12,6 +13,9 @@ const LetrinAudio = (() => {
   function voice(){
     const target = normalize(locale());
     const voices = window.speechSynthesis?.getVoices?.() || [];
+    if (LetrinLanguage.current()==='en') {
+      return voices.filter(item=>normalize(item.lang)==='en' || normalize(item.lang).startsWith('en-')).sort((first,second)=>(normalize(first.lang)==='en-us'?0:2)+(first.localService?0:1)-(normalize(second.lang)==='en-us'?0:2)-(second.localService?0:1))[0] || null;
+    }
     const candidates = voices.filter(item => {
       const language = normalize(item.lang);
       return language === 'es' || language.startsWith('es-');
@@ -43,7 +47,7 @@ const LetrinAudio = (() => {
     const token = duckToken;
     let ended = false;
     const finish = () => { if (session === sequence && !ended) { ended = true; LetrinSoundtrack.endVoice(token); onEnd?.(); } };
-    const fail = () => { if (session === sequence) { LetrinSoundtrack.endVoice(token); onError?.('No hay una voz compatible disponible. Revisá Para adultos o instalá una voz latinoamericana en el dispositivo.'); } };
+    const fail = () => { if (session === sequence) { LetrinSoundtrack.endVoice(token); onError?.(LetrinLanguage.current()==='en'?'No English voice is available. Check your device voice settings.':'No hay una voz compatible disponible. Revisá Para adultos o instalá una voz latinoamericana en el dispositivo.'); } };
     const synthesize = () => {
       if (session !== sequence) return;
       const selected = voice();
@@ -53,7 +57,7 @@ const LetrinAudio = (() => {
       utterance.lang = selected.lang;
       utterance.rate = .9;
       utterance.onend = finish;
-      utterance.onerror = event => { if (session === sequence) { LetrinSoundtrack.endVoice(token); if (!['canceled','interrupted'].includes(event.error)) onError?.('No se pudo reproducir el audio. Probá de nuevo.'); } };
+      utterance.onerror = event => { if (session === sequence) { LetrinSoundtrack.endVoice(token); if (!['canceled','interrupted'].includes(event.error)) onError?.(LetrinLanguage.current()==='en'?'Audio could not play. Please try again.':'No se pudo reproducir el audio. Probá de nuevo.'); } };
       window.speechSynthesis.speak(utterance);
     };
     let fallbackStarted = false;
@@ -80,6 +84,7 @@ const LetrinAudio = (() => {
   }
   function status(){
     const selected = voice();
+    if (LetrinLanguage.current()==='en') return `English A includes five recordings, available offline after download.${selected?` Other text uses ${selected.name} (${selected.lang}); this voice may need internet.`:' No English device voice is available for other text.'}`;
     const pack = LetrinAudioCatalog[locale()];
     const label = pack.label;
     const recordings = Object.keys(pack.clips).length;

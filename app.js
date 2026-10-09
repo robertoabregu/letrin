@@ -5,10 +5,11 @@ const screens = qsa('.screen');
 const modal = qs('#modal');
 const modalContent = qs('#modalContent');
 const toast = qs('#toast');
-let progress = Object.fromEntries(Object.keys(LetrinLetters).map(letter => [letter, []]));
+const languageLetters = () => LetrinLanguage.current()==='en'?LetrinEnglishLetters:LetrinLetters;
+let progress = Object.fromEntries(Object.keys(languageLetters()).map(letter => [letter, []]));
 let currentLetter = 'A';
-try { const savedLetter = localStorage.getItem('letrin_last_letter'); if (LetrinLetters[savedLetter]) currentLetter = savedLetter; } catch {}
-const letterData = () => LetrinLetters[currentLetter];
+try { const savedLetter = localStorage.getItem(LetrinLanguage.lastLetterKey()); if (languageLetters()[savedLetter]) currentLetter = savedLetter; } catch {}
+const letterData = () => languageLetters()[currentLetter];
 const letterArt = (complete=false) => `assets/letra-${letterData().art}-${complete?'verde':'roja'}.webp`;
 const activityArt = activity => `assets/${letterData().activityArt[activity]}.webp`;
 const wordArt = word => `<img src="assets/${word.asset}.webp" alt="">`;
@@ -16,8 +17,8 @@ const wordHeading = () => letterData().wordMatch==='contains'?`Palabras con ${cu
 const wordQuestion = () => letterData().wordMatch==='contains'?`¿Cuál tiene ${currentLetter}?`:`¿Cuál empieza con ${currentLetter}?`;
 const activityIds = ['know','trace','paint','starts','catch'];
 try {
-  const saved = JSON.parse(localStorage.getItem('letrin_progress_v03') || '{}');
-  Object.keys(LetrinLetters).forEach(letter => { if (Array.isArray(saved?.[letter])) progress[letter] = [...new Set(saved[letter])].filter(activity => activityIds.includes(activity)); });
+  const saved = JSON.parse(localStorage.getItem(LetrinLanguage.progressKey()) || '{}');
+  Object.keys(languageLetters()).forEach(letter => { if (Array.isArray(saved?.[letter])) progress[letter] = [...new Set(saved[letter])].filter(activity => activityIds.includes(activity)); });
 } catch {}
 let modalSession = 0;
 let letterWasComplete = null;
@@ -59,17 +60,17 @@ function go(id){
 }
 qsa('[data-go]').forEach(b => b.addEventListener('click', () => go(b.dataset.go)));
 qs('#homePlay').onclick=()=>go(progress[currentLetter].some(activity=>activityIds.includes(activity))?'letterA':'letters');
-qs('#letterA .big-letter').onclick=()=>speak(currentLetter==='H'?'hache':currentLetter);
+qs('#letterA .big-letter').onclick=()=>speak(currentLetter==='H' && LetrinLanguage.current()==='es'?'hache':currentLetter);
 function selectLetter(letter){
   currentLetter = letter;
   letterWasComplete = null;
   letterCelebrationPending = false;
-  try { localStorage.setItem('letrin_last_letter',letter); } catch {}
+  try { localStorage.setItem(LetrinLanguage.lastLetterKey(),letter); } catch {}
   go('letterA');
 }
 function renderLetter(){
   const section=qs('#letterA');
-  const availableLetters=Object.keys(LetrinLetters), letterIndex=availableLetters.indexOf(currentLetter);
+  const availableLetters=Object.keys(languageLetters()), letterIndex=availableLetters.indexOf(currentLetter);
   const previous=availableLetters[letterIndex-1], next=availableLetters[letterIndex+1];
   qs('#previousLetter').disabled=!previous;
   qs('#nextLetter').disabled=!next;
@@ -96,10 +97,20 @@ function renderLetter(){
 }
 
 function speak(text, onEnd){
+  if (LetrinLanguage.current()==='en' && Array.from(text).length===1 && !LetrinAudioCatalog['en-US'].clips[text]) {
+    showToast('English letter-sound recordings are coming soon.');
+    return;
+  }
   LetrinAudio.speak(text, onEnd, showToast);
 }
 function openAdultSettings(){
-  openModal(`<h2 class="modal-title">Para adultos</h2><p class="helper">Ajustá el sonido y las preferencias de la app.</p><div class="adult-settings"><section class="adult-card"><h3>Sonido</h3><label class="adult-toggle" for="musicEnabled"><span>Música de fondo<small>Suave, con volumen más bajo durante las voces.</small></span><input id="musicEnabled" type="checkbox" role="switch"></label><label class="adult-toggle" for="effectsEnabled"><span>Sonidos de festejo<small>Un pequeño festejo cuando Milo celebra.</small></span><input id="effectsEnabled" type="checkbox" role="switch"></label></section><section class="adult-card"><h3>Idioma y acento</h3><p class="helper">Los textos están en español. Esta selección cambia la región de la voz, no traduce las actividades.</p><label class="audio-label" for="audioLocale">Español y región</label><select id="audioLocale"><option value="auto">Según el idioma del dispositivo</option>${Object.entries(LetrinAudioCatalog).map(([value,pack]) => `<option value="${value}">${pack.label}</option>`).join('')}</select><details class="adult-voice-details"><summary>Detalles de la voz</summary><p id="audioVoiceStatus" class="helper" role="status"></p></details><button id="testVoice" class="btn secondary">Escuchar una prueba</button></section><section class="adult-card"><h3>Información</h3><button id="privacyPolicy" class="btn secondary">Política de privacidad</button></section></div>`);
+  const english=LetrinLanguage.current()==='en';
+  openModal(`<h2 class="modal-title">Para adultos</h2><p class="helper">Ajustá el sonido y las preferencias de la app.</p><div class="adult-settings"><section class="adult-card"><h3>Sonido</h3><label class="adult-toggle" for="musicEnabled"><span>Música de fondo<small>Suave, con volumen más bajo durante las voces.</small></span><input id="musicEnabled" type="checkbox" role="switch"></label><label class="adult-toggle" for="effectsEnabled"><span>Sonidos de festejo<small>Un pequeño festejo cuando Milo celebra.</small></span><input id="effectsEnabled" type="checkbox" role="switch"></label></section><section class="adult-card"><h3>Idioma y acento</h3><label class="audio-label" for="appLanguage">Idioma de la app</label><select id="appLanguage"><option value="auto">Según el idioma del dispositivo</option><option value="es">Español de Argentina</option><option value="en">Inglés · en preparación</option></select><p class="helper">El progreso se guarda por separado para cada idioma.</p><p class="helper">La versión inglesa está en preparación. Por ahora podés probar la A.</p>${english?'':'<label class="audio-label" for="audioLocale">Español y región</label><select id="audioLocale"><option value="auto">Según el idioma del dispositivo</option>'+Object.entries(LetrinAudioCatalog).filter(([value])=>value.startsWith('es')).map(([value,pack])=>`<option value="${value}">${pack.label}</option>`).join('')+'</select>'}<details class="adult-voice-details"><summary>Detalles de la voz</summary><p id="audioVoiceStatus" class="helper" role="status"></p></details><button id="testVoice" class="btn secondary">Escuchar una prueba</button></section><section class="adult-card"><h3>Información</h3><button id="privacyPolicy" class="btn secondary">Política de privacidad</button></section></div>`);
+  qs('#appLanguage').value=LetrinLanguage.getPreference();
+  qs('#appLanguage').onchange=event=>{
+    try { LetrinLanguage.setPreference(event.target.value); LetrinAudio.cancel(); window.location.reload(); }
+    catch { showToast(english?'This browser cannot save your language choice.':'No se pudo guardar el idioma en este navegador.'); }
+  };
   qs('#musicEnabled').checked=LetrinSoundtrack.musicEnabled();
   qs('#effectsEnabled').checked=LetrinSoundtrack.effectsEnabled();
   qs('#musicEnabled').onchange=event=>LetrinSoundtrack.setMusic(event.target.checked);
@@ -108,10 +119,10 @@ function openAdultSettings(){
     openModal(`<h2 class="modal-title">Política de privacidad</h2><div class="adult-settings privacy-copy"><p>Letrín no solicita nombres, cuentas, ubicación, cámara ni micrófono. Esta versión no incluye anuncios ni herramientas de seguimiento analítico.</p><h3>Datos en tu dispositivo</h3><p>El progreso, la última letra y las preferencias de sonido y región se guardan en este navegador. El contenido descargado se conserva para jugar sin conexión. No se sincroniza el progreso con un servidor. Podés eliminar estos datos desde los ajustes del navegador; eso también elimina tu progreso.</p><h3>Conexión y voces</h3><p>Al abrir o actualizar la app, se descargan archivos desde su alojamiento web. El proveedor del alojamiento recibe los datos técnicos habituales de una conexión. Las grabaciones incluidas se reproducen desde la app. Cuando se usa una voz del dispositivo, esa voz puede requerir internet según el sistema y proveedor que tengas configurados.</p><h3>Preferencias</h3><p>Podés desactivar la música y los festejos por separado. La región de la voz se elige manualmente o según el idioma del navegador, no según tu ubicación.</p><button id="backAdultSettings" class="btn secondary">Volver a ajustes</button></div>`);
     qs('#backAdultSettings').onclick=openAdultSettings;
   };
-  qs('#audioLocale').value = LetrinAudio.getPreference();
+  if (qs('#audioLocale')) qs('#audioLocale').value = LetrinAudio.getPreference();
   const update = () => { qs('#audioVoiceStatus').textContent = LetrinAudio.status(); };
-  qs('#audioLocale').onchange = event => { LetrinAudio.setPreference(event.target.value); update(); };
-  qs('#testVoice').onclick = () => speak('Abeja. Avión. Árbol. Araña.');
+  if (qs('#audioLocale')) qs('#audioLocale').onchange = event => { LetrinAudio.setPreference(event.target.value); update(); };
+  qs('#testVoice').onclick = () => speak(english?'Apple. Ant. Airplane. Anchor.':'Abeja. Avión. Árbol. Araña.');
   const session = modalSession;
   const synth = window.speechSynthesis;
   const changed = () => { if (modal.open && session === modalSession) update(); };
@@ -127,18 +138,18 @@ qs('#audioSettings').onclick = () => {
 
 const letters = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','Ñ','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
 const alphabet = qs('#alphabet');
-letters.forEach(letter => {
+letters.filter(letter=>LetrinLanguage.current()==='es' || letter!=='Ñ').forEach(letter => {
   const btn = document.createElement('button');
-  btn.className = 'letter-btn' + (LetrinLetters[letter] ? ' a' : '');
+  btn.className = 'letter-btn' + (languageLetters()[letter] ? ' a' : '');
   btn.dataset.letter = letter;
   btn.innerHTML = `<span class="letter-label">${letter}</span><span class="letter-paws" aria-hidden="true"></span>`;
-  btn.setAttribute('aria-label', LetrinLetters[letter] ? `Letra ${letter}: jugar` : `Letra ${letter}: próximamente gratis`);
-  btn.onclick = () => LetrinLetters[letter] ? selectLetter(letter) : showInfo(letter);
+  btn.setAttribute('aria-label', languageLetters()[letter] ? `Letra ${letter}: jugar` : `Letter ${letter}: coming soon`);
+  btn.onclick = () => languageLetters()[letter] ? selectLetter(letter) : showInfo(letter);
   alphabet.appendChild(btn);
 });
 
 function saveProgress(){
-  try { localStorage.setItem('letrin_progress_v03', JSON.stringify(progress)); } catch { showToast('El progreso no se puede guardar en este navegador'); }
+  try { localStorage.setItem(LetrinLanguage.progressKey(), JSON.stringify(progress)); } catch { showToast('El progreso no se puede guardar en este navegador'); }
   refreshProgress();
 }
 function pawIcon(earned=false){
@@ -175,7 +186,7 @@ function refreshProgress(){
     const count = activityIds.filter(activity => (progress[letter] || []).includes(activity)).length;
     button.classList.toggle('completed', count === activityIds.length);
     button.querySelector('.letter-paws').innerHTML = pawMarkup(count);
-    button.setAttribute('aria-label', `Letra ${letter}: ${LetrinLetters[letter]?'jugar':'próximamente gratis'}, ${count} de 5 actividades completas`);
+    button.setAttribute('aria-label', languageLetters()[letter]?`Letra ${letter}: jugar, ${count} de 5 actividades completas`:`Letter ${letter}: coming soon`);
   });
   qsa('[data-activity]').forEach(btn => btn.classList.toggle('done', done.includes(btn.dataset.activity)));
 }
@@ -305,6 +316,10 @@ function openModal(html){
 qs('#closeModal').onclick = () => modal.close();
 
 function showInfo(letter){
+  if (LetrinLanguage.current()==='en') {
+    openModal(`<h2 class="modal-title">Letter ${letter}</h2><p class="helper">This letter is being prepared. Try A for now!</p>`);
+    return;
+  }
   openModal(`
     <h2 class="modal-title">Letra ${letter}</h2>
     <p class="helper">La ${letter} llegará gratis en una próxima actualización. Mientras tanto, ¡podés jugar con la A, la B, la C, la D, la E, la F, la G, la H, la I, la J, la K, la L, la M, la N, la Ñ, la O, la P, la Q, la R, la S, la T, la U, la V, la W, la X y la Y!</p>
@@ -616,7 +631,7 @@ const premium = {
   },
 
   word(){
-    const words = letterData().words.slice(0,3).map(word=>({...word,letters:word.name.toLocaleUpperCase('es')}));
+  const words = letterData().words.slice(0,3).map(word=>({...word,letters:word.name.toLocaleUpperCase(LetrinLanguage.current())}));
     let round = 0, completed = 0;
     const paws = () => words.map((word,index) => pawIcon(index < completed)).join('');
     const render = () => {
@@ -698,6 +713,10 @@ qsa('[data-premium]').forEach(btn => {
   btn.addEventListener('click', () => premium[btn.dataset.premium]());
 });
 
+document.documentElement.lang=LetrinLanguage.current();
+LetrinLanguage.apply(document.body);
+const languageObserver = new MutationObserver(()=>LetrinLanguage.apply(document.body));
+languageObserver.observe(document.body,{subtree:true,childList:true,characterData:true,attributes:true,attributeFilter:['aria-label','alt']});
 renderLetter();
 
 if('serviceWorker' in navigator){
@@ -709,8 +728,10 @@ if('serviceWorker' in navigator){
     try {
       const registration = await navigator.serviceWorker.register('sw.js', {updateViaCache:'none'});
       const updateStatus = async () => {
-        const cache = await caches.open('letrin-v0-70');
-        const required = ['soundtrack.js?v=70','audio.js?v=70','assets/audio/patterns-of-play.mp3',...['letra-z','zapato','zorro','zanahoria','zapallo'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['zapato','zorro','zanahoria','zapallo','letra-z-roja','letra-z-verde','actividad-trazar-z','actividad-atrapar-z'].map(asset=>`assets/${asset}.webp`),...['letra-y','yacare','yate','yoyo','yogur'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["yacare","yate","yoyo","yogur","letra-y-roja","letra-y-verde","actividad-trazar-y","actividad-atrapar-y"].map(asset=>`assets/${asset}.webp`),...['letra-x','xilofono','taxi','excavadora','saxofon'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["xilofono","taxi","excavadora","saxofon","letra-x-roja","letra-x-verde","actividad-trazar-x","actividad-atrapar-x"].map(asset=>`assets/${asset}.webp`),...['letra-w','waffle','wok','kiwi','sandwich'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["waffle","wok","sandwich","letra-w-roja","letra-w-verde","actividad-trazar-w","actividad-atrapar-w","kiwi"].map(asset=>`assets/${asset}.webp`),...['letra-v','vaca','vaso','vela','violin'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["vaca","vaso","vela","violin","letra-v-roja","letra-v-verde","actividad-trazar-v","actividad-atrapar-v"].map(asset=>`assets/${asset}.webp`),...['letra-u','uva','unicornio','uno','unia'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["uva","unicornio","uno","unia","letra-u-roja","letra-u-verde","actividad-trazar-u","actividad-atrapar-u"].map(asset=>`assets/${asset}.webp`),...['letra-t','tortuga','tren','tomate','tigre'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["tortuga","tren","tomate","tigre","letra-t-roja","letra-t-verde","actividad-trazar-t","actividad-atrapar-t"].map(asset=>`assets/${asset}.webp`),...['letra-s','sol','sapo','sandia','sombrero'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["sol","sapo","sandia","sombrero","letra-s-roja","letra-s-verde","actividad-trazar-s","actividad-atrapar-s"].map(asset=>`assets/${asset}.webp`),...['letra-r','rana','raton','reloj','rosa'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["rana","raton","reloj","rosa","letra-r-roja","letra-r-verde","actividad-trazar-r","actividad-atrapar-r"].map(asset=>`assets/${asset}.webp`),...['letra-q','queso','quena','mosquito','raqueta'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["queso","quena","mosquito","raqueta","letra-q-roja","letra-q-verde","actividad-trazar-q","actividad-atrapar-q"].map(asset=>`assets/${asset}.webp`),...['letra-p','pelota','pato','pez','pera'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["pelota","pato","pez","pera","letra-p-roja","letra-p-verde","actividad-trazar-p","actividad-atrapar-p"].map(asset=>`assets/${asset}.webp`),...['letra-o','oso','oveja','oruga','oreja'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["oso","oveja","oruga","oreja","letra-o-roja","letra-o-verde","actividad-trazar-o","actividad-atrapar-o"].map(asset=>`assets/${asset}.webp`),...['letra-enie','nandu','noquis','mono-lazo','pinata'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["nandu","noquis","mono-lazo","pinata","letra-enie-roja","letra-enie-verde","actividad-trazar-enie","actividad-atrapar-enie"].map(asset=>`assets/${asset}.webp`),...['letra-n','naranja','nube','nido','nutria'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["naranja","nube","nido","nutria","letra-n-roja","letra-n-verde","actividad-trazar-n","actividad-atrapar-n"].map(asset=>`assets/${asset}.webp`),...['letra-m','mariposa','manzana','mono','moto'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["mariposa","manzana","mono","moto","letra-m-roja","letra-m-verde","actividad-trazar-m","actividad-atrapar-m"].map(asset=>`assets/${asset}.webp`),...['letra-l','leon','luna','lapiz','limon'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["leon","luna","lapiz","limon","letra-l-roja","letra-l-verde","actividad-trazar-l","actividad-atrapar-l"].map(asset=>`assets/${asset}.webp`),...['letra-k','koala','kiwi','kiosco','kayak'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["koala","kiwi","kiosco","kayak","letra-k-roja","letra-k-verde","actividad-trazar-k","actividad-atrapar-k"].map(asset=>`assets/${asset}.webp`),...['letra-j','jirafa','jabon','jugo','jaula'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['jirafa','jabon','jugo','jaula','letra-j-roja','letra-j-verde','actividad-trazar-j','actividad-atrapar-j'].map(asset=>`assets/${asset}.webp`),...['letra-i','iguana','iglu','isla','iman'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['iguana','iglu','isla','iman','letra-i-roja','letra-i-verde','actividad-trazar-i','actividad-atrapar-i'].map(asset=>`assets/${asset}.webp`),...['helado','hilo','huevo','hoja'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['helado','hoja','huevo','hilo','letra-h-roja','letra-h-verde','actividad-trazar-h','actividad-atrapar-h'].map(asset=>`assets/${asset}.webp`),...['letra-g','gato','gota','gallina','gorila'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['gato','gorila','gallina','gota','letra-g-roja','letra-g-verde','actividad-trazar-g','actividad-atrapar-g'].map(asset=>`assets/${asset}.webp`),...['letra-f','flor','fuego','fantasma','frutilla'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['fuego','flor','frutilla','fantasma','letra-f-roja','letra-f-verde','actividad-trazar-f','actividad-atrapar-f'].map(asset=>`assets/${asset}.webp`),...['letra-e','elefante','estrella','escoba','espejo'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['elefante','estrella','escoba','espejo','letra-e-roja','letra-e-verde','actividad-trazar-e','actividad-atrapar-e'].map(asset=>`assets/${asset}.webp`),...['dado','delfin','diente','durazno','letra-d-roja','letra-d-verde','actividad-trazar-d','actividad-atrapar-d'].map(asset=>`assets/${asset}.webp`),...['letra-d','dado','delfin','diente','durazno'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['cama','conejo','corazon','letra-c-roja','letra-c-verde','actividad-trazar-c','actividad-atrapar-c'].map(asset=>`assets/${asset}.webp`),'index.html','app.js?v=70','letters.js?v=70','assets/actividad-trazar-b.webp','assets/actividad-atrapar-b.webp','assets/ballena.webp','assets/bicicleta.webp','assets/letra-b-roja.webp','assets/letra-b-verde.webp',...['abeja','avion','arbol','arana','letra-a','letra-b','barco','banana','ballena','bicicleta','letra-c','casa','cama','conejo','corazon'].map(word => `assets/audio/es-AR/${word}.mp3`)];
+        const cache = await caches.open('letrin-v0-72');
+        const required = ['soundtrack.js?v=72','audio.js?v=72','assets/audio/patterns-of-play.mp3',...['letra-z','zapato','zorro','zanahoria','zapallo'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['zapato','zorro','zanahoria','zapallo','letra-z-roja','letra-z-verde','actividad-trazar-z','actividad-atrapar-z'].map(asset=>`assets/${asset}.webp`),...['letra-y','yacare','yate','yoyo','yogur'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["yacare","yate","yoyo","yogur","letra-y-roja","letra-y-verde","actividad-trazar-y","actividad-atrapar-y"].map(asset=>`assets/${asset}.webp`),...['letra-x','xilofono','taxi','excavadora','saxofon'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["xilofono","taxi","excavadora","saxofon","letra-x-roja","letra-x-verde","actividad-trazar-x","actividad-atrapar-x"].map(asset=>`assets/${asset}.webp`),...['letra-w','waffle','wok','kiwi','sandwich'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["waffle","wok","sandwich","letra-w-roja","letra-w-verde","actividad-trazar-w","actividad-atrapar-w","kiwi"].map(asset=>`assets/${asset}.webp`),...['letra-v','vaca','vaso','vela','violin'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["vaca","vaso","vela","violin","letra-v-roja","letra-v-verde","actividad-trazar-v","actividad-atrapar-v"].map(asset=>`assets/${asset}.webp`),...['letra-u','uva','unicornio','uno','unia'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["uva","unicornio","uno","unia","letra-u-roja","letra-u-verde","actividad-trazar-u","actividad-atrapar-u"].map(asset=>`assets/${asset}.webp`),...['letra-t','tortuga','tren','tomate','tigre'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["tortuga","tren","tomate","tigre","letra-t-roja","letra-t-verde","actividad-trazar-t","actividad-atrapar-t"].map(asset=>`assets/${asset}.webp`),...['letra-s','sol','sapo','sandia','sombrero'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["sol","sapo","sandia","sombrero","letra-s-roja","letra-s-verde","actividad-trazar-s","actividad-atrapar-s"].map(asset=>`assets/${asset}.webp`),...['letra-r','rana','raton','reloj','rosa'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["rana","raton","reloj","rosa","letra-r-roja","letra-r-verde","actividad-trazar-r","actividad-atrapar-r"].map(asset=>`assets/${asset}.webp`),...['letra-q','queso','quena','mosquito','raqueta'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["queso","quena","mosquito","raqueta","letra-q-roja","letra-q-verde","actividad-trazar-q","actividad-atrapar-q"].map(asset=>`assets/${asset}.webp`),...['letra-p','pelota','pato','pez','pera'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["pelota","pato","pez","pera","letra-p-roja","letra-p-verde","actividad-trazar-p","actividad-atrapar-p"].map(asset=>`assets/${asset}.webp`),...['letra-o','oso','oveja','oruga','oreja'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["oso","oveja","oruga","oreja","letra-o-roja","letra-o-verde","actividad-trazar-o","actividad-atrapar-o"].map(asset=>`assets/${asset}.webp`),...['letra-enie','nandu','noquis','mono-lazo','pinata'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["nandu","noquis","mono-lazo","pinata","letra-enie-roja","letra-enie-verde","actividad-trazar-enie","actividad-atrapar-enie"].map(asset=>`assets/${asset}.webp`),...['letra-n','naranja','nube','nido','nutria'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["naranja","nube","nido","nutria","letra-n-roja","letra-n-verde","actividad-trazar-n","actividad-atrapar-n"].map(asset=>`assets/${asset}.webp`),...['letra-m','mariposa','manzana','mono','moto'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["mariposa","manzana","mono","moto","letra-m-roja","letra-m-verde","actividad-trazar-m","actividad-atrapar-m"].map(asset=>`assets/${asset}.webp`),...['letra-l','leon','luna','lapiz','limon'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["leon","luna","lapiz","limon","letra-l-roja","letra-l-verde","actividad-trazar-l","actividad-atrapar-l"].map(asset=>`assets/${asset}.webp`),...['letra-k','koala','kiwi','kiosco','kayak'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["koala","kiwi","kiosco","kayak","letra-k-roja","letra-k-verde","actividad-trazar-k","actividad-atrapar-k"].map(asset=>`assets/${asset}.webp`),...['letra-j','jirafa','jabon','jugo','jaula'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['jirafa','jabon','jugo','jaula','letra-j-roja','letra-j-verde','actividad-trazar-j','actividad-atrapar-j'].map(asset=>`assets/${asset}.webp`),...['letra-i','iguana','iglu','isla','iman'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['iguana','iglu','isla','iman','letra-i-roja','letra-i-verde','actividad-trazar-i','actividad-atrapar-i'].map(asset=>`assets/${asset}.webp`),...['helado','hilo','huevo','hoja'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['helado','hoja','huevo','hilo','letra-h-roja','letra-h-verde','actividad-trazar-h','actividad-atrapar-h'].map(asset=>`assets/${asset}.webp`),...['letra-g','gato','gota','gallina','gorila'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['gato','gorila','gallina','gota','letra-g-roja','letra-g-verde','actividad-trazar-g','actividad-atrapar-g'].map(asset=>`assets/${asset}.webp`),...['letra-f','flor','fuego','fantasma','frutilla'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['fuego','flor','frutilla','fantasma','letra-f-roja','letra-f-verde','actividad-trazar-f','actividad-atrapar-f'].map(asset=>`assets/${asset}.webp`),...['letra-e','elefante','estrella','escoba','espejo'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['elefante','estrella','escoba','espejo','letra-e-roja','letra-e-verde','actividad-trazar-e','actividad-atrapar-e'].map(asset=>`assets/${asset}.webp`),...['dado','delfin','diente','durazno','letra-d-roja','letra-d-verde','actividad-trazar-d','actividad-atrapar-d'].map(asset=>`assets/${asset}.webp`),...['letra-d','dado','delfin','diente','durazno'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['cama','conejo','corazon','letra-c-roja','letra-c-verde','actividad-trazar-c','actividad-atrapar-c'].map(asset=>`assets/${asset}.webp`),'index.html','app.js?v=72','letters.js?v=72','assets/actividad-trazar-b.webp','assets/actividad-atrapar-b.webp','assets/ballena.webp','assets/bicicleta.webp','assets/letra-b-roja.webp','assets/letra-b-verde.webp',...['abeja','avion','arbol','arana','letra-a','letra-b','barco','banana','ballena','bicicleta','letra-c','casa','cama','conejo','corazon'].map(word => `assets/audio/es-AR/${word}.mp3`)];
+        required.push('language.js?v=72','letters-en.js?v=72','assets/en-ant.webp','assets/en-anchor.webp');
+        required.push(...['letter-a','apple','ant','airplane','anchor'].map(word=>`assets/audio/en-US/${word}.mp3`));
         const downloaded = await Promise.all(required.map(path => cache.match(path)));
         if (downloaded.every(Boolean)) qs('#offlineStatus').textContent = 'Juego descargado · Algunas voces pueden necesitar internet';
       };

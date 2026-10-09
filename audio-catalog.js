@@ -134,6 +134,13 @@ const LetrinAudioCatalog = {
     Zapallo: 'assets/audio/es-AR/zapallo.mp3',
     'Araña': 'assets/audio/es-AR/arana.mp3'
   }},
+  'en-US': {label:'English (United States)', clips:{
+    A:'assets/audio/en-US/letter-a.mp3',
+    Apple:'assets/audio/en-US/apple.mp3',
+    Ant:'assets/audio/en-US/ant.mp3',
+    Airplane:'assets/audio/en-US/airplane.mp3',
+    Anchor:'assets/audio/en-US/anchor.mp3'
+  }},
   'es-419': {label:'Español de Latinoamérica', clips:{}},
   'es-MX': {label:'Español de México', clips:{}},
   'es-ES': {label:'Español de España', clips:{}}
