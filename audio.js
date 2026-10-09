@@ -84,7 +84,7 @@ const LetrinAudio = (() => {
   }
   function status(){
     const selected = voice();
-    if (LetrinLanguage.current()==='en') return `English A includes five recordings, available offline after download.${selected?` Other text uses ${selected.name} (${selected.lang}); this voice may need internet.`:' No English device voice is available for other text.'}`;
+    if (LetrinLanguage.current()==='en') return `English A and B include ten recordings, available offline after download.${selected?` Other text uses ${selected.name} (${selected.lang}); this voice may need internet.`:' No English device voice is available for other text.'}`;
     const pack = LetrinAudioCatalog[locale()];
     const label = pack.label;
     const recordings = Object.keys(pack.clips).length;

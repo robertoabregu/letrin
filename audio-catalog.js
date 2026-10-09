@@ -139,7 +139,12 @@ const LetrinAudioCatalog = {
     Apple:'assets/audio/en-US/apple.mp3',
     Ant:'assets/audio/en-US/ant.mp3',
     Airplane:'assets/audio/en-US/airplane.mp3',
-    Anchor:'assets/audio/en-US/anchor.mp3'
+    Anchor:'assets/audio/en-US/anchor.mp3',
+    B:'assets/audio/en-US/letter-b.mp3',
+    Ball:'assets/audio/en-US/ball.mp3',
+    Bear:'assets/audio/en-US/bear.mp3',
+    Boat:'assets/audio/en-US/boat.mp3',
+    Banana:'assets/audio/en-US/banana.mp3'
   }},
   'es-419': {label:'Español de Latinoamérica', clips:{}},
   'es-MX': {label:'Español de México', clips:{}},
