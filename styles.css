@@ -625,7 +625,9 @@ html:has(dialog[open]){overflow:hidden}
 .extra-modal.bubbles-modal .bubble-board{flex:1;height:auto;min-height:260px;margin:0}
 .extra-modal.builder-modal :is(.slots,.bank){margin:0;flex-wrap:wrap;justify-content:center;gap:5px}
 .extra-modal.builder-modal :is(.slot,.tile){width:clamp(30px,6vw,55px);height:50px;font-size:24px}
-.extra-modal.builder-modal .builder-picture{margin:0;min-height:150px;flex:1}
+.extra-modal.builder-modal .builder-picture{margin:0;min-height:220px;flex:none;justify-content:center}
+.extra-modal.builder-modal .builder-picture>*{flex-shrink:0}
+.extra-modal.builder-modal :is(.slot,.tile){min-height:50px;max-height:50px;flex:none}
 .extra-modal .bubble-hint{background:#fff8dfef;border-radius:14px;padding:5px;margin:0}
 @media(max-width:600px){
  .extra-modal #modalContent{--game-inset:18px}
