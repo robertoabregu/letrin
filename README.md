@@ -135,6 +135,15 @@ Imágenes creadas con la herramienta integrada, fondo transparente, guardadas en
 
 Prompts: naranja entera redonda con hoja verde; nube blanca sonriente con sombras celestes; nido de ramitas con tres huevos celestes; nutria marrón sentada con bigotes y cola larga afinada. Ilustración infantil 3D suave, objeto centrado aislado. Nn roja inflada siguiendo Aa, N de dos verticales y una diagonal, n minúscula de un arco; variante verde conservando formas. Ícono de trazado N azul con guía blanca y lápiz amarillo; globo rojo con N blanca e hilo dorado siguiendo los originales.
 
+## Letra Ñ
+
+Ñandú, Ñoquis, Moño y Piñata. Solo esta letra usa «Palabras con Ñ» y «¿Cuál tiene Ñ?», pues puede aparecer al principio o dentro de la palabra. Cinco actividades y tres juegos extra, progreso independiente y navegación N/Ñ. Trazado de cuatro pasos, incluida la virgulilla curva separada; no se completa sin trazarla. Ññ roja/verde e íconos Ñ en tarjetas y actividades, globos y burbujas distinguibles de N. Dibujos incluidos sin conexión. Incluye las cinco grabaciones argentinas suministradas por el usuario, disponibles sin conexión después de la descarga inicial. `leter-nn-fonetic.wav` corresponde a Ñ, `monno.wav` a Moño y `pinnata.wav` a Piñata; el audio de Moño se guarda como `mono-lazo.mp3`, separado del Mono de la M.
+
+Imágenes creadas con la herramienta integrada, fondo transparente, guardadas en `assets/`: `nandu.webp`, `noquis.webp`, `mono-lazo.webp` (moño, para no sobrescribir el mono de M), `pinata.webp`, `letra-enie-roja.webp`, `letra-enie-verde.webp`, `actividad-trazar-enie.webp`, `actividad-atrapar-enie.webp`.
+
+Prompts: ñandú gris de cuerpo entero con cuello y patas largos; plato de ñoquis acanalados con salsa roja y queso; moño rosa de dos lazos y dos cintas; piñata estrella de papel multicolor con flecos. Ilustración infantil 3D suave centrada y aislada. Ññ roja inflada siguiendo Nn, virgulilla separada sobre ambas letras; variante verde conservando formas. Ícono Ñ azul con guías blancas incluyendo virgulilla y lápiz amarillo; globo rojo con Ñ blanca e hilo dorado, siguiendo los originales.
+
+
 
 
 

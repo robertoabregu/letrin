@@ -12,6 +12,8 @@ const letterData = () => LetrinLetters[currentLetter];
 const letterArt = (complete=false) => `assets/letra-${letterData().art}-${complete?'verde':'roja'}.webp`;
 const activityArt = activity => `assets/${letterData().activityArt[activity]}.webp`;
 const wordArt = word => `<img src="assets/${word.asset}.webp" alt="">`;
+const wordHeading = () => letterData().wordMatch==='contains'?`Palabras con ${currentLetter}`:`Empieza con la letra ${currentLetter}`;
+const wordQuestion = () => letterData().wordMatch==='contains'?`¿Cuál tiene ${currentLetter}?`:`¿Cuál empieza con ${currentLetter}?`;
 const activityIds = ['know','trace','paint','starts','catch'];
 try {
   const saved = JSON.parse(localStorage.getItem('letrin_progress_v03') || '{}');
@@ -78,10 +80,10 @@ function renderLetter(){
   section.querySelector('.letter-red').src=letterArt();
   section.querySelector('.letter-green').src=letterArt(true);
   const know=section.querySelector('[data-activity="know"]');
-  know.querySelector('b').textContent=`Empieza con '${currentLetter}'`;
-  know.setAttribute('aria-label',`Empieza con la letra ${currentLetter}`);
+  know.querySelector('b').textContent=letterData().wordMatch==='contains'?wordHeading():`Empieza con '${currentLetter}'`;
+  know.setAttribute('aria-label',wordHeading());
   know.querySelector('img').src=`assets/${letterData().words[0].asset}.webp`;
-  section.querySelector('[data-activity="starts"] b').textContent=`¿Cuál empieza con ${currentLetter}?`;
+  section.querySelector('[data-activity="starts"] b').textContent=wordQuestion();
   section.querySelector('[data-activity="catch"] em').textContent=`Tocá solo las ${currentLetter}`;
   ['trace','catch','paint'].forEach(activity=>section.querySelector(`[data-activity="${activity}"] .activity-art`).src=activityArt(activity));
   section.querySelector('[data-premium="bubbles"] em').textContent=`Explotá solo las ${currentLetter}`;
@@ -289,7 +291,7 @@ qs('#closeModal').onclick = () => modal.close();
 function showInfo(letter){
   openModal(`
     <h2 class="modal-title">Letra ${letter}</h2>
-    <p class="helper">La ${letter} llegará gratis en una próxima actualización. Mientras tanto, ¡podés jugar con la A, la B, la C, la D, la E, la F, la G, la H, la I, la J, la K, la L, la M y la N!</p>
+    <p class="helper">La ${letter} llegará gratis en una próxima actualización. Mientras tanto, ¡podés jugar con la A, la B, la C, la D, la E, la F, la G, la H, la I, la J, la K, la L, la M, la N y la Ñ!</p>
   `);
 }
 
@@ -297,7 +299,7 @@ const actions = {
   know(){ 
     openModal(`
       <header class="activity-header"><img class="word-heading-art" src="assets/${letterData().words[0].asset}.webp" alt="">
-      <h2 class="modal-title">Empieza con la letra ${currentLetter}</h2>
+      <h2 class="modal-title">${wordHeading()}</h2>
       <p class="helper word-instruction">${currentLetter==='H'?'La H es muda. Tocá las imágenes para escucharlas.':'Tocá cada imagen para escuchar cómo se pronuncia.'}</p></header>
       <div class="word-list" id="wordChoices"></div>
       <div class="word-footer"><button id="continueWords" class="btn secondary">Continuar</button></div>
@@ -348,8 +350,8 @@ const actions = {
       }
       openModal(`
         <header class="activity-header"><img class="word-heading-art" src="assets/actividad-elegir.webp" alt="">
-        <h2 class="modal-title">¿Cuál empieza con ${currentLetter}?</h2>
-        <p class="helper activity-instruction">Elegí la imagen que empieza con ${currentLetter}.</p></header>
+        <h2 class="modal-title">${wordQuestion()}</h2>
+        <p class="helper activity-instruction">${letterData().wordMatch==='contains'?`Elegí la palabra que tiene ${currentLetter}.`:`Elegí la imagen que empieza con ${currentLetter}.`}</p></header>
         <div class="status-line"><span>Pregunta ${round+1} de 3</span><span class="paw-score"><span class="sr-only">Patitas doradas:</span>${pawIcon(true)} ${score}</span></div>
         <div class="choice-grid" id="choices"></div>
       `);
@@ -691,8 +693,8 @@ if('serviceWorker' in navigator){
     try {
       const registration = await navigator.serviceWorker.register('sw.js', {updateViaCache:'none'});
       const updateStatus = async () => {
-        const cache = await caches.open('letrin-v0-55');
-        const required = [...['letra-n','naranja','nube','nido','nutria'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["naranja","nube","nido","nutria","letra-n-roja","letra-n-verde","actividad-trazar-n","actividad-atrapar-n"].map(asset=>`assets/${asset}.webp`),...['letra-m','mariposa','manzana','mono','moto'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["mariposa","manzana","mono","moto","letra-m-roja","letra-m-verde","actividad-trazar-m","actividad-atrapar-m"].map(asset=>`assets/${asset}.webp`),...['letra-l','leon','luna','lapiz','limon'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["leon","luna","lapiz","limon","letra-l-roja","letra-l-verde","actividad-trazar-l","actividad-atrapar-l"].map(asset=>`assets/${asset}.webp`),...['letra-k','koala','kiwi','kiosco','kayak'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["koala","kiwi","kiosco","kayak","letra-k-roja","letra-k-verde","actividad-trazar-k","actividad-atrapar-k"].map(asset=>`assets/${asset}.webp`),...['letra-j','jirafa','jabon','jugo','jaula'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['jirafa','jabon','jugo','jaula','letra-j-roja','letra-j-verde','actividad-trazar-j','actividad-atrapar-j'].map(asset=>`assets/${asset}.webp`),...['letra-i','iguana','iglu','isla','iman'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['iguana','iglu','isla','iman','letra-i-roja','letra-i-verde','actividad-trazar-i','actividad-atrapar-i'].map(asset=>`assets/${asset}.webp`),...['helado','hilo','huevo','hoja'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['helado','hoja','huevo','hilo','letra-h-roja','letra-h-verde','actividad-trazar-h','actividad-atrapar-h'].map(asset=>`assets/${asset}.webp`),...['letra-g','gato','gota','gallina','gorila'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['gato','gorila','gallina','gota','letra-g-roja','letra-g-verde','actividad-trazar-g','actividad-atrapar-g'].map(asset=>`assets/${asset}.webp`),...['letra-f','flor','fuego','fantasma','frutilla'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['fuego','flor','frutilla','fantasma','letra-f-roja','letra-f-verde','actividad-trazar-f','actividad-atrapar-f'].map(asset=>`assets/${asset}.webp`),...['letra-e','elefante','estrella','escoba','espejo'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['elefante','estrella','escoba','espejo','letra-e-roja','letra-e-verde','actividad-trazar-e','actividad-atrapar-e'].map(asset=>`assets/${asset}.webp`),...['dado','delfin','diente','durazno','letra-d-roja','letra-d-verde','actividad-trazar-d','actividad-atrapar-d'].map(asset=>`assets/${asset}.webp`),...['letra-d','dado','delfin','diente','durazno'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['cama','conejo','corazon','letra-c-roja','letra-c-verde','actividad-trazar-c','actividad-atrapar-c'].map(asset=>`assets/${asset}.webp`),'index.html','app.js?v=55','letters.js?v=55','assets/actividad-trazar-b.webp','assets/actividad-atrapar-b.webp','assets/ballena.webp','assets/bicicleta.webp','assets/letra-b-roja.webp','assets/letra-b-verde.webp',...['abeja','avion','arbol','arana','letra-a','letra-b','barco','banana','ballena','bicicleta','letra-c','casa','cama','conejo','corazon'].map(word => `assets/audio/es-AR/${word}.mp3`)];
+        const cache = await caches.open('letrin-v0-56');
+        const required = [...['letra-enie','nandu','noquis','mono-lazo','pinata'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["nandu","noquis","mono-lazo","pinata","letra-enie-roja","letra-enie-verde","actividad-trazar-enie","actividad-atrapar-enie"].map(asset=>`assets/${asset}.webp`),...['letra-n','naranja','nube','nido','nutria'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["naranja","nube","nido","nutria","letra-n-roja","letra-n-verde","actividad-trazar-n","actividad-atrapar-n"].map(asset=>`assets/${asset}.webp`),...['letra-m','mariposa','manzana','mono','moto'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["mariposa","manzana","mono","moto","letra-m-roja","letra-m-verde","actividad-trazar-m","actividad-atrapar-m"].map(asset=>`assets/${asset}.webp`),...['letra-l','leon','luna','lapiz','limon'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["leon","luna","lapiz","limon","letra-l-roja","letra-l-verde","actividad-trazar-l","actividad-atrapar-l"].map(asset=>`assets/${asset}.webp`),...['letra-k','koala','kiwi','kiosco','kayak'].map(word=>`assets/audio/es-AR/${word}.mp3`),...["koala","kiwi","kiosco","kayak","letra-k-roja","letra-k-verde","actividad-trazar-k","actividad-atrapar-k"].map(asset=>`assets/${asset}.webp`),...['letra-j','jirafa','jabon','jugo','jaula'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['jirafa','jabon','jugo','jaula','letra-j-roja','letra-j-verde','actividad-trazar-j','actividad-atrapar-j'].map(asset=>`assets/${asset}.webp`),...['letra-i','iguana','iglu','isla','iman'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['iguana','iglu','isla','iman','letra-i-roja','letra-i-verde','actividad-trazar-i','actividad-atrapar-i'].map(asset=>`assets/${asset}.webp`),...['helado','hilo','huevo','hoja'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['helado','hoja','huevo','hilo','letra-h-roja','letra-h-verde','actividad-trazar-h','actividad-atrapar-h'].map(asset=>`assets/${asset}.webp`),...['letra-g','gato','gota','gallina','gorila'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['gato','gorila','gallina','gota','letra-g-roja','letra-g-verde','actividad-trazar-g','actividad-atrapar-g'].map(asset=>`assets/${asset}.webp`),...['letra-f','flor','fuego','fantasma','frutilla'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['fuego','flor','frutilla','fantasma','letra-f-roja','letra-f-verde','actividad-trazar-f','actividad-atrapar-f'].map(asset=>`assets/${asset}.webp`),...['letra-e','elefante','estrella','escoba','espejo'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['elefante','estrella','escoba','espejo','letra-e-roja','letra-e-verde','actividad-trazar-e','actividad-atrapar-e'].map(asset=>`assets/${asset}.webp`),...['dado','delfin','diente','durazno','letra-d-roja','letra-d-verde','actividad-trazar-d','actividad-atrapar-d'].map(asset=>`assets/${asset}.webp`),...['letra-d','dado','delfin','diente','durazno'].map(word=>`assets/audio/es-AR/${word}.mp3`),...['cama','conejo','corazon','letra-c-roja','letra-c-verde','actividad-trazar-c','actividad-atrapar-c'].map(asset=>`assets/${asset}.webp`),'index.html','app.js?v=56','letters.js?v=56','assets/actividad-trazar-b.webp','assets/actividad-atrapar-b.webp','assets/ballena.webp','assets/bicicleta.webp','assets/letra-b-roja.webp','assets/letra-b-verde.webp',...['abeja','avion','arbol','arana','letra-a','letra-b','barco','banana','ballena','bicicleta','letra-c','casa','cama','conejo','corazon'].map(word => `assets/audio/es-AR/${word}.mp3`)];
         const downloaded = await Promise.all(required.map(path => cache.match(path)));
         if (downloaded.every(Boolean)) qs('#offlineStatus').textContent = 'Juego descargado · Algunas voces pueden necesitar internet';
       };

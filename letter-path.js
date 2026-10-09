@@ -50,6 +50,8 @@
   pathsByLetter.L=[[{x:145,y:80},{x:145,y:345}],[{x:145,y:345},{x:280,y:345}]];
   pathsByLetter.M=[[{x:100,y:80},{x:100,y:345}],[{x:100,y:80},{x:210,y:235}],[{x:210,y:235},{x:320,y:80}],[{x:320,y:80},{x:320,y:345}]];
   pathsByLetter.N=[[{x:125,y:80},{x:125,y:345}],[{x:125,y:80},{x:295,y:345}],[{x:295,y:80},{x:295,y:345}]];
+  const tildeEnie=Array.from({length:33},(_,index)=>({x:160+100*index/32,y:55-12*Math.sin(2*Math.PI*index/32)}));
+  pathsByLetter.Ñ=[[{x:125,y:115},{x:125,y:345}],[{x:125,y:115},{x:295,y:345}],[{x:295,y:115},{x:295,y:345}],tildeEnie];
   function forLetter(letter){
     const paths=pathsByLetter[letter];
     if(!paths)throw new Error(`No hay trazado para ${letter}`);
