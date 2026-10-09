@@ -606,12 +606,13 @@ html:has(dialog[open]){overflow:hidden}
 .extra-modal .activity-header{width:100%;box-sizing:border-box}
 .extra-modal #modalContent>*{min-width:0;max-width:100%;box-sizing:border-box;flex-shrink:0}
 .extra-modal :is(.train-scene,.puzzle-workspace,.detective-scene){flex:1;min-height:190px}
-.extra-modal .train-scene{align-items:center;padding-bottom:44px;max-height:360px}
+.extra-modal .train-scene{align-items:flex-end;padding-bottom:70px;max-height:360px}
 .train-scene::before{left:0;right:0}
-.extra-modal .train-engine{align-self:flex-end}
+.extra-modal .train-engine{align-self:flex-end;margin-bottom:-36px}
+.extra-modal .train-wagon{margin-bottom:0}
 .extra-modal .puzzle-workspace{justify-content:center;container-type:size}
 .extra-modal .puzzle-board{flex:none;width:min(420px,100cqw,100cqh);height:min(420px,100cqw,100cqh);min-height:0;aspect-ratio:1}
-.puzzle-peek{position:absolute;left:0;top:35%;width:22%;height:11%;overflow:hidden;pointer-events:none;z-index:3}
+.puzzle-peek{position:absolute;left:0;bottom:0;width:22%;height:11%;overflow:hidden;pointer-events:none;z-index:3}
 .puzzle-peek img{width:100%;height:auto;display:block}
 .extra-modal .detective-scene{container-type:size;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);align-items:center;justify-items:center;gap:12px;max-height:340px}
 .extra-modal .detective-scene>img{width:100%;height:100%;max-height:100cqh;align-self:center}
@@ -625,14 +626,15 @@ html:has(dialog[open]){overflow:hidden}
 .extra-modal.bubbles-modal .bubble-board{flex:1;height:auto;min-height:260px;margin:0}
 .extra-modal.builder-modal :is(.slots,.bank){margin:0;flex-wrap:wrap;justify-content:center;gap:5px}
 .extra-modal.builder-modal :is(.slot,.tile){width:clamp(30px,6vw,55px);height:50px;font-size:24px}
-.extra-modal.builder-modal .builder-picture{margin:0;min-height:220px;flex:none;justify-content:center}
+.extra-modal.builder-modal .builder-picture{margin:0;min-height:220px;flex:1;justify-content:center}
+.extra-modal.builder-modal .builder-picture>img{flex:1;min-height:90px;height:0;max-height:260px;width:clamp(140px,25vw,240px)}
 .extra-modal.builder-modal .builder-picture>*{flex-shrink:0}
 .extra-modal.builder-modal :is(.slot,.tile){min-height:50px;max-height:50px;flex:none}
 .extra-modal .bubble-hint{background:#fff8dfef;border-radius:14px;padding:5px;margin:0}
 @media(max-width:600px){
  .extra-modal #modalContent{--game-inset:18px}
  .extra-modal :is(.train-scene,.puzzle-workspace,.detective-scene){min-height:210px}
- .extra-modal .train-scene{overflow-x:auto;align-items:center;max-height:300px}
+ .extra-modal .train-scene{overflow-x:auto;align-items:flex-end;max-height:300px}
  .extra-modal .train-engine{width:65px}
  .extra-modal .train-wagons{min-width:calc(100% - 71px);grid-auto-columns:minmax(85px,1fr)}
  .extra-modal .train-picture img{height:80px}
