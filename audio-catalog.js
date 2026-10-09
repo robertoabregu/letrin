@@ -149,7 +149,12 @@ const LetrinAudioCatalog = {
     Cat:'assets/audio/en-US/cat.mp3',
     Car:'assets/audio/en-US/car.mp3',
     Cow:'assets/audio/en-US/cow.mp3',
-    Cake:'assets/audio/en-US/cake.mp3'
+    Cake:'assets/audio/en-US/cake.mp3',
+    D:'assets/audio/en-US/letter-d.mp3',
+    Dog:'assets/audio/en-US/dog.mp3',
+    Duck:'assets/audio/en-US/duck.mp3',
+    Dolphin:'assets/audio/en-US/dolphin.mp3',
+    Door:'assets/audio/en-US/door.mp3'
   }},
   'es-419': {label:'Español de Latinoamérica', clips:{}},
   'es-MX': {label:'Español de México', clips:{}},

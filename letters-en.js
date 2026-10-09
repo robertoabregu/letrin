@@ -13,5 +13,10 @@ const LetrinEnglishLetters = {
     ...LetrinLetters.C,
     words:[{name:'Cat',asset:'gato'},{name:'Car',asset:'en-car'},{name:'Cow',asset:'vaca'},{name:'Cake',asset:'en-cake'}],
     distractors:[{name:'Apple',asset:'manzana'},{name:'Ant',asset:'en-ant'},{name:'Airplane',asset:'avion'},{name:'Ball',asset:'pelota'},{name:'Bear',asset:'oso'},{name:'Boat',asset:'barco'},{name:'Banana',asset:'banana'},{name:'Sun',asset:'sol'},{name:'Moon',asset:'luna'}]
+  },
+  D: {
+    ...LetrinLetters.D,
+    words:[{name:'Dog',asset:'milo'},{name:'Duck',asset:'pato'},{name:'Dolphin',asset:'delfin'},{name:'Door',asset:'en-door'}],
+    distractors:[{name:'Cat',asset:'gato'},{name:'Car',asset:'en-car'},{name:'Cow',asset:'vaca'},{name:'Cake',asset:'en-cake'},{name:'Apple',asset:'manzana'},{name:'Ball',asset:'pelota'},{name:'Bear',asset:'oso'},{name:'Sun',asset:'sol'},{name:'Moon',asset:'luna'}]
   }
 };
