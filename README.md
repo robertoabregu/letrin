@@ -199,6 +199,15 @@ Generados con la herramienta integrada de imágenes, fondo transparente. Prompts
 
 Audios incorporados: tortuga.wav, tren.wav, tomate.wav, tigre.wav y leter-t-fonetic.wav (letra-t.mp3).
 
+## Letra U — v63
+
+Uva, Unicornio, Uno y Uña. Cinco actividades y tres juegos adicionales, progreso independiente y navegación T/U. Trazado de un recorrido continuo: baja por la izquierda, curva inferior y sube por la derecha. Uu roja/verde e íconos propios en tarjetas y actividades. Recursos incluidos sin conexión. Incluye los cuatro audios y la fonética de U suministrados por el usuario, disponibles sin conexión. unna.wav corresponde a Uña y se guarda como unia.mp3; leter-u-fonetic.wav se guarda como letra-u.mp3.
+
+Recursos: assets/uva.webp, assets/unicornio.webp, assets/uno.webp, assets/unia.webp, assets/letra-u-roja.webp, assets/letra-u-verde.webp, assets/actividad-trazar-u.webp, assets/actividad-atrapar-u.webp.
+
+Herramienta integrada de imágenes, fondo transparente. Prompts: racimo de uvas moradas sonriente con hoja verde; unicornio blanco bebé con crin arcoíris y cuerno dorado; numeral 1 amarillo sonriente para Uno; dedo redondeado con uña natural rosa claramente visible, sin esmalte ni herramientas. Estilo 3D infantil de juguete, luz suave, centrado. Uu infladas rojas con extremos redondeados, variante verde preservando composición; U azul con guía blanca punteada y lápiz amarillo; globo rojo con U blanca y cinta dorada. Referencias visuales de los recursos T de la app.
+
+
 
 
 
