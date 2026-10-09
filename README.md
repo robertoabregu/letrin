@@ -223,6 +223,15 @@ Recursos: assets/waffle.webp, assets/wok.webp, assets/sandwich.webp, assets/letr
 
 Herramienta integrada de imágenes, fondo transparente. Prompts: waffle cuadrado dorado con rejilla, manteca y sonrisa; wok negro profundo con mango de madera, verduras y cara sonriente; sándwich triangular con pan, lechuga, tomate y queso. Estilo infantil 3D de juguete, luz suave, objeto completo centrado. Ww roja inflada de cuatro diagonales y dos vértices inferiores, variante verde preservando formas; W azul con guía blanca punteada y lápiz amarillo; globo rojo con W blanca y cinta dorada. Referencias visuales: recursos V de la app.
 
+## Letra X — v66
+
+Xilófono, Taxi, Excavadora y Saxofón. Consignas «Palabras con X» y «¿Cuál tiene X?» porque puede aparecer al principio o dentro de la palabra. Cinco actividades y tres juegos adicionales, progreso independiente y navegación W/X. Trazado de dos diagonales cruzadas, de arriba hacia abajo. Xx roja/verde e íconos propios en tarjetas y actividades. Recursos incluidos sin conexión. Incluye las cinco grabaciones del usuario, optimizadas a MP3 mono 24 kHz / 96 kbps y disponibles sin conexión después de descargar el contenido. leter-x-fonetic.wav se guarda como letra-x.mp3.
+
+Recursos: assets/xilofono.webp, assets/taxi.webp, assets/excavadora.webp, assets/saxofon.webp, assets/letra-x-roja.webp, assets/letra-x-verde.webp, assets/actividad-trazar-x.webp, assets/actividad-atrapar-x.webp.
+
+Herramienta integrada de imágenes, fondo transparente. Prompts: xilófono de juguete con barras arcoíris y dos baquetas; taxi amarillo sonriente con cartel y franja de cuadros; excavadora amarilla simpática con orugas, brazo articulado y pala visibles; saxofón dorado con llaves, boquilla negra y campana. Estilo infantil 3D de juguete, luz suave, objeto completo centrado. Xx rojas infladas, dos diagonales cruzadas con extremos redondeados, variante verde preservando composición; X azul con guía blanca punteada y lápiz amarillo; globo rojo con X blanca y cinta dorada. Referencias visuales de los recursos W de la app.
+
+
 
 
 
