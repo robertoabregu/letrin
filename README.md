@@ -111,6 +111,15 @@ Prompts: koala gris simpático sentado de cuerpo entero; kiwi entero marrón jun
 
 Incluye las cinco grabaciones argentinas del usuario, disponibles sin conexión después de la descarga inicial. El archivo original `kiosko.wav` se integra como `kiosco.mp3`, manteniendo la escritura Kiosco en la app.
 
+## Letra L
+
+León, Luna, Lápiz y Limón: cinco actividades y tres juegos extra, progreso independiente y navegación K/L. Trazado de dos pasos: vertical hacia abajo y base corta hacia la derecha. Ll roja y verde e íconos L en tarjetas y actividades. Dibujos incluidos en la descarga sin conexión. Incluye las cinco grabaciones argentinas suministradas por el usuario, disponibles sin conexión después de la descarga inicial.
+
+Imágenes creadas con la herramienta integrada, fondo transparente, guardadas en `assets/`: `leon.webp`, `lapiz.webp`, `limon.webp`, `letra-l-roja.webp`, `letra-l-verde.webp`, `actividad-trazar-l.webp`, `actividad-atrapar-l.webp`. Se reutiliza `luna.webp` sin modificarla.
+
+Prompts: león sonriente sentado con melena naranja y pelaje dorado; lápiz escolar amarillo con punta de grafito y goma rosa en diagonal; limón amarillo entero con hoja verde. Ilustración infantil 3D suave, centrada y aislada. Ll roja inflada siguiendo Aa, L de base corta y l minúscula vertical sin punto; variante verde manteniendo formas. Trazado: L azul con guía blanca discontinua y lápiz amarillo; globo rojo con L blanca e hilo dorado, siguiendo los originales.
+
+
 
 
 
