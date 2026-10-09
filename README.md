@@ -237,6 +237,14 @@ Yacaré, Yate, Yoyó y Yogur. Cinco actividades y tres juegos adicionales, progr
 
 Recursos: assets/yacare.webp, assets/yate.webp, assets/yoyo.webp, assets/yogur.webp, assets/letra-y-roja.webp, assets/letra-y-verde.webp, assets/actividad-trazar-y.webp, assets/actividad-atrapar-y.webp.
 
+## Letra Z — preparación v68
+
+Zapato, Zorro, Zanahoria y Zapallo; todas empiezan con Z. Actividades principales y juegos extra usan la Z, con trazado en tres recorridos completos y progreso independiente. La navegación termina en Z y los mensajes indican abecedario completo.
+
+Recursos: assets/zapato.webp, assets/zorro.webp, assets/zanahoria.webp, assets/zapallo.webp, assets/letra-z-roja.webp, assets/letra-z-verde.webp, assets/actividad-trazar-z.webp, assets/actividad-atrapar-z.webp y símbolo bubbles-z en assets/ui-icons.svg. Ilustraciones generadas con herramienta integrada, fondo transparente, estilo infantil 3D; prompts y grabaciones pendientes documentados en ../letter-z-status.md.
+
+Integradas las cinco grabaciones propias de Z, Zapato, Zorro, Zanahoria y Zapallo; disponibles en el catálogo y la descarga sin conexión. Comprobación: node ../check-z.cjs desde la carpeta de la app. Revisión local de las cinco actividades y tres juegos extra, ilustraciones cargadas y trazado completo requerido.
+
 Herramienta integrada de imágenes, fondo transparente. Prompts: yacaré verde amigable de cuerpo entero; yate blanco y azul con cabina y cara sonriente; yoyó rojo y azul con cuerda; yogur rosado con tapa abierta y cuchara. Estilo infantil 3D de juguete, luz suave, objeto completo centrado. Yy rojas infladas con brazos diagonales y tallo/cola, variante verde preservando composición; Y azul con guía blanca punteada y lápiz amarillo; globo rojo con Y blanca y cinta dorada. Referencias visuales de los recursos X de la app.
 
 

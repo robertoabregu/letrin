@@ -73,6 +73,7 @@
   pathsByLetter.W=[[{x:85,y:80},{x:145,y:345}],[{x:145,y:345},{x:210,y:145}],[{x:210,y:145},{x:275,y:345}],[{x:275,y:345},{x:335,y:80}]];
   pathsByLetter.X=[[{x:115,y:80},{x:305,y:345}],[{x:305,y:80},{x:115,y:345}]];
   pathsByLetter.Y=[[{x:210,y:345},{x:210,y:210}],[{x:110,y:80},{x:210,y:210}],[{x:310,y:80},{x:210,y:210}]];
+  pathsByLetter.Z=[[{x:115,y:80},{x:305,y:80}],[{x:305,y:80},{x:115,y:345}],[{x:115,y:345},{x:305,y:345}]];
   function forLetter(letter){
     const paths=pathsByLetter[letter];
     if(!paths)throw new Error(`No hay trazado para ${letter}`);

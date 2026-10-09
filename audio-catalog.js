@@ -127,6 +127,11 @@ const LetrinAudioCatalog = {
     Yate: 'assets/audio/es-AR/yate.mp3',
     'Yoyó': 'assets/audio/es-AR/yoyo.mp3',
     Yogur: 'assets/audio/es-AR/yogur.mp3',
+    Z: 'assets/audio/es-AR/letra-z.mp3',
+    Zapato: 'assets/audio/es-AR/zapato.mp3',
+    Zorro: 'assets/audio/es-AR/zorro.mp3',
+    Zanahoria: 'assets/audio/es-AR/zanahoria.mp3',
+    Zapallo: 'assets/audio/es-AR/zapallo.mp3',
     'Araña': 'assets/audio/es-AR/arana.mp3'
   }},
   'es-419': {label:'Español de Latinoamérica', clips:{}},

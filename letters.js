@@ -180,5 +180,12 @@ const LetrinLetters = {
     words:[{name:'Yacaré',asset:'yacare'},{name:'Yate',asset:'yate'},{name:'Yoyó',asset:'yoyo'},{name:'Yogur',asset:'yogur'}],
     distractors:[{name:'Sol',asset:'sol'},{name:'Gato',asset:'gato'},{name:'Casa',asset:'casa'},{name:'Oso',asset:'oso'},{name:'Luna',asset:'luna'},{name:'Árbol',asset:'arbol'},{name:'Barco',asset:'barco'},{name:'Banana',asset:'banana'},{name:'Avión',asset:'avion'}],
     pool:['Y','B','C','Y','M','N','Y','S','O','Y']
+  },
+  Z: {
+    lower:'z', art:'z',
+    activityArt:{trace:'actividad-trazar-z',catch:'actividad-atrapar-z',paint:'actividad-pintar'},
+    words:[{name:'Zapato',asset:'zapato'},{name:'Zorro',asset:'zorro'},{name:'Zanahoria',asset:'zanahoria'},{name:'Zapallo',asset:'zapallo'}],
+    distractors:[{name:'Sol',asset:'sol'},{name:'Gato',asset:'gato'},{name:'Casa',asset:'casa'},{name:'Oso',asset:'oso'},{name:'Luna',asset:'luna'},{name:'Árbol',asset:'arbol'},{name:'Barco',asset:'barco'},{name:'Banana',asset:'banana'},{name:'Avión',asset:'avion'}],
+    pool:['Z','B','C','Z','M','N','Z','S','O','Z']
   }
 };
