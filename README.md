@@ -127,6 +127,15 @@ Imágenes creadas con la herramienta integrada y fondo transparente, guardadas e
 
 Prompts: mariposa sonriente con alas abiertas simétricas violetas rosas azules y amarillas; mono marrón sentado con cola curvada; moto azul y roja de dos ruedas sin conductor ni marcas. Ilustración infantil 3D suave, objeto centrado aislado. Mm roja inflada siguiendo Aa, M de dos verticales y V interior, m minúscula de dos arcos; variante verde conservando formas. Ícono de trazado M azul con guía blanca y lápiz amarillo; globo rojo con M blanca e hilo dorado, siguiendo los originales.
 
+## Letra N
+
+Naranja, Nube, Nido y Nutria: cinco actividades y tres juegos extra, progreso independiente y navegación M/N. Trazado de tres pasos: vertical izquierda, diagonal hacia abajo a la derecha y vertical derecha. Nn roja y verde e íconos N en tarjetas y actividades. Dibujos incluidos en la descarga sin conexión. Incluye las cinco grabaciones argentinas suministradas por el usuario, disponibles sin conexión después de la descarga inicial.
+
+Imágenes creadas con la herramienta integrada, fondo transparente, guardadas en `assets/`: `naranja.webp`, `nube.webp`, `nido.webp`, `nutria.webp`, `letra-n-roja.webp`, `letra-n-verde.webp`, `actividad-trazar-n.webp`, `actividad-atrapar-n.webp`.
+
+Prompts: naranja entera redonda con hoja verde; nube blanca sonriente con sombras celestes; nido de ramitas con tres huevos celestes; nutria marrón sentada con bigotes y cola larga afinada. Ilustración infantil 3D suave, objeto centrado aislado. Nn roja inflada siguiendo Aa, N de dos verticales y una diagonal, n minúscula de un arco; variante verde conservando formas. Ícono de trazado N azul con guía blanca y lápiz amarillo; globo rojo con N blanca e hilo dorado siguiendo los originales.
+
+
 
 
 
