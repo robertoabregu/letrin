@@ -60,7 +60,7 @@ const LetrinExtraGames = (()=>{
     const chosen=[];
     for(const word of words){if(!chosen.some(item=>item.letter===word.letter))chosen.push(word);if(chosen.length===level)break;}
     const count=chosen.length;
-    shell(text('Tren de las letras','Letter train'),text('Subí al tren la letra con la que empieza cada dibujo.','Match each picture with its first letter.'),`<div class="train-scene"><div class="train-engine" aria-hidden="true"><img src="assets/milo-peeking.webp" alt=""><span>🚂</span></div><div class="train-wagons">${chosen.map((word,index)=>`<div class="train-wagon"><button class="train-picture" data-word="${index}" aria-label="${text('Escuchar','Hear')} ${word.name}">${wordArt(word)}<span>🔊</span></button><button class="train-slot" data-target="${word.letter}" aria-label="${text('Vagón para','Wagon for')} ${word.name}">?</button></div>`).join('')}</div></div><div class="extra-bank">${shuffle(chosen).map(word=>`<button class="letter-tile" data-piece="${word.letter}" aria-pressed="false">${word.letter}</button>`).join('')}</div>`,()=>train(level));
+    shell(text('Tren de las letras','Letter train'),text('Subí al tren la letra con la que empieza cada dibujo.','Match each picture with its first letter.'),`<div class="train-scene"><div class="train-engine" aria-hidden="true"><img src="assets/milo-peeking.webp" alt=""><img class="engine-art" src="assets/tren.webp" alt=""></div><div class="train-wagons">${chosen.map((word,index)=>`<div class="train-wagon"><button class="train-picture" data-word="${index}" aria-label="${text('Escuchar','Hear')} ${word.name}">${wordArt(word)}<span>🔊</span></button><button class="train-slot" data-target="${word.letter}" aria-label="${text('Vagón para','Wagon for')} ${word.name}">?</button></div>`).join('')}</div></div><div class="extra-bank">${shuffle(chosen).map(word=>`<button class="letter-tile" data-piece="${word.letter}" aria-pressed="false">${word.letter}</button>`).join('')}</div>`,()=>train(level));
     const session=modalSession;let completed=0;
     qs('#extraLevel').value=String(level);qs('#extraLevel').onchange=event=>train(Number(event.target.value));
     const update=()=>qs('#extraProgress').textContent=`${completed} / ${count}`;update();
@@ -78,7 +78,7 @@ const LetrinExtraGames = (()=>{
     const session=modalSession;let completed=0;
     qs('#extraLevel').value=String(level);qs('#extraLevel').onchange=event=>puzzle(Number(event.target.value));
     qs('#extraProgress').textContent=`0 / ${count}`;
-    function draw(canvas,index,color){const context=canvas.getContext('2d');context.clearRect(0,0,420,420);context.strokeStyle=color;context.lineWidth=48;context.lineCap='round';pieces[index].forEach(points=>strokePath(context,points));}
+    function draw(canvas,index,color){const context=canvas.getContext('2d');context.clearRect(0,0,420,420);const gradient=context.createLinearGradient(0,0,300,420);gradient.addColorStop(0,color==='#36c52c'?'#96ed39':color);gradient.addColorStop(1,color);context.strokeStyle=gradient;context.lineWidth=48;context.lineCap='round';pieces[index].forEach(points=>strokePath(context,points));}
     qsa('[data-target]').forEach(button=>{
       const index=Number(button.dataset.target);
       draw(button.querySelector('canvas'),index,'#cbeaf8');
@@ -104,7 +104,7 @@ const LetrinExtraGames = (()=>{
       qs('#extraLevel').value=String(level);qs('#extraLevel').onchange=event=>detective(Number(event.target.value));
       qs('#extraProgress').textContent=`${text('Ronda','Round')} ${round+1} / 3`;
       qs('#detectiveListen').onclick=()=>speak(target);
-      qs('#detectiveHint').onclick=()=>{const word=languageLetters()[target].words.find(item=>LetrinGameRules.initial(item.name)===target);if(word){hint(`${word.name}`);speak(word.name);}};
+      qs('#detectiveHint').onclick=()=>{const word=languageLetters()[target].words.find(item=>LetrinGameRules.initial(item.name)===target);if(word){qs('#extraHint').innerHTML=`<img class="detective-clue" src="assets/${word.asset}.webp" alt=""> ${word.name}`;speak(word.name);}};
       qsa('[data-answer]').forEach(button=>button.onclick=()=>{
         if(button.dataset.answer!==target){hint(text('Escuchá otra vez y probá de nuevo.','Listen again and try again.'));speak(target);return;}
         qsa('[data-answer]').forEach(item=>item.disabled=true);button.classList.add('correct');hint(text('¡Sonido encontrado!','Sound found!'));round++;
