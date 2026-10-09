@@ -143,6 +143,15 @@ Imágenes creadas con la herramienta integrada, fondo transparente, guardadas en
 
 Prompts: ñandú gris de cuerpo entero con cuello y patas largos; plato de ñoquis acanalados con salsa roja y queso; moño rosa de dos lazos y dos cintas; piñata estrella de papel multicolor con flecos. Ilustración infantil 3D suave centrada y aislada. Ññ roja inflada siguiendo Nn, virgulilla separada sobre ambas letras; variante verde conservando formas. Ícono Ñ azul con guías blancas incluyendo virgulilla y lápiz amarillo; globo rojo con Ñ blanca e hilo dorado, siguiendo los originales.
 
+## Letra O — v57
+
+Palabras: Oso, Oveja, Oruga y Oreja. Cinco actividades y tres juegos adicionales configurados. Trazado oval cerrado en un solo recorrido; requiere cubrir toda la vuelta. Se reutiliza el oso existente. Ilustraciones nuevas en assets/oveja.webp, assets/oruga.webp y assets/oreja.webp; letras roja/verde e iconos específicos de O.
+
+Imágenes generadas con fondo transparente, estilo infantil 3D suave: oveja blanca de cuerpo entero; oruga verde segmentada sonriente; oreja humana externa simplificada color durazno. Letras Oo de juguete rojo/verde; O azul con guía punteada y lápiz; globo rojo con O blanca.
+
+Audios incorporados: oso.wav, oveja.wav, oruga.wav, oreja.wav y leter-o-fonetic.wav, optimizados a MP3 mono 24 kHz / 96 kbps e incluidos para uso sin conexión.
+
+
 
 
 

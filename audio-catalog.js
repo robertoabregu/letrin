@@ -73,6 +73,11 @@ const LetrinAudioCatalog = {
     Abeja: 'assets/audio/es-AR/abeja.mp3',
     'Avión': 'assets/audio/es-AR/avion.mp3',
     'Árbol': 'assets/audio/es-AR/arbol.mp3',
+    O: 'assets/audio/es-AR/letra-o.mp3',
+    Oso: 'assets/audio/es-AR/oso.mp3',
+    Oveja: 'assets/audio/es-AR/oveja.mp3',
+    Oruga: 'assets/audio/es-AR/oruga.mp3',
+    Oreja: 'assets/audio/es-AR/oreja.mp3',
     'Araña': 'assets/audio/es-AR/arana.mp3'
   }},
   'es-419': {label:'Español de Latinoamérica', clips:{}},
