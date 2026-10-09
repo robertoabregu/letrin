@@ -1,17 +1,19 @@
-# Audio regional
+# Sonido de Letrín
 
-La preferencia inicial es Argentina. El modo automático usa el idioma del navegador, no la ubicación física. Los textos todavía permanecen en español argentino.
+Argentina es la región inicial. Las grabaciones registradas en audio-catalog.js se reproducen antes de usar la voz del dispositivo. El selector de región no traduce el contenido. Las voces de sistema pueden depender de una conexión y de las voces instaladas.
 
-El motor selecciona una voz explícita: primero la región solicitada, después variantes latinoamericanas. No usa una voz es-ES como respaldo para Latinoamérica. Las voces dependen del sistema y su disponibilidad no garantiza un acento argentino en todos los dispositivos.
+## Música y festejos
 
-## Paquetes grabados
+Patterns of Play fue proporcionada por el usuario. La copia optimizada está en assets/audio/patterns-of-play.mp3, MP3 estéreo a 96 kb/s, aproximadamente 2,16 MB. El original permanece intacto en Descargas.
 
-Se incluyen tres grabaciones proporcionadas por el usuario para Argentina: Abeja, Árbol y Araña. Se generaron en Google AI Studio con la voz Fola y las instrucciones de acento argentino aprobadas por el usuario. Se conservan como MP3 a 64 kb/s en `assets/audio/es-AR/`, registradas en `audio-catalog.js`. El conjunto ocupa aproximadamente 34 kB. Los WAV originales permanecen sin modificar en Descargas. Avión queda pendiente porque el archivo entregado es idéntico al de Abeja. Los demás textos siguen usando la voz del dispositivo.
+soundtrack.js inicia música en bucle después de una interacción, a ganancia 0,14. Durante palabras baja a 0,035; durante fonéticas de una letra baja a 0,008 sin detenerse. Web Audio GainNode evita depender del control de volumen de HTML Audio en dispositivos móviles. El volumen se recupera suavemente al terminar, cancelar o fallar una voz. Un identificador de sesión evita que un callback viejo libere la atenuación de otro audio.
 
-Las claves coinciden exactamente con el texto solicitado. Usar Abeja, Avión, Árbol y Araña para el contenido actual. Verificar pronunciación, calidad, derechos de uso y ausencia de silencios largos antes de publicar.
+La app pausa música al ocultarse y la reanuda al volver si está habilitada. Música y festejos tienen interruptores independientes, persistidos localmente. El festejo es un arpegio original sintetizado de cuatro notas, sin descarga externa; se activa en todos los carteles de Milo festejando.
 
-Los clips registrados se reproducen antes de recurrir a la voz del dispositivo. Se descargan al usarlos y el service worker los guarda para usos posteriores sin conexión. No se descargan todas las regiones. La descarga completa voluntaria de paquetes todavía no está implementada; agregarla cuando existan archivos reales y tamaños conocidos. Al actualizar el cache de la app, las grabaciones utilizadas pueden necesitar descargarse nuevamente.
+## Adultos y privacidad
 
-El cierre o un nuevo audio cancela la reproducción anterior. Solo el evento de reproducción terminada confirma una palabra escuchada; errores o cancelaciones no completan actividades.
+Para adultos reúne región de voz, música, festejos y privacidad según funcionamiento actual. Entrada con cuenta de multiplicación. Sin traducciones adicionales, cuentas, analítica ni acceso a micrófono. Progreso y preferencias guardados en el navegador. Revisar la política para tiendas al preparar Android.
 
-No agregar claves de servicios de voz al navegador. Los archivos pueden producirse previamente y alojarse en GitHub Pages sin servidor adicional. Traducciones y vocabulario regional deben agregarse como catálogos de contenido separados, no solo cambiando la voz.
+Los archivos incluidos y música se precargan mediante sw.js. No se envían claves de proveedores de voz al cliente.
+
+Validación: node ../check-soundtrack.cjs desde la carpeta de la app. Cubre atenuación, recuperación, sesiones, cancelación/error, inicio por gesto, bucle, interruptores y visibilidad. Pendiente prueba auditiva en dispositivos reales.

@@ -1,6 +1,6 @@
 const LetrinAudio = (() => {
   const key = 'letrin_audio_locale_v1';
-  let preference = 'es-AR', sequence = 0, player = null;
+  let preference = 'es-AR', sequence = 0, player = null, duckToken = null;
   try { const saved = localStorage.getItem(key); if (saved === 'auto' || LetrinAudioCatalog[saved]) preference = saved; } catch {}
   const normalize = value => (value || '').replace(/_/g,'-').toLowerCase();
   function locale(){
@@ -26,6 +26,8 @@ const LetrinAudio = (() => {
   }
   function cancel(){
     sequence++;
+    LetrinSoundtrack.endVoice(duckToken);
+    duckToken = null;
     if (player) { player.onended = null; player.onerror = null; player.pause(); player = null; }
     window.speechSynthesis?.cancel();
   }
@@ -37,9 +39,11 @@ const LetrinAudio = (() => {
   function speak(text,onEnd,onError){
     cancel();
     const session = sequence;
+    duckToken = LetrinSoundtrack.beginVoice(Array.from(text).length === 1);
+    const token = duckToken;
     let ended = false;
-    const finish = () => { if (session === sequence && !ended) { ended = true; onEnd?.(); } };
-    const fail = () => { if (session === sequence) onError?.('No hay una voz compatible disponible. Revisá Audio y acento o instalá una voz latinoamericana en el dispositivo.'); };
+    const finish = () => { if (session === sequence && !ended) { ended = true; LetrinSoundtrack.endVoice(token); onEnd?.(); } };
+    const fail = () => { if (session === sequence) { LetrinSoundtrack.endVoice(token); onError?.('No hay una voz compatible disponible. Revisá Para adultos o instalá una voz latinoamericana en el dispositivo.'); } };
     const synthesize = () => {
       if (session !== sequence) return;
       const selected = voice();
@@ -49,7 +53,7 @@ const LetrinAudio = (() => {
       utterance.lang = selected.lang;
       utterance.rate = .9;
       utterance.onend = finish;
-      utterance.onerror = event => { if (session === sequence && !['canceled','interrupted'].includes(event.error)) onError?.('No se pudo reproducir el audio. Probá de nuevo.'); };
+      utterance.onerror = event => { if (session === sequence) { LetrinSoundtrack.endVoice(token); if (!['canceled','interrupted'].includes(event.error)) onError?.('No se pudo reproducir el audio. Probá de nuevo.'); } };
       window.speechSynthesis.speak(utterance);
     };
     let fallbackStarted = false;

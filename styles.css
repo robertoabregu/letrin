@@ -455,3 +455,22 @@ html:has(dialog[open]){overflow:hidden}
   #letterA #pawProgress{grid-column:2;grid-row:1}
   #letterA .topbar .alphabet-shortcut{width:68px}
 }
+
+.adult-settings{display:grid;gap:16px;text-align:left;margin-top:20px}
+.adult-card{padding:18px;border:2px solid #ccecff;border-radius:22px;background:#effaff}
+.adult-card h3,.privacy-copy h3{margin:0 0 12px;color:#142e58}
+.adult-card .helper{margin:8px 0 12px;text-align:left;font-size:15px}
+.adult-toggle{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:12px 0;color:#142e58;font-weight:800}
+.adult-toggle small{display:block;font-size:14px;font-weight:600;color:#537e9e;margin-top:4px}
+.adult-toggle input{appearance:none;position:relative;width:48px;height:28px;flex-shrink:0;border:2px solid #a8c4d4;border-radius:18px;background:#c6d8e2;cursor:pointer}
+.adult-toggle input::after{content:'';position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:white;box-shadow:0 1px 3px #0002}
+.adult-toggle input:checked{background:#16b953;border-color:#119c45}
+.adult-toggle input:checked::after{left:22px}
+.adult-toggle input:focus-visible{outline:3px solid #159eff;outline-offset:4px}
+.adult-voice-details{margin:10px 0 16px;color:#537e9e;font-size:14px}
+.adult-voice-details summary{cursor:pointer;font-weight:800}
+.adult-gate{display:grid;justify-items:center;gap:16px;margin-top:24px}
+.adult-gate label{font-size:24px;font-weight:800;color:#142e58}
+.adult-gate input{max-width:180px;width:100%;border:2px solid #ccecff;border-radius:16px;padding:12px;text-align:center;font:inherit;font-size:24px}
+.adult-gate p{margin:0;color:#a22c43}
+.privacy-copy p{margin:0;color:#537e9e;line-height:1.6}
