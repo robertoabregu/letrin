@@ -179,6 +179,17 @@ Generados con la herramienta integrada de imágenes, fondo transparente. Prompts
 
 Audios incorporados: rana.wav, raton.wav, reloj.wav, rosa.wav y leter-r-fonetic.wav, optimizados a MP3 mono 24 kHz / 96 kbps y disponibles sin conexión.
 
+## Letra S — v61
+
+Palabras: Sol, Sapo, Sandía y Sombrero. Consignas Empieza con S. Cinco actividades y tres juegos adicionales; trazado S en un recorrido continuo de arriba hacia abajo. Se reutiliza assets/sol.webp. Audios incorporados para los cinco elementos.
+
+Recursos nuevos en assets/sapo.webp, assets/sandia.webp, assets/sombrero.webp, assets/letra-s-roja.webp, assets/letra-s-verde.webp, assets/actividad-trazar-s.webp y assets/actividad-atrapar-s.webp.
+
+Generados con la herramienta integrada de imágenes, fondo transparente. Prompts: sapo amigable marrón oliva de cuerpo robusto y piel con pequeños bultos, distinto de la rana verde; porción triangular de sandía roja con semillas negras y cáscara verde; sombrero amarillo de ala ancha y cinta azul. Estilo infantil 3D suave de juguete, luz suave, centrado sin texto. Ss roja brillante con curvas y puntas redondeadas, variante verde conservando formas y disposición. S azul con guía blanca punteada y lápiz amarillo; globo rojo con S blanca y cinta dorada, usando referencias de la app.
+
+Audios incorporados: sol.wav, sapo.wav, sandia.wav, sombrero.wav y leter-s-fonetic.wav, optimizados a MP3 mono 24 kHz / 96 kbps y disponibles sin conexión.
+
+
 
 
 
