@@ -1,5 +1,10 @@
 const LetrinAudioCatalog = {
   'es-AR': {label:'Español de Argentina', clips:{
+    T: 'assets/audio/es-AR/letra-t.mp3',
+    Tortuga: 'assets/audio/es-AR/tortuga.mp3',
+    Tren: 'assets/audio/es-AR/tren.mp3',
+    Tomate: 'assets/audio/es-AR/tomate.mp3',
+    Tigre: 'assets/audio/es-AR/tigre.mp3',
     A: 'assets/audio/es-AR/letra-a.mp3',
     B: 'assets/audio/es-AR/letra-b.mp3',
     C: 'assets/audio/es-AR/letra-c.mp3',

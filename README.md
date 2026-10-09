@@ -189,6 +189,17 @@ Generados con la herramienta integrada de imágenes, fondo transparente. Prompts
 
 Audios incorporados: sol.wav, sapo.wav, sandia.wav, sombrero.wav y leter-s-fonetic.wav, optimizados a MP3 mono 24 kHz / 96 kbps y disponibles sin conexión.
 
+## Letra T — v62
+
+Palabras: Tortuga, Tren, Tomate y Tigre. Consignas Empieza con T. Cinco actividades y tres juegos adicionales; trazado T en dos recorridos (palo vertical y barra superior). Incluye las cinco grabaciones argentinas del usuario, disponibles sin conexión después de la descarga inicial.
+
+Recursos nuevos en assets/tortuga.webp, assets/tren.webp, assets/tomate.webp, assets/tigre.webp, assets/letra-t-roja.webp, assets/letra-t-verde.webp, assets/actividad-trazar-t.webp y assets/actividad-atrapar-t.webp.
+
+Generados con la herramienta integrada de imágenes, fondo transparente. Prompts: tortuga terrestre verde amigable de cuerpo entero con caparazón abovedado marrón-verde; locomotora roja/azul con vagón amarillo y ruedas visibles; tomate rojo redondo con cáliz verde estrellado y sonrisa; tigre cachorro naranja de cuerpo entero, rayas negras, pecho blanco y cola curva. Estilo infantil 3D suave de juguete, luz suave, centrado sin texto. Tt roja brillante con barra superior y palo centrado, minúscula con barra corta y base curva, variante verde conservando formas y disposición. T azul con guía blanca punteada y lápiz amarillo; globo rojo con T blanca y cinta dorada, usando referencias de la app.
+
+Audios incorporados: tortuga.wav, tren.wav, tomate.wav, tigre.wav y leter-t-fonetic.wav (letra-t.mp3).
+
+
 
 
 
