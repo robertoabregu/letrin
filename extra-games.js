@@ -48,12 +48,12 @@ const LetrinExtraGames = (()=>{
       item.onpointerup=event=>{
         if(!dragging||dragging.id!==event.pointerId)return;
         const target=document.elementFromPoint(event.clientX,event.clientY)?.closest('[data-target]');
-        if(target&&targets.includes(target))accept(selected,target);
+        if(target&&targets.includes(target))accept(selected,target,event);
         dragging=null;
       };
       item.onpointercancel=()=>{dragging=null;};
     });
-    targets.forEach(target=>target.onclick=()=>{if(selected!==null)accept(selected,target);else hint(text('Primero elegí una pieza o letra.','Choose a piece or letter first.'));});
+    targets.forEach(target=>target.onclick=event=>{if(selected!==null)accept(selected,target,event);else hint(text('Primero elegí una pieza o letra.','Choose a piece or letter first.'));});
   }
   function train(level=2){
     const words=shuffle(LetrinGameRules.trainWords(languageLetters()));
@@ -86,7 +86,17 @@ const LetrinExtraGames = (()=>{
       pieces[index].forEach(points=>{const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d',`M ${points[0].x} ${points[0].y} L ${points[1].x} ${points[1].y}`);svg.appendChild(path);});button.appendChild(svg);
     });
     qsa('[data-piece]').forEach(button=>draw(button.querySelector('canvas'),Number(button.dataset.piece),'#36c52c'));
-    interactions(qsa('[data-piece]'),qsa('[data-target]'),(index,target)=>{
+    interactions(qsa('[data-piece]'),qsa('[data-target]'),(index,target,event)=>{
+      if(event.detail||event.type==='pointerup'){
+        const bounds=qs('.puzzle-board').getBoundingClientRect(),scale=Math.min(bounds.width,bounds.height);
+        const point={x:(event.clientX-bounds.left-(bounds.width-scale)/2)*420/scale,y:(event.clientY-bounds.top-(bounds.height-scale)/2)*420/scale};
+        const matches=pieces[Number(index)].some(points=>{
+          const start=points[0],end=points[1],deltaX=end.x-start.x,deltaY=end.y-start.y;
+          const fraction=Math.max(0,Math.min(1,((point.x-start.x)*deltaX+(point.y-start.y)*deltaY)/(deltaX*deltaX+deltaY*deltaY||1)));
+          return Math.hypot(point.x-start.x-fraction*deltaX,point.y-start.y-fraction*deltaY)<=32;
+        });
+        if(matches)target=qs(`[data-target="${index}"]`);
+      }
       if(target.disabled||qs(`[data-piece="${index}"]`).disabled)return;
       if(index!==target.dataset.target){hint(text('Buscá la misma forma en la letra.','Find the matching shape in the letter.'));return;}
       target.disabled=true;draw(target.querySelector('canvas'),Number(index),'#36c52c');qs(`[data-piece="${index}"]`).disabled=true;completed++;qs('#extraProgress').textContent=`${completed} / ${count}`;hint(text('¡Encajó!','It fits!'));
