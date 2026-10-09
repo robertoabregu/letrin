@@ -169,6 +169,17 @@ Generados con la herramienta integrada de imágenes, fondo transparente. Prompts
 
 Audios incorporados: queso.wav, quena.wav, mosquito.wav, raqueta.wav y leter-q-fonetic.wav, optimizados a MP3 mono 24 kHz / 96 kbps y disponibles sin conexión.
 
+## Letra R — v60
+
+Palabras: Rana, Ratón, Reloj y Rosa. Consignas Empieza con R. Cinco actividades y tres juegos adicionales; trazado R en tres recorridos (palo, curva superior y diagonal). Audios incorporados para los cinco elementos.
+
+Recursos guardados en assets/rana.webp, assets/raton.webp, assets/reloj.webp, assets/rosa.webp, assets/letra-r-roja.webp, assets/letra-r-verde.webp, assets/actividad-trazar-r.webp y assets/actividad-atrapar-r.webp.
+
+Generados con la herramienta integrada de imágenes, fondo transparente. Prompts: rana verde amigable sentada de cuerpo entero con cuatro extremidades; ratón gris de cuerpo entero con orejas y cola rosadas; reloj despertador azul redondo con esfera crema, marcas simples y dos agujas; rosa roja de pétalos en espiral, tallo verde y dos hojas. Estilo infantil 3D suave de juguete, luz suave, centrado sin texto. Rr roja brillante redondeada con contador abierto y diagonal correcta, variante verde conservando formas y disposición. R azul con guía blanca punteada y lápiz amarillo; globo rojo con R blanca y cinta dorada, usando referencias del estilo de la app.
+
+Audios incorporados: rana.wav, raton.wav, reloj.wav, rosa.wav y leter-r-fonetic.wav, optimizados a MP3 mono 24 kHz / 96 kbps y disponibles sin conexión.
+
+
 
 
 
