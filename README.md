@@ -231,6 +231,15 @@ Recursos: assets/xilofono.webp, assets/taxi.webp, assets/excavadora.webp, assets
 
 Herramienta integrada de imágenes, fondo transparente. Prompts: xilófono de juguete con barras arcoíris y dos baquetas; taxi amarillo sonriente con cartel y franja de cuadros; excavadora amarilla simpática con orugas, brazo articulado y pala visibles; saxofón dorado con llaves, boquilla negra y campana. Estilo infantil 3D de juguete, luz suave, objeto completo centrado. Xx rojas infladas, dos diagonales cruzadas con extremos redondeados, variante verde preservando composición; X azul con guía blanca punteada y lápiz amarillo; globo rojo con X blanca y cinta dorada. Referencias visuales de los recursos W de la app.
 
+## Letra Y — v67
+
+Yacaré, Yate, Yoyó y Yogur. Cinco actividades y tres juegos adicionales, progreso independiente y navegación X/Y. Trazado en tres pasos: tallo vertical, diagonal izquierda y diagonal derecha. Yy roja/verde e íconos propios en tarjetas y actividades. Incluye los cuatro audios y la fonética de Y suministrados por el usuario, disponibles sin conexión después de la descarga inicial.
+
+Recursos: assets/yacare.webp, assets/yate.webp, assets/yoyo.webp, assets/yogur.webp, assets/letra-y-roja.webp, assets/letra-y-verde.webp, assets/actividad-trazar-y.webp, assets/actividad-atrapar-y.webp.
+
+Herramienta integrada de imágenes, fondo transparente. Prompts: yacaré verde amigable de cuerpo entero; yate blanco y azul con cabina y cara sonriente; yoyó rojo y azul con cuerda; yogur rosado con tapa abierta y cuchara. Estilo infantil 3D de juguete, luz suave, objeto completo centrado. Yy rojas infladas con brazos diagonales y tallo/cola, variante verde preservando composición; Y azul con guía blanca punteada y lápiz amarillo; globo rojo con Y blanca y cinta dorada. Referencias visuales de los recursos X de la app.
+
+
 
 
 

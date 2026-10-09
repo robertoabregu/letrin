@@ -122,6 +122,11 @@ const LetrinAudioCatalog = {
     Oveja: 'assets/audio/es-AR/oveja.mp3',
     Oruga: 'assets/audio/es-AR/oruga.mp3',
     Oreja: 'assets/audio/es-AR/oreja.mp3',
+    Y: 'assets/audio/es-AR/letra-y.mp3',
+    'Yacaré': 'assets/audio/es-AR/yacare.mp3',
+    Yate: 'assets/audio/es-AR/yate.mp3',
+    'Yoyó': 'assets/audio/es-AR/yoyo.mp3',
+    Yogur: 'assets/audio/es-AR/yogur.mp3',
     'Araña': 'assets/audio/es-AR/arana.mp3'
   }},
   'es-419': {label:'Español de Latinoamérica', clips:{}},
