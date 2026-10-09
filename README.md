@@ -151,6 +151,15 @@ Imágenes generadas con fondo transparente, estilo infantil 3D suave: oveja blan
 
 Audios incorporados: oso.wav, oveja.wav, oruga.wav, oreja.wav y leter-o-fonetic.wav, optimizados a MP3 mono 24 kHz / 96 kbps e incluidos para uso sin conexión.
 
+## Letra P — v58
+
+Palabras: Pelota, Pato, Pez y Pera. Cinco actividades y tres juegos adicionales; trazado P en dos recorridos (palo y curva superior). Se reutiliza assets/pelota.webp. Nuevos archivos: assets/pato.webp, assets/pez.webp, assets/pera.webp, assets/letra-p-roja.webp, assets/letra-p-verde.webp, assets/actividad-trazar-p.webp y assets/actividad-atrapar-p.webp. Audios incorporados para los cinco elementos.
+
+Generación con herramienta integrada de imágenes, fondo transparente. Prompts: pato amarillo de cuerpo entero con pico y patas naranjas, ojos amigables; pez naranja de cuerpo entero con aletas y cola claramente visibles, sonrisa; pera verde reconocible con tallo marrón y hoja. Estilo infantil 3D suave de juguete, iluminación suave, centrado y sin texto. Pp roja redondeada brillante con contadores abiertos; variante verde conservando formas y disposición. P azul con guía blanca punteada y lápiz amarillo; globo rojo con P blanca y cinta dorada. Referencias del mismo estilo de la app.
+
+Audios incorporados: pelota.wav, pato.wav, pez.wav, pera.wav y leter-p-fonetic.wav, optimizados a MP3 mono 24 kHz / 96 kbps y disponibles sin conexión.
+
+
 
 
 

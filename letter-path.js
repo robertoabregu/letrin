@@ -57,6 +57,8 @@
     return {x:210+110*Math.cos(angle),y:210+135*Math.sin(angle)};
   });
   pathsByLetter.O=[ovalO];
+  const bowlP=[{x:145,y:80},{x:215,y:80},...curve({x:215,y:80},{x:345,y:80},{x:345,y:220},{x:215,y:220}).slice(1),{x:145,y:220}];
+  pathsByLetter.P=[[{x:145,y:80},{x:145,y:345}],bowlP];
   function forLetter(letter){
     const paths=pathsByLetter[letter];
     if(!paths)throw new Error(`No hay trazado para ${letter}`);
