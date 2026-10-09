@@ -215,6 +215,15 @@ Recursos: assets/vaca.webp, assets/vaso.webp, assets/vela.webp, assets/violin.we
 
 Generados con la herramienta integrada de imágenes, fondo transparente. Prompts: vaca blanca y negra sonriente de cuerpo entero con hocico rosa; vaso transparente azulado con agua, sin asa y cara sonriente; vela amarilla con llama naranja y portavela azul; violín marrón-anaranjado con cuatro cuerdas y arco. Estilo 3D infantil de juguete, iluminación suave, objeto completo centrado. Vv infladas rojas con dos diagonales y vértice inferior, variante verde preservando formas y composición; V azul con guía blanca punteada y lápiz amarillo; globo rojo con V blanca y cinta dorada. Referencias de estilo: recursos U de la app.
 
+## Letra W — v65
+
+Waffle, Wok, Kiwi y Sándwich. Consignas «Palabras con W» y «¿Cuál tiene W?» porque W puede aparecer dentro de la palabra. Cinco actividades y tres juegos adicionales, progreso independiente y navegación V/W. Trazado de cuatro diagonales con extremos completos. Ww roja/verde e íconos propios en tarjetas y actividades. Recursos incluidos sin conexión. Se reutiliza la imagen de Kiwi de K, sin duplicarla. Incluye los cinco audios suministrados por el usuario, disponibles sin conexión después de descargar el contenido. kiwii.wav actualiza kiwi.mp3, compartido con K; leter-w-fonetic.wav se guarda como letra-w.mp3.
+
+Recursos: assets/waffle.webp, assets/wok.webp, assets/sandwich.webp, assets/letra-w-roja.webp, assets/letra-w-verde.webp, assets/actividad-trazar-w.webp, assets/actividad-atrapar-w.webp, assets/kiwi.webp (existente).
+
+Herramienta integrada de imágenes, fondo transparente. Prompts: waffle cuadrado dorado con rejilla, manteca y sonrisa; wok negro profundo con mango de madera, verduras y cara sonriente; sándwich triangular con pan, lechuga, tomate y queso. Estilo infantil 3D de juguete, luz suave, objeto completo centrado. Ww roja inflada de cuatro diagonales y dos vértices inferiores, variante verde preservando formas; W azul con guía blanca punteada y lápiz amarillo; globo rojo con W blanca y cinta dorada. Referencias visuales: recursos V de la app.
+
+
 
 
 

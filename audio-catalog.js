@@ -1,5 +1,9 @@
 const LetrinAudioCatalog = {
   'es-AR': {label:'Español de Argentina', clips:{
+    W: 'assets/audio/es-AR/letra-w.mp3',
+    Waffle: 'assets/audio/es-AR/waffle.mp3',
+    Wok: 'assets/audio/es-AR/wok.mp3',
+    'Sándwich': 'assets/audio/es-AR/sandwich.mp3',
     V: 'assets/audio/es-AR/letra-v.mp3',
     Vaca: 'assets/audio/es-AR/vaca.mp3',
     Vaso: 'assets/audio/es-AR/vaso.mp3',
