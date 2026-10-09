@@ -119,6 +119,15 @@ Imágenes creadas con la herramienta integrada, fondo transparente, guardadas en
 
 Prompts: león sonriente sentado con melena naranja y pelaje dorado; lápiz escolar amarillo con punta de grafito y goma rosa en diagonal; limón amarillo entero con hoja verde. Ilustración infantil 3D suave, centrada y aislada. Ll roja inflada siguiendo Aa, L de base corta y l minúscula vertical sin punto; variante verde manteniendo formas. Trazado: L azul con guía blanca discontinua y lápiz amarillo; globo rojo con L blanca e hilo dorado, siguiendo los originales.
 
+## Letra M
+
+Mariposa, Manzana, Mono y Moto: cinco actividades y tres juegos extra, progreso independiente y navegación L/M. Trazado de cuatro pasos: vertical izquierda, diagonal al centro, diagonal arriba y vertical derecha. Mm roja y verde e íconos M en tarjetas y actividades. Dibujos incluidos en la descarga sin conexión. Incluye las cinco grabaciones argentinas suministradas por el usuario, disponibles sin conexión después de la descarga inicial.
+
+Imágenes creadas con la herramienta integrada y fondo transparente, guardadas en `assets/`: `mariposa.webp`, `mono.webp`, `moto.webp`, `letra-m-roja.webp`, `letra-m-verde.webp`, `actividad-trazar-m.webp`, `actividad-atrapar-m.webp`. `manzana.webp` reutiliza una copia del dibujo existente `actividad-elegir.webp`, sin modificar el original.
+
+Prompts: mariposa sonriente con alas abiertas simétricas violetas rosas azules y amarillas; mono marrón sentado con cola curvada; moto azul y roja de dos ruedas sin conductor ni marcas. Ilustración infantil 3D suave, objeto centrado aislado. Mm roja inflada siguiendo Aa, M de dos verticales y V interior, m minúscula de dos arcos; variante verde conservando formas. Ícono de trazado M azul con guía blanca y lápiz amarillo; globo rojo con M blanca e hilo dorado, siguiendo los originales.
+
+
 
 
 

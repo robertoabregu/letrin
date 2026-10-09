@@ -48,6 +48,7 @@
   pathsByLetter.J=[hookedJ,[{x:175,y:80},{x:325,y:80}]];
   pathsByLetter.K=[[{x:125,y:80},{x:125,y:345}],[{x:295,y:80},{x:125,y:212}],[{x:125,y:212},{x:295,y:345}]];
   pathsByLetter.L=[[{x:145,y:80},{x:145,y:345}],[{x:145,y:345},{x:280,y:345}]];
+  pathsByLetter.M=[[{x:100,y:80},{x:100,y:345}],[{x:100,y:80},{x:210,y:235}],[{x:210,y:235},{x:320,y:80}],[{x:320,y:80},{x:320,y:345}]];
   function forLetter(letter){
     const paths=pathsByLetter[letter];
     if(!paths)throw new Error(`No hay trazado para ${letter}`);
