@@ -69,6 +69,7 @@
   pathsByLetter.S=[curvedS];
   pathsByLetter.T=[[{x:210,y:80},{x:210,y:345}],[{x:110,y:80},{x:310,y:80}]];
   pathsByLetter.U=[[{x:115,y:80},{x:115,y:250},...curve({x:115,y:250},{x:115,y:375},{x:305,y:375},{x:305,y:250}).slice(1),{x:305,y:80}]];
+  pathsByLetter.V=[[{x:110,y:80},{x:210,y:345}],[{x:210,y:345},{x:310,y:80}]];
   function forLetter(letter){
     const paths=pathsByLetter[letter];
     if(!paths)throw new Error(`No hay trazado para ${letter}`);

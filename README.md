@@ -207,6 +207,15 @@ Recursos: assets/uva.webp, assets/unicornio.webp, assets/uno.webp, assets/unia.w
 
 Herramienta integrada de imágenes, fondo transparente. Prompts: racimo de uvas moradas sonriente con hoja verde; unicornio blanco bebé con crin arcoíris y cuerno dorado; numeral 1 amarillo sonriente para Uno; dedo redondeado con uña natural rosa claramente visible, sin esmalte ni herramientas. Estilo 3D infantil de juguete, luz suave, centrado. Uu infladas rojas con extremos redondeados, variante verde preservando composición; U azul con guía blanca punteada y lápiz amarillo; globo rojo con U blanca y cinta dorada. Referencias visuales de los recursos T de la app.
 
+## Letra V — v64
+
+Vaca, Vaso, Vela y Violín. Cinco actividades y tres juegos adicionales, progreso independiente y navegación U/V. Trazado en dos diagonales: baja desde arriba a la izquierda hasta el vértice y sube a la derecha. Vv roja/verde e íconos propios en tarjetas y actividades. Recursos incluidos sin conexión. Incluye las cinco grabaciones del usuario optimizadas a MP3 mono 24 kHz / 96 kbps y disponibles sin conexión después de la descarga inicial. leter-v-fonetic.wav corresponde a letra-v.mp3.
+
+Recursos: assets/vaca.webp, assets/vaso.webp, assets/vela.webp, assets/violin.webp, assets/letra-v-roja.webp, assets/letra-v-verde.webp, assets/actividad-trazar-v.webp, assets/actividad-atrapar-v.webp.
+
+Generados con la herramienta integrada de imágenes, fondo transparente. Prompts: vaca blanca y negra sonriente de cuerpo entero con hocico rosa; vaso transparente azulado con agua, sin asa y cara sonriente; vela amarilla con llama naranja y portavela azul; violín marrón-anaranjado con cuatro cuerdas y arco. Estilo 3D infantil de juguete, iluminación suave, objeto completo centrado. Vv infladas rojas con dos diagonales y vértice inferior, variante verde preservando formas y composición; V azul con guía blanca punteada y lápiz amarillo; globo rojo con V blanca y cinta dorada. Referencias de estilo: recursos U de la app.
+
+
 
 
 
