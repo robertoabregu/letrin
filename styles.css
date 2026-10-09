@@ -456,6 +456,13 @@ html:has(dialog[open]){overflow:hidden}
   #letterA .topbar .alphabet-shortcut{width:68px}
 }
 
+@media (min-width:601px) and (max-width:1200px) and (orientation:portrait){
+  #letters .alphabet{grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+  #letters .letter-btn{min-width:0;min-height:clamp(96px,9dvh,132px);font-size:clamp(40px,5vw,56px);gap:8px}
+  #letters .letter-paws{gap:4px}
+  #letters .letter-paws .paw{width:20px;height:24px}
+}
+
 .adult-settings{display:grid;gap:16px;text-align:left;margin-top:20px}
 .adult-card{padding:18px;border:2px solid #ccecff;border-radius:22px;background:#effaff}
 .adult-card h3,.privacy-copy h3{margin:0 0 12px;color:#142e58}

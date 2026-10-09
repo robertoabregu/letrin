@@ -1,8 +1,8 @@
 
-const CACHE = 'letrin-v0-69';
+const CACHE = 'letrin-v0-70';
 const ASSETS = ['./', 'index.html', 'styles.css', 'app.js', 'manifest.json', 'assets/milo.webp', 'assets/garden.svg', 'assets/milo-peeking.webp', 'assets/milo-celebrando.webp', 'assets/abeja.webp', 'assets/avion.webp', 'assets/arbol.webp', 'assets/arana.webp'];
 self.addEventListener('install', event => {
-  ASSETS.push('soundtrack.js?v=69','soundtrack.js','audio.js?v=69','styles.css?v=69','assets/audio/patterns-of-play.mp3');
+  ASSETS.push('soundtrack.js?v=70','soundtrack.js','audio.js?v=70','styles.css?v=70','assets/audio/patterns-of-play.mp3');
   ASSETS.push(...['letra-z','zapato','zorro','zanahoria','zapallo'].map(word=>`assets/audio/es-AR/${word}.mp3`));
   ASSETS.push(...['zapato','zorro','zanahoria','zapallo','letra-z-roja','letra-z-verde','actividad-trazar-z','actividad-atrapar-z'].map(asset=>`assets/${asset}.webp`));
   ASSETS.push(...["yacare","yate","yoyo","yogur","letra-y-roja","letra-y-verde","actividad-trazar-y","actividad-atrapar-y"].map(asset=>`assets/${asset}.webp`));
@@ -41,7 +41,7 @@ self.addEventListener('install', event => {
   ASSETS.push(...["rana","raton","reloj","rosa","letra-r-roja","letra-r-verde","actividad-trazar-r","actividad-atrapar-r"].map(asset=>`assets/${asset}.webp`));
   ASSETS.push(...["sol","sapo","sandia","sombrero","letra-s-roja","letra-s-verde","actividad-trazar-s","actividad-atrapar-s"].map(asset=>`assets/${asset}.webp`));
   ASSETS.push(...["tortuga","tren","tomate","tigre","letra-t-roja","letra-t-verde","actividad-trazar-t","actividad-atrapar-t"].map(asset=>`assets/${asset}.webp`));
-  ASSETS.push('styles.css?v=49','app.js?v=69','letters.js?v=69','letter-path.js?v=69');
+  ASSETS.push('styles.css?v=49','app.js?v=70','letters.js?v=70','letter-path.js?v=70');
   ASSETS.push(...['cama','conejo','corazon','letra-c-roja','letra-c-verde','actividad-trazar-c','actividad-atrapar-c'].map(asset=>`assets/${asset}.webp`));
   ASSETS.push('assets/actividad-trazar-b.webp','assets/actividad-atrapar-b.webp');
   ASSETS.push('assets/ballena.webp','assets/bicicleta.webp','assets/letra-b-roja.webp','assets/letra-b-verde.webp');
@@ -63,7 +63,7 @@ self.addEventListener('install', event => {
   ASSETS.push(...['letra-p','pelota','pato','pez','pera'].map(word=>`assets/audio/es-AR/${word}.mp3`));
   ASSETS.push(...['letra-o','oso','oveja','oruga','oreja'].map(word=>`assets/audio/es-AR/${word}.mp3`));
   ASSETS.push(...['letra-enie','nandu','noquis','mono-lazo','pinata'].map(word=>`assets/audio/es-AR/${word}.mp3`));
-  ASSETS.push('audio.js?v=39','audio-catalog.js?v=69');
+  ASSETS.push('audio.js?v=39','audio-catalog.js?v=70');
   ASSETS.push('styles.css?v=25','app.js?v=25','letter-path.js?v=25','audio.js','audio-catalog.js','audio.js?v=25','audio-catalog.js?v=25','assets/ui-icons.svg','assets/letra-a-roja.webp','assets/letra-a-verde.webp');
   ASSETS.push(...['trazar','pintar','elegir','atrapar'].map(asset => `assets/actividad-${asset}.webp`));
   ASSETS.push(...['sol','oso','casa','pelota','luna','barco','flor','gato','banana'].map(asset => `assets/${asset}.webp`));
