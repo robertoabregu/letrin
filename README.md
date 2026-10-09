@@ -159,6 +159,17 @@ Generación con herramienta integrada de imágenes, fondo transparente. Prompts:
 
 Audios incorporados: pelota.wav, pato.wav, pez.wav, pera.wav y leter-p-fonetic.wav, optimizados a MP3 mono 24 kHz / 96 kbps y disponibles sin conexión.
 
+## Letra Q — v59
+
+Palabras: Queso, Quena, Mosquito y Raqueta. Consignas de reconocimiento por letra contenida, como en Ñ: Palabras con Q / ¿Cuál tiene Q? Cinco actividades y tres juegos adicionales; trazado Q en dos recorridos (óvalo completo y cola diagonal). Audios incorporados para los cinco elementos.
+
+Recursos guardados en assets/queso.webp, assets/quena.webp, assets/mosquito.webp, assets/raqueta.webp, assets/letra-q-roja.webp, assets/letra-q-verde.webp, assets/actividad-trazar-q.webp y assets/actividad-atrapar-q.webp.
+
+Generados con la herramienta integrada de imágenes, fondo transparente. Prompts: cuña de queso amarillo con agujeros y sonrisa; quena de madera con seis orificios y muesca U superior; mosquito amigable de cuerpo entero con seis patas, dos alas y probóscide; raqueta azul/naranja con cuerdas blancas. Estilo infantil 3D suave, iluminación suave, centrado sin texto. Par Qq rojo de juguete brillante redondeado con contadores abiertos y cola correcta, variante verde con mismas formas. Q azul con guía blanca punteada y lápiz amarillo; globo rojo con Q blanca y cinta dorada, tomando referencias del estilo de la app.
+
+Audios incorporados: queso.wav, quena.wav, mosquito.wav, raqueta.wav y leter-q-fonetic.wav, optimizados a MP3 mono 24 kHz / 96 kbps y disponibles sin conexión.
+
+
 
 
 
