@@ -189,7 +189,12 @@ const LetrinAudioCatalog = {
     Kite:'assets/audio/en-US/kite.mp3',
     Key:'assets/audio/en-US/key.mp3',
     Kiwi:'assets/audio/en-US/kiwi.mp3',
-    Koala:'assets/audio/en-US/koala.mp3'
+    Koala:'assets/audio/en-US/koala.mp3',
+    L:'assets/audio/en-US/letter-l.mp3',
+    Lion:'assets/audio/en-US/lion.mp3',
+    Lemon:'assets/audio/en-US/lemon.mp3',
+    Leaf:'assets/audio/en-US/leaf.mp3',
+    Lamp:'assets/audio/en-US/lamp.mp3'
   }},
   'es-419': {label:'Español de Latinoamérica', clips:{}},
   'es-MX': {label:'Español de México', clips:{}},
