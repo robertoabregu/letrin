@@ -159,7 +159,12 @@ const LetrinAudioCatalog = {
     Elephant:'assets/audio/en-US/elephant.mp3',
     Egg:'assets/audio/en-US/egg.mp3',
     Elbow:'assets/audio/en-US/elbow.mp3',
-    Envelope:'assets/audio/en-US/envelope.mp3'
+    Envelope:'assets/audio/en-US/envelope.mp3',
+    F:'assets/audio/en-US/letter-f.mp3',
+    Fish:'assets/audio/en-US/fish.mp3',
+    Flower:'assets/audio/en-US/flower.mp3',
+    Frog:'assets/audio/en-US/frog.mp3',
+    Fire:'assets/audio/en-US/fire.mp3'
   }},
   'es-419': {label:'Español de Latinoamérica', clips:{}},
   'es-MX': {label:'Español de México', clips:{}},
