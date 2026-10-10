@@ -169,7 +169,12 @@ const LetrinAudioCatalog = {
     Goat:'assets/audio/en-US/goat.mp3',
     Gorilla:'assets/audio/en-US/gorilla.mp3',
     Guitar:'assets/audio/en-US/guitar.mp3',
-    Gift:'assets/audio/en-US/gift.mp3'
+    Gift:'assets/audio/en-US/gift.mp3',
+    H:'assets/audio/en-US/letter-h.mp3',
+    House:'assets/audio/en-US/house.mp3',
+    Hand:'assets/audio/en-US/hand.mp3',
+    Hat:'assets/audio/en-US/hat.mp3',
+    Heart:'assets/audio/en-US/heart.mp3'
   }},
   'es-419': {label:'Español de Latinoamérica', clips:{}},
   'es-MX': {label:'Español de México', clips:{}},
