@@ -174,7 +174,12 @@ const LetrinAudioCatalog = {
     House:'assets/audio/en-US/house.mp3',
     Hand:'assets/audio/en-US/hand.mp3',
     Hat:'assets/audio/en-US/hat.mp3',
-    Heart:'assets/audio/en-US/heart.mp3'
+    Heart:'assets/audio/en-US/heart.mp3',
+    I:'assets/audio/en-US/letter-i.mp3',
+    Igloo:'assets/audio/en-US/igloo.mp3',
+    Iguana:'assets/audio/en-US/iguana.mp3',
+    Insect:'assets/audio/en-US/insect.mp3',
+    Ink:'assets/audio/en-US/ink.mp3'
   }},
   'es-419': {label:'Español de Latinoamérica', clips:{}},
   'es-MX': {label:'Español de México', clips:{}},

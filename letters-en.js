@@ -38,5 +38,10 @@ const LetrinEnglishLetters = {
     ...LetrinLetters.H,
     words:[{name:'House',asset:'casa'},{name:'Hand',asset:'en-hand'},{name:'Hat',asset:'sombrero'},{name:'Heart',asset:'corazon'}],
     distractors:[{name:'Goat',asset:'en-goat'},{name:'Gorilla',asset:'gorila'},{name:'Guitar',asset:'en-guitar'},{name:'Gift',asset:'en-gift'},{name:'Fish',asset:'pez'},{name:'Flower',asset:'flor'},{name:'Frog',asset:'rana'},{name:'Fire',asset:'fuego'},{name:'Dog',asset:'milo'}]
+  },
+  I: {
+    ...LetrinLetters.I,
+    words:[{name:'Igloo',asset:'iglu'},{name:'Iguana',asset:'iguana'},{name:'Insect',asset:'abeja'},{name:'Ink',asset:'en-ink'}],
+    distractors:[{name:'House',asset:'casa'},{name:'Hand',asset:'en-hand'},{name:'Hat',asset:'sombrero'},{name:'Heart',asset:'corazon'},{name:'Goat',asset:'en-goat'},{name:'Guitar',asset:'en-guitar'},{name:'Fish',asset:'pez'},{name:'Flower',asset:'flor'},{name:'Dog',asset:'milo'}]
   }
 };
