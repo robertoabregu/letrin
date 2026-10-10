@@ -179,9 +179,15 @@ const LetrinAudioCatalog = {
     Igloo:'assets/audio/en-US/igloo.mp3',
     Iguana:'assets/audio/en-US/iguana.mp3',
     Insect:'assets/audio/en-US/insect.mp3',
-    Ink:'assets/audio/en-US/ink.mp3'
+    Ink:'assets/audio/en-US/ink.mp3',
+    J:'assets/audio/en-US/letter-j.mp3',
+    Juice:'assets/audio/en-US/juice.mp3',
+    Jelly:'assets/audio/en-US/jelly.mp3',
+    Jacket:'assets/audio/en-US/jacket.mp3',
+    Jet:'assets/audio/en-US/jet.mp3'
   }},
   'es-419': {label:'Español de Latinoamérica', clips:{}},
   'es-MX': {label:'Español de México', clips:{}},
   'es-ES': {label:'Español de España', clips:{}}
 };
+
