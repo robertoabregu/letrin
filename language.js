@@ -28,7 +28,7 @@ const LetrinLanguage = (() => {
     ['Escuchá y descubrí','Listen and discover'],
     ['Podés probar estos seis juegos sin costo. Esta versión no tiene compras habilitadas.','Try these six games for free. Purchases are not enabled in this version.'],
     ['Inglés · en preparación','English · in progress'],
-['La versión inglesa está en preparación. Por ahora podés probar de la A a la J.','The English version is in progress. You can try A through J.'],
+['La versión inglesa está en preparación. Por ahora podés probar de la A a la K.','The English version is in progress. You can try A through K.'],
     ['El progreso se guarda por separado para cada idioma.','Progress is saved separately for each language.'],
     ['Español y región','Spanish voice and region'],['Detalles de la voz','Voice details'],
     ['Escuchar una prueba','Play a sample'],['Información','Information'],
@@ -41,7 +41,7 @@ const LetrinLanguage = (() => {
     ['Para entrar a los ajustes, resolvé esta cuenta.','Solve this problem to open settings.'],
     ['Entrar','Enter'],['Probá de nuevo con ayuda de un adulto.','Try again with help from a grown-up.'],
     ['Sin anuncios · Abecedario completo','No ads · English alphabet in progress'],
-    ['¡Jugá con todas las letras del abecedario, de la A a la Z!','Try A through J in English. More letters are on the way!'],
+    ['¡Jugá con todas las letras del abecedario, de la A a la Z!','Try A through K in English. More letters are on the way!'],
     ['Preparando el juego sin conexión…','Preparing offline play…'],
     ['Juego descargado · Algunas voces pueden necesitar internet','Game downloaded · Device voices may need internet'],
     ['Descarga pendiente · Volvé a abrir con internet','Download pending · Open again with internet'],
@@ -150,3 +150,4 @@ const LetrinLanguage = (() => {
   }
   return {current,text,apply,setPreference,getPreference:()=>preference,progressKey:()=>current()==='es'?'letrin_progress_v03':'letrin_progress_en_v1',lastLetterKey:()=>current()==='es'?'letrin_last_letter':'letrin_last_letter_en_v1'};
 })();
+

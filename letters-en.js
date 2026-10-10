@@ -48,6 +48,11 @@ const LetrinEnglishLetters = {
     ...LetrinLetters.J,
     words:[{name:'Juice',asset:'jugo'},{name:'Jelly',asset:'en-jelly'},{name:'Jacket',asset:'en-jacket'},{name:'Jet',asset:'en-jet'}],
     distractors:[{name:'Igloo',asset:'iglu'},{name:'Iguana',asset:'iguana'},{name:'Insect',asset:'abeja'},{name:'Ink',asset:'en-ink'},{name:'House',asset:'casa'},{name:'Hand',asset:'en-hand'},{name:'Hat',asset:'sombrero'},{name:'Heart',asset:'corazon'},{name:'Goat',asset:'en-goat'}]
+  },
+  K: {
+    ...LetrinLetters.K,
+    words:[{name:'Kite',asset:'en-kite'},{name:'Key',asset:'en-key'},{name:'Kiwi',asset:'kiwi'},{name:'Koala',asset:'koala'}],
+    distractors:[{name:'Juice',asset:'jugo'},{name:'Jelly',asset:'en-jelly'},{name:'Jacket',asset:'en-jacket'},{name:'Jet',asset:'en-jet'},{name:'Igloo',asset:'iglu'},{name:'Iguana',asset:'iguana'},{name:'Insect',asset:'abeja'},{name:'Ink',asset:'en-ink'},{name:'House',asset:'casa'}]
   }
 };
 

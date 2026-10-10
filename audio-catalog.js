@@ -184,7 +184,12 @@ const LetrinAudioCatalog = {
     Juice:'assets/audio/en-US/juice.mp3',
     Jelly:'assets/audio/en-US/jelly.mp3',
     Jacket:'assets/audio/en-US/jacket.mp3',
-    Jet:'assets/audio/en-US/jet.mp3'
+    Jet:'assets/audio/en-US/jet.mp3',
+    K:'assets/audio/en-US/letter-k.mp3',
+    Kite:'assets/audio/en-US/kite.mp3',
+    Key:'assets/audio/en-US/key.mp3',
+    Kiwi:'assets/audio/en-US/kiwi.mp3',
+    Koala:'assets/audio/en-US/koala.mp3'
   }},
   'es-419': {label:'Español de Latinoamérica', clips:{}},
   'es-MX': {label:'Español de México', clips:{}},
