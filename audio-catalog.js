@@ -199,7 +199,12 @@ const LetrinAudioCatalog = {
     Monkey:'assets/audio/en-US/monkey.mp3',
     Moon:'assets/audio/en-US/moon.mp3',
     Milk:'assets/audio/en-US/milk.mp3',
-    Mouse:'assets/audio/en-US/mouse.mp3'
+    Mouse:'assets/audio/en-US/mouse.mp3',
+    N:'assets/audio/en-US/letter-n.mp3',
+    Nest:'assets/audio/en-US/nest.mp3',
+    Nose:'assets/audio/en-US/nose.mp3',
+    Net:'assets/audio/en-US/net.mp3',
+    Nut:'assets/audio/en-US/nut.mp3'
   }},
   'es-419': {label:'Español de Latinoamérica', clips:{}},
   'es-MX': {label:'Español de México', clips:{}},
