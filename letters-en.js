@@ -68,6 +68,10 @@ const LetrinEnglishLetters = {
     ...LetrinLetters.N,
     words:[{name:'Nest',asset:'nido'},{name:'Nose',asset:'en-nose'},{name:'Net',asset:'en-net'},{name:'Nut',asset:'en-nut'}],
     distractors:[{name:'Monkey',asset:'mono'},{name:'Moon',asset:'luna'},{name:'Milk',asset:'en-milk'},{name:'Mouse',asset:'raton'},{name:'Lion',asset:'leon'},{name:'Lemon',asset:'limon'},{name:'Leaf',asset:'hoja'},{name:'Lamp',asset:'en-lamp'},{name:'Kite',asset:'en-kite'}]
+  },
+  O: {
+    ...LetrinLetters.O,
+    words:[{name:'Orange',asset:'naranja'},{name:'Owl',asset:'en-owl'},{name:'Octopus',asset:'en-octopus'},{name:'Onion',asset:'en-onion'}],
+    distractors:[{name:'Nest',asset:'nido'},{name:'Nose',asset:'en-nose'},{name:'Net',asset:'en-net'},{name:'Nut',asset:'en-nut'},{name:'Monkey',asset:'mono'},{name:'Moon',asset:'luna'},{name:'Milk',asset:'en-milk'},{name:'Mouse',asset:'raton'},{name:'Lion',asset:'leon'}]
   }
 };
-

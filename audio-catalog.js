@@ -204,10 +204,14 @@ const LetrinAudioCatalog = {
     Nest:'assets/audio/en-US/nest.mp3',
     Nose:'assets/audio/en-US/nose.mp3',
     Net:'assets/audio/en-US/net.mp3',
-    Nut:'assets/audio/en-US/nut.mp3'
+    Nut:'assets/audio/en-US/nut.mp3',
+    O:'assets/audio/en-US/letter-o.mp3',
+    Orange:'assets/audio/en-US/orange.mp3',
+    Owl:'assets/audio/en-US/owl.mp3',
+    Octopus:'assets/audio/en-US/octopus.mp3',
+    Onion:'assets/audio/en-US/onion.mp3'
   }},
   'es-419': {label:'Español de Latinoamérica', clips:{}},
   'es-MX': {label:'Español de México', clips:{}},
   'es-ES': {label:'Español de España', clips:{}}
 };
-
