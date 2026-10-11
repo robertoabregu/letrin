@@ -224,7 +224,12 @@ const LetrinAudioCatalog = {
     Rabbit:'assets/audio/en-US/rabbit.mp3',
     Rose:'assets/audio/en-US/rose.mp3',
     Robot:'assets/audio/en-US/robot.mp3',
-    Rocket:'assets/audio/en-US/rocket.mp3'
+    Rocket:'assets/audio/en-US/rocket.mp3',
+    S:'assets/audio/en-US/letter-s.mp3',
+    Sun:'assets/audio/en-US/sun.mp3',
+    Sandwich:'assets/audio/en-US/sandwich.mp3',
+    Shoe:'assets/audio/en-US/shoe.mp3',
+    Snake:'assets/audio/en-US/snake.mp3'
   }},
   'es-419': {label:'Español de Latinoamérica', clips:{}},
   'es-MX': {label:'Español de México', clips:{}},

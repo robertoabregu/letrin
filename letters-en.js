@@ -89,5 +89,10 @@ const LetrinEnglishLetters = {
     ...LetrinLetters.R,
     words:[{name:'Rabbit',asset:'conejo'},{name:'Rose',asset:'rosa'},{name:'Robot',asset:'en-robot'},{name:'Rocket',asset:'en-rocket'}],
     distractors:[{name:'Queen',asset:'en-queen'},{name:'Quilt',asset:'en-quilt'},{name:'Quail',asset:'en-quail'},{name:'Quartz',asset:'en-quartz'},{name:'Pear',asset:'pera'},{name:'Pencil',asset:'lapiz'},{name:'Penguin',asset:'en-penguin'},{name:'Pizza',asset:'en-pizza'},{name:'Orange',asset:'naranja'}]
+  },
+  S: {
+    ...LetrinLetters.S,
+    words:[{name:'Sun',asset:'sol'},{name:'Sandwich',asset:'sandwich'},{name:'Shoe',asset:'zapato'},{name:'Snake',asset:'en-snake'}],
+    distractors:[{name:'Rabbit',asset:'conejo'},{name:'Rose',asset:'rosa'},{name:'Robot',asset:'en-robot'},{name:'Rocket',asset:'en-rocket'},{name:'Queen',asset:'en-queen'},{name:'Quilt',asset:'en-quilt'},{name:'Quail',asset:'en-quail'},{name:'Quartz',asset:'en-quartz'},{name:'Pear',asset:'pera'}]
   }
 };
