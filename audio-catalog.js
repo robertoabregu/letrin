@@ -209,7 +209,12 @@ const LetrinAudioCatalog = {
     Orange:'assets/audio/en-US/orange.mp3',
     Owl:'assets/audio/en-US/owl.mp3',
     Octopus:'assets/audio/en-US/octopus.mp3',
-    Onion:'assets/audio/en-US/onion.mp3'
+    Onion:'assets/audio/en-US/onion.mp3',
+    P:'assets/audio/en-US/letter-p.mp3',
+    Pear:'assets/audio/en-US/pear.mp3',
+    Pencil:'assets/audio/en-US/pencil.mp3',
+    Penguin:'assets/audio/en-US/penguin.mp3',
+    Pizza:'assets/audio/en-US/pizza.mp3'
   }},
   'es-419': {label:'Español de Latinoamérica', clips:{}},
   'es-MX': {label:'Español de México', clips:{}},
