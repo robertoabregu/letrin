@@ -78,5 +78,11 @@ const LetrinEnglishLetters = {
     ...LetrinLetters.P,
     words:[{name:'Pear',asset:'pera'},{name:'Pencil',asset:'lapiz'},{name:'Penguin',asset:'en-penguin'},{name:'Pizza',asset:'en-pizza'}],
     distractors:[{name:'Orange',asset:'naranja'},{name:'Owl',asset:'en-owl'},{name:'Octopus',asset:'en-octopus'},{name:'Onion',asset:'en-onion'},{name:'Nest',asset:'nido'},{name:'Nose',asset:'en-nose'},{name:'Net',asset:'en-net'},{name:'Nut',asset:'en-nut'},{name:'Monkey',asset:'mono'}]
+  },
+  Q: {
+    ...LetrinLetters.Q,
+    wordMatch:'starts',
+    words:[{name:'Queen',asset:'en-queen'},{name:'Quilt',asset:'en-quilt'},{name:'Quail',asset:'en-quail'},{name:'Quartz',asset:'en-quartz'}],
+    distractors:[{name:'Pear',asset:'pera'},{name:'Pencil',asset:'lapiz'},{name:'Penguin',asset:'en-penguin'},{name:'Pizza',asset:'en-pizza'},{name:'Orange',asset:'naranja'},{name:'Owl',asset:'en-owl'},{name:'Octopus',asset:'en-octopus'},{name:'Onion',asset:'en-onion'},{name:'Nest',asset:'nido'}]
   }
 };
