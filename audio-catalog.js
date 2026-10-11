@@ -219,7 +219,12 @@ const LetrinAudioCatalog = {
     Queen:'assets/audio/en-US/queen.mp3',
     Quilt:'assets/audio/en-US/quilt.mp3',
     Quail:'assets/audio/en-US/quail.mp3',
-    Quartz:'assets/audio/en-US/quartz.mp3'
+    Quartz:'assets/audio/en-US/quartz.mp3',
+    R:'assets/audio/en-US/letter-r.mp3',
+    Rabbit:'assets/audio/en-US/rabbit.mp3',
+    Rose:'assets/audio/en-US/rose.mp3',
+    Robot:'assets/audio/en-US/robot.mp3',
+    Rocket:'assets/audio/en-US/rocket.mp3'
   }},
   'es-419': {label:'Español de Latinoamérica', clips:{}},
   'es-MX': {label:'Español de México', clips:{}},
