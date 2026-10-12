@@ -254,7 +254,12 @@ const LetrinAudioCatalog = {
     Xylophone:'assets/audio/en-US/xylophone.mp3',
     'X-ray':'assets/audio/en-US/x-ray.mp3',
     Fox:'assets/audio/en-US/fox.mp3',
-    Box:'assets/audio/en-US/box.mp3'
+    Box:'assets/audio/en-US/box.mp3',
+    Y:'assets/audio/en-US/letter-y.mp3',
+    Yak:'assets/audio/en-US/yak.mp3',
+    Yarn:'assets/audio/en-US/yarn.mp3',
+    Yacht:'assets/audio/en-US/yacht.mp3',
+    'Yo-yo':'assets/audio/en-US/yo-yo.mp3'
   }},
   'es-419': {label:'Español de Latinoamérica', clips:{}},
   'es-MX': {label:'Español de México', clips:{}},
