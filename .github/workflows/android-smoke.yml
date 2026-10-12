@@ -1,4 +1,4 @@
-name: Android smoke build
+name: Android build and release bundle
 
 on:
   push:
@@ -52,6 +52,7 @@ jobs:
             exit 0
           fi
           printf '%s' "$LETRIN_UPLOAD_KEYSTORE_BASE64" | base64 --decode > mobile/android/app/letrin-upload.p12
+          keytool -list -keystore mobile/android/app/letrin-upload.p12 -storetype PKCS12 -storepass "$LETRIN_UPLOAD_PASSWORD"
           node mobile/configure-signing.mjs
           cd mobile/android
           ./gradlew bundleRelease
