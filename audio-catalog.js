@@ -229,7 +229,12 @@ const LetrinAudioCatalog = {
     Sun:'assets/audio/en-US/sun.mp3',
     Sandwich:'assets/audio/en-US/sandwich.mp3',
     Shoe:'assets/audio/en-US/shoe.mp3',
-    Snake:'assets/audio/en-US/snake.mp3'
+    Snake:'assets/audio/en-US/snake.mp3',
+    T:'assets/audio/en-US/letter-t.mp3',
+    Tree:'assets/audio/en-US/tree.mp3',
+    Turtle:'assets/audio/en-US/turtle.mp3',
+    Tomato:'assets/audio/en-US/tomato.mp3',
+    Truck:'assets/audio/en-US/truck.mp3'
   }},
   'es-419': {label:'Español de Latinoamérica', clips:{}},
   'es-MX': {label:'Español de México', clips:{}},
