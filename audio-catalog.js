@@ -244,7 +244,12 @@ const LetrinAudioCatalog = {
     Violin:'assets/audio/en-US/violin.mp3',
     Van:'assets/audio/en-US/van.mp3',
     Vase:'assets/audio/en-US/vase.mp3',
-    Volcano:'assets/audio/en-US/volcano.mp3'
+    Volcano:'assets/audio/en-US/volcano.mp3',
+    W:'assets/audio/en-US/letter-w.mp3',
+    Whale:'assets/audio/en-US/whale.mp3',
+    Watermelon:'assets/audio/en-US/watermelon.mp3',
+    Wheel:'assets/audio/en-US/wheel.mp3',
+    Window:'assets/audio/en-US/window.mp3'
   }},
   'es-419': {label:'Español de Latinoamérica', clips:{}},
   'es-MX': {label:'Español de México', clips:{}},
