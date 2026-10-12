@@ -1,0 +1,39 @@
+name: Android smoke build
+
+on:
+  push:
+    branches: [android-play-prep]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+      - uses: android-actions/setup-android@v3
+      - name: Install Android SDK
+        run: sdkmanager 'platforms;android-36' 'build-tools;36.0.0'
+      - name: Install JavaScript dependencies
+        working-directory: mobile
+        run: npm install
+      - name: Generate Android project
+        working-directory: mobile
+        run: |
+          npm run build
+          npx cap add android
+          npm run configure:android
+          npx cap sync android
+      - name: Compile debug APK
+        working-directory: mobile/android
+        run: ./gradlew assembleDebug
+      - uses: actions/upload-artifact@v4
+        with:
+          name: letrin-android-debug
+          path: mobile/android/app/build/outputs/apk/debug/*.apk

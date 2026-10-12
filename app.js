@@ -104,13 +104,22 @@ function speak(text, onEnd){
   LetrinAudio.speak(text, onEnd, showToast);
 }
 function openAdultSettings(){
-openModal(`<h2 class="modal-title">Para adultos</h2><p class="helper">Ajustá el sonido y consultá la información de la app.</p><div class="adult-settings"><section class="adult-card"><h3>Sonido</h3><label class="adult-toggle" for="musicEnabled"><span>Música de fondo<small>Suave, con volumen más bajo durante las voces.</small></span><input id="musicEnabled" type="checkbox" role="switch"></label><label class="adult-toggle" for="effectsEnabled"><span>Efectos de sonido<small>Burbujas y festejos durante los juegos.</small></span><input id="effectsEnabled" type="checkbox" role="switch"></label></section><section class="adult-card"><h3>Información</h3><button id="privacyPolicy" class="btn secondary">Política de privacidad</button></section></div>`);
+openModal(`<h2 class="modal-title">Para adultos</h2><p class="helper">Ajustá el sonido y consultá la información de la app.</p><div class="adult-settings"><section class="adult-card"><h3>Sonido</h3><label class="adult-toggle" for="musicEnabled"><span>Música de fondo<small>Suave, con volumen más bajo durante las voces.</small></span><input id="musicEnabled" type="checkbox" role="switch"></label><label class="adult-toggle" for="effectsEnabled"><span>Efectos de sonido<small>Burbujas y festejos durante los juegos.</small></span><input id="effectsEnabled" type="checkbox" role="switch"></label></section><section class="adult-card"><h3>Información</h3><button id="privacyPolicy" class="btn secondary">Política de privacidad</button>${window.LetrinReview?.available ? '<button id="reviewAccess" class="btn secondary">Acceso de revisión</button>' : ''}</section></div>`);
   qs('#musicEnabled').checked=LetrinSoundtrack.musicEnabled();
   qs('#effectsEnabled').checked=LetrinSoundtrack.effectsEnabled();
   qs('#musicEnabled').onchange=event=>LetrinSoundtrack.setMusic(event.target.checked);
   qs('#effectsEnabled').onchange=event=>LetrinSoundtrack.setEffects(event.target.checked);
+  if (window.LetrinReview?.available) qs('#reviewAccess').onclick=()=>{
+    openModal('<h2 class="modal-title">Acceso de revisión</h2><p class="helper">Solo para revisores autorizados.</p><form id="reviewAccessForm" class="adult-gate"><label for="reviewAccessCode">Código de acceso</label><input id="reviewAccessCode" autocomplete="off" required><p id="reviewAccessStatus" role="status"></p><button class="btn secondary" type="submit">Activar</button></form>');
+    qs('#reviewAccessForm').onsubmit=async event=>{
+      event.preventDefault();
+      const activated=await window.LetrinReview.activate(qs('#reviewAccessCode').value);
+      qs('#reviewAccessStatus').textContent=activated?'Acceso activado. Todos los juegos están disponibles.':'Código inválido.';
+      if (activated) refreshPremiumCards();
+    };
+  };
   qs('#privacyPolicy').onclick=()=>{
-openModal(`<h2 class="modal-title">Política de privacidad</h2><div class="adult-settings privacy-copy"><p>Letrín no solicita nombres, cuentas, ubicación, cámara ni micrófono. Esta versión no incluye anuncios ni herramientas de seguimiento analítico.</p><h3>Datos en tu dispositivo</h3><p>El progreso, la última letra y las preferencias de sonido e idioma se guardan en este navegador. El contenido descargado se conserva para jugar sin conexión. No se sincroniza el progreso con un servidor. Podés eliminar estos datos desde los ajustes del navegador; eso también elimina tu progreso.</p><h3>Conexión y voces</h3><p>Al abrir o actualizar la app, se descargan archivos desde su alojamiento web. El proveedor del alojamiento recibe los datos técnicos habituales de una conexión. Las grabaciones incluidas se reproducen desde la app. Cuando se usa una voz del dispositivo, esa voz puede requerir internet según el sistema y proveedor que tengas configurados.</p><h3>Preferencias</h3><p>Podés desactivar la música y los festejos por separado. La voz se selecciona según el idioma elegido para jugar y la disponibilidad del dispositivo.</p><button id="backAdultSettings" class="btn secondary">Volver a ajustes</button></div>`);
+openModal(`<h2 class="modal-title">Política de privacidad</h2><div class="adult-settings privacy-copy"><p>Letrín no solicita nombres, cuentas, ubicación, cámara ni micrófono. No contiene anuncios ni herramientas de seguimiento analítico.</p><h3>Datos en tu dispositivo</h3><p>El progreso, la última letra, las preferencias y las partidas gratuitas se guardan en este dispositivo. Podés eliminar esos datos desde los ajustes del dispositivo o navegador.</p><h3>Compra Android</h3><p>Google Play procesa la compra. Un servicio de Google Cloud verifica el token de compra por HTTPS para habilitar o restaurar el acceso. Letrín no recibe datos de tarjetas ni guarda el token en el servidor.</p><p>Leé la <a href="privacy.html" target="_blank" rel="noopener">política completa</a> o escribí a colorin.app.soporte@gmail.com.</p><button id="backAdultSettings" class="btn secondary">Volver a ajustes</button></div>`);
     qs('#backAdultSettings').onclick=openAdultSettings;
   };
 }
@@ -500,30 +509,45 @@ const actions = {
 
 qsa('[data-activity]').forEach(btn => btn.addEventListener('click', () => actions[btn.dataset.activity]()));
 
-function premiumShell(title, inner){
-  openModal(`
-    <h2 class="modal-title">${title} ${uiIcon('lock')}</h2>
-    <p class="helper">Demo breve para mostrar el valor del juego antes de comprar.</p>
-    ${inner}
-    <div class="cta">
-      <strong>Desbloqueá todos los juegos premium para todas las letras</strong>
-      <ul class="checks">
-        <li>El abecedario base sigue incluido</li>
-        <li>Pago único</li>
-        <li>Sin anuncios</li>
-        <li>Funciona sin conexión</li>
-      </ul>
-      <div class="complete-row">
-        <button class="btn primary" id="buyPremium">Desbloquear juegos premium</button>
-        <button class="btn secondary" id="restorePremium">Restaurar compra</button>
-      </div>
-    </div>
-  `);
-  qs('#buyPremium').textContent = 'Compras disponibles próximamente';
-  qs('#buyPremium').disabled = true;
-  qs('#restorePremium').textContent = 'Esta versión incluye demos gratuitas';
-  qs('#restorePremium').disabled = true;
+function showPremiumOffer(){
+  const first=4+Math.floor(Math.random()*5),second=4+Math.floor(Math.random()*5);
+  openModal(`<h2 class="modal-title">Solo para adultos</h2><p class="helper">Para ver la compra, resolvé esta cuenta.</p><form id="premiumGate" class="adult-gate"><label for="premiumAnswer">¿Cuánto es ${first} × ${second}?</label><input id="premiumAnswer" inputmode="numeric" pattern="[0-9]*" autocomplete="off" required><p id="premiumGateError" role="status"></p><button class="btn secondary" type="submit">Entrar</button></form>`);
+  qs('#premiumGate').onsubmit=event=>{
+    event.preventDefault();
+    if(Number(qs('#premiumAnswer').value)!==first*second){qs('#premiumGateError').textContent='Probá de nuevo con ayuda de un adulto.';return;}
+    openModal(`<h2 class="modal-title">Desbloqueá los seis juegos</h2><p class="helper">Un solo pago para jugar sin límites con todas las letras, en español e inglés.</p><div class="cta"><ul class="checks"><li>Memotest, Burbujas y Construí la palabra</li><li>Tren de las letras, Rompecabezas y Detective de sonidos</li><li>Sin suscripción ni anuncios</li></ul><div class="complete-row"><button class="btn primary" id="buyPremium">Desbloquear</button><button class="btn secondary" id="restorePremium">Restaurar compra</button></div><p id="premiumPurchaseStatus" role="status"></p></div>`);
+    updatePremiumOffer();
+    qs('#buyPremium').onclick=()=>window.LetrinBilling?.buy();
+    qs('#restorePremium').onclick=()=>window.LetrinBilling?.restore();
+  };
 }
+
+function updatePremiumOffer(){
+  const buy=qs('#buyPremium');
+  if(!buy)return;
+  const billing=window.LetrinBilling;
+  const state=billing?.state;
+  buy.disabled=!state?.available||state.busy||state.owned;
+  qs('#restorePremium').disabled=!state?.available||state.busy;
+  buy.textContent=state?.price?`Desbloquear · ${state.price}`:'Desbloquear';
+  const messages={pending:'La compra está pendiente de confirmación.',canceled:'Se canceló la compra.',error:'No pudimos verificar la compra. Probá restaurarla.',purchased:'¡Los seis juegos están desbloqueados!',empty:'No encontramos una compra para restaurar.'};
+  qs('#premiumPurchaseStatus').textContent=state?.available?messages[state.status]||'':'La compra estará disponible en la app de Google Play.';
+}
+
+function startPremiumGame(game,run){
+  if(LetrinPremium.canPlay(game)) run();
+  else showPremiumOffer();
+}
+
+function refreshPremiumCards(){
+  qsa('[data-premium]').forEach(button=>{
+    const used=LetrinPremium.trialComplete(button.dataset.premium) && !LetrinPremium.owned();
+    button.classList.toggle('trial-used',used);
+    button.setAttribute('aria-label',`${button.querySelector('b').textContent}, ${used?'desbloqueo para adultos':'una prueba gratis disponible'}`);
+  });
+}
+document.addEventListener('letrinpremiumchange',refreshPremiumCards);
+document.addEventListener('letrinbillingchange',()=>{refreshPremiumCards();updatePremiumOffer();});
 
 const premium = {
   memory(level=2){
@@ -569,9 +593,10 @@ const premium = {
               matched++;
               qs('#memoryPairs').textContent = matched;
               if (matched === words.length) {
+                LetrinPremium.complete('memory');
                 openModal(`<h2 class="modal-title">¡Encontraste las cuatro parejas!</h2><div class="activity-celebration"><img src="assets/milo-fiesta-0.webp" alt="Milo festeja tu logro"><p role="status">¡Memotest completado!</p></div><p class="helper memory-instruction">Lo lograste en ${moves} ${moves===1?'intento':'intentos'}.</p><div class="word-footer memory-finish"><button class="btn secondary" id="playMemoryAgain">Jugar de nuevo</button><button class="btn secondary" id="continueMemory">Continuar</button></div>`);
                 qs('.modal-title').textContent=english?'You found every pair!':'¡Encontraste todas las parejas!';
-                qs('#playMemoryAgain').onclick = () => premium.memory(level);
+                qs('#playMemoryAgain').onclick = () => startPremiumGame('memory',()=>premium.memory(level));
                 qs('#continueMemory').onclick = () => modal.close();
               }
             } else {
@@ -624,8 +649,9 @@ const premium = {
             if (!modal.open || session !== modalSession) return;
             bubble.remove();
             if (finished) {
+              LetrinPremium.complete('bubbles');
               openModal(`<h2 class="modal-title">¡Explotaste las cinco ${currentLetter}!</h2><div class="activity-celebration"><img src="assets/milo-fiesta-4.webp" alt="Milo festeja tu logro"><p role="status">¡Burbujas completado!</p></div><div class="bubble-win-paws" aria-hidden="true">${pawMarkup(5)}</div><div class="word-footer memory-finish"><button class="btn secondary" id="playBubblesAgain">Jugar de nuevo</button><button class="btn secondary" id="continueBubbles">Continuar</button></div>`);
-              qs('#playBubblesAgain').onclick = () => premium.bubbles();
+              qs('#playBubblesAgain').onclick = () => startPremiumGame('bubbles',()=>premium.bubbles());
               qs('#continueBubbles').onclick = () => modal.close();
             }
           }, 350);
@@ -708,8 +734,9 @@ openModal(`<img class="word-heading-art" src="${letterArt()}" alt=""><h2 class="
             setTimeout(() => {
               if (!modal.open || session !== modalSession) return;
               LetrinAudio.cancel();
+              LetrinPremium.complete('word');
               openModal(`<h2 class="modal-title">¡Armaste las tres palabras!</h2><div class="activity-celebration"><img src="assets/milo-fiesta-2.webp" alt="Milo festeja tu logro"><p role="status">¡Desafío completado!</p></div><div class="bubble-win-paws" aria-hidden="true">${paws()}</div><div class="word-footer memory-finish"><button class="btn secondary" id="playBuilderAgain">Jugar de nuevo</button><button class="btn secondary" id="continueBuilder">Continuar</button></div>`);
-              qs('#playBuilderAgain').onclick = () => premium.word(level);
+              qs('#playBuilderAgain').onclick = () => startPremiumGame('word',()=>premium.word(level));
               qs('#continueBuilder').onclick = () => modal.close();
             }, 650);
           }
@@ -722,9 +749,9 @@ openModal(`<img class="word-heading-art" src="${letterArt()}" alt=""><h2 class="
   }
 };
 qsa('[data-premium]').forEach(btn => {
-  btn.setAttribute('aria-label', `${btn.querySelector('b').textContent}, juego para probar sin costo`);
-  btn.addEventListener('click', () => (premium[btn.dataset.premium] || LetrinExtraGames[btn.dataset.premium])());
+  btn.addEventListener('click', () => startPremiumGame(btn.dataset.premium,()=> (premium[btn.dataset.premium] || LetrinExtraGames[btn.dataset.premium])()));
 });
+refreshPremiumCards();
 
 document.documentElement.lang=LetrinLanguage.current();
 qsa('[data-home-language]').forEach(button => {

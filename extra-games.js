@@ -38,9 +38,10 @@ const LetrinExtraGames = (()=>{
     qs('#extraProgress').innerHTML=`<span class="extra-paws" aria-hidden="true">${Array.from({length:total},(_,index)=>pawIcon(index<completed)).join('')}</span><span>${label||`${completed} / ${total}`}</span>`;
   }
   function hint(message){qs('#extraHint').textContent=message;}
-  function finish(title,restart){
+  function finish(game,title,restart){
+    LetrinPremium.complete(game);
     openModal(`<h2 class="modal-title">${title}</h2><div class="activity-celebration"><img src="assets/milo-fiesta-0.webp" alt="${text('Milo festeja','Milo celebrates')}"><p role="status">${text('¡Desafío completado!','Challenge complete!')}</p></div><div class="word-footer memory-finish"><button id="extraAgain" class="btn secondary">${text('Jugar de nuevo','Play again')}</button><button id="extraClose" class="btn secondary">${text('Continuar','Continue')}</button></div>`);
-    qs('#extraAgain').onclick=restart;qs('#extraClose').onclick=()=>modal.close();
+    qs('#extraAgain').onclick=()=>startPremiumGame(game,restart);qs('#extraClose').onclick=()=>modal.close();
   }
   function interactions(items,targets,accept){
     let selected=null,dragging=null;
@@ -72,7 +73,7 @@ shell(text('Tren de las letras','Letter train'),text('Subí al tren la letra con
       if(target.disabled||qs(`[data-piece="${letter}"]`).disabled)return;
       if(letter!==target.dataset.target){hint(text('Escuchá el dibujo y probá otra letra.','Listen to the picture and try another letter.'));return;}
       target.textContent=letter;target.disabled=true;qs(`[data-piece="${letter}"]`).disabled=true;completed++;update();hint(text('¡Muy bien!','Well done!'));speak(letter);
-      if(completed===count){qs('.train-scene').classList.add('train-leaving');setTimeout(()=>{if(modal.open&&modalSession===session)finish(text('¡El tren está listo!','The train is ready!'),()=>train(level));},1800);}
+      if(completed===count){qs('.train-scene').classList.add('train-leaving');setTimeout(()=>{if(modal.open&&modalSession===session)finish('train',text('¡El tren está listo!','The train is ready!'),()=>train(level));},1800);}
     });
   }
   function puzzle(level=2){
@@ -115,7 +116,7 @@ shell(text('Rompecabezas de letras','Letter puzzle'),text(`Armá la letra ${curr
       if(target.disabled||qs(`[data-piece="${index}"]`).disabled)return;
       if(index!==target.dataset.target){hint(text('Buscá la misma forma en la letra.','Find the matching shape in the letter.'));return;}
       target.disabled=true;draw(target.querySelector('canvas'),Number(index),'#36c52c');qs(`[data-piece="${index}"]`).disabled=true;completed++;rewards(completed,count);hint(text('¡Encajó!','It fits!'));
-      if(completed===count){speak(currentLetter);setTimeout(()=>{if(modal.open&&modalSession===session)finish(text('¡Armaste la letra!','You built the letter!'),()=>puzzle(level));},1600);}
+      if(completed===count){speak(currentLetter);setTimeout(()=>{if(modal.open&&modalSession===session)finish('puzzle',text('¡Armaste la letra!','You built the letter!'),()=>puzzle(level));},1600);}
     });
   }
   function detective(level=2){
@@ -133,7 +134,7 @@ shell(text('Rompecabezas de letras','Letter puzzle'),text(`Armá la letra ${curr
       qsa('[data-answer]').forEach(button=>button.onclick=()=>{
         if(button.dataset.answer!==target){hint(text('Escuchá otra vez y probá de nuevo.','Listen again and try again.'));speak(target);return;}
         qsa('[data-answer]').forEach(item=>item.disabled=true);button.classList.add('correct');hint(text('¡Sonido encontrado!','Sound found!'));round++;
-        const session=modalSession;setTimeout(()=>{if(!modal.open||modalSession!==session)return;if(round===3)finish(text('¡Excelente detective!','Great detective!'),()=>detective(level));else play();},1000);
+        const session=modalSession;setTimeout(()=>{if(!modal.open||modalSession!==session)return;if(round===3)finish('detective',text('¡Excelente detective!','Great detective!'),()=>detective(level));else play();},1000);
       });
     }
     play();
