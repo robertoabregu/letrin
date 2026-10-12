@@ -94,12 +94,32 @@ const LetrinSoundtrack = (() => {
     volume();
     effectTimer = setTimeout(stopCelebration, 750);
   }
+  function pop() {
+    if (!effectsEnabled || !unlocked || document.hidden || !initialize()) return;
+    context.resume().catch(() => {});
+    const note = context.createOscillator();
+    const gain = context.createGain();
+    const time = context.currentTime;
+    note.type = 'sine';
+    note.frequency.value = 520;
+    note.frequency.exponentialRampToValueAtTime?.(145, time + .11);
+    gain.gain.setValueAtTime(.001, time);
+    gain.gain.linearRampToValueAtTime(.12, time + .006);
+    gain.gain.exponentialRampToValueAtTime(.001, time + .14);
+    note.connect(gain);
+    gain.connect(context.destination);
+    notes.add(note);
+    note.onended = () => { notes.delete(note); note.disconnect(); gain.disconnect(); volume(); };
+    note.start(time);
+    note.stop(time + .15);
+    volume();
+  }
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) { music?.pause(); stopCelebration(); }
     else start();
   });
   window.addEventListener('pagehide', () => { music?.pause(); stopCelebration(); });
   window.addEventListener('pageshow', () => start());
-  return {beginVoice, endVoice, celebrate, stopCelebration, setMusic, setEffects,
+  return {beginVoice, endVoice, celebrate, pop, stopCelebration, setMusic, setEffects,
     musicEnabled:() => musicEnabled, effectsEnabled:() => effectsEnabled};
 })();
