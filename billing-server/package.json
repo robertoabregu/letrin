@@ -1,0 +1,14 @@
+{
+  "name": "letrin-billing-verifier",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "test": "node --test verifier.test.mjs"
+  },
+  "dependencies": {
+    "google-auth-library": "9.15.1"
+  }
+}
+
