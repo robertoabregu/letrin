@@ -649,6 +649,8 @@ html:has(dialog[open]){overflow:hidden}
  .extra-modal .memory-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
  .extra-modal.memory-modal .memory-grid{flex:none;min-height:0;grid-auto-rows:auto}
  .extra-modal.memory-modal .memcard{height:clamp(105px,22dvh,165px);min-height:105px}
+ .extra-modal.memory-modal .memory-grid[data-pairs="2"]{flex:1;align-content:space-evenly;grid-auto-rows:clamp(105px,22dvh,165px);row-gap:clamp(16px,3dvh,32px)}
+ .extra-modal.memory-modal .memory-grid[data-pairs="2"] .memcard{height:100%}
  .extra-modal .sound-mystery{width:min(130px,38cqw,52cqh);height:min(130px,38cqw,52cqh);min-width:0;min-height:0}
  .extra-modal .detective-scene{gap:6px}
  #home .hero .home-progress{padding:8px 10px;gap:8px;grid-template-columns:clamp(48px,8dvh,70px) minmax(0,1fr)}
