@@ -239,7 +239,12 @@ const LetrinAudioCatalog = {
     Umbrella:'assets/audio/en-US/umbrella.mp3',
     Unicorn:'assets/audio/en-US/unicorn.mp3',
     Ukulele:'assets/audio/en-US/ukulele.mp3',
-    Uniform:'assets/audio/en-US/uniform.mp3'
+    Uniform:'assets/audio/en-US/uniform.mp3',
+    V:'assets/audio/en-US/letter-v.mp3',
+    Violin:'assets/audio/en-US/violin.mp3',
+    Van:'assets/audio/en-US/van.mp3',
+    Vase:'assets/audio/en-US/vase.mp3',
+    Volcano:'assets/audio/en-US/volcano.mp3'
   }},
   'es-419': {label:'Español de Latinoamérica', clips:{}},
   'es-MX': {label:'Español de México', clips:{}},
