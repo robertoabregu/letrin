@@ -99,5 +99,10 @@ const LetrinEnglishLetters = {
     ...LetrinLetters.T,
     words:[{name:'Tree',asset:'arbol'},{name:'Turtle',asset:'tortuga'},{name:'Tomato',asset:'tomate'},{name:'Truck',asset:'en-truck'}],
     distractors:[{name:'Sun',asset:'sol'},{name:'Sandwich',asset:'sandwich'},{name:'Shoe',asset:'zapato'},{name:'Snake',asset:'en-snake'},{name:'Rabbit',asset:'conejo'},{name:'Rose',asset:'rosa'},{name:'Robot',asset:'en-robot'},{name:'Rocket',asset:'en-rocket'},{name:'Queen',asset:'en-queen'}]
+  },
+  U: {
+    ...LetrinLetters.U,
+    words:[{name:'Umbrella',asset:'en-umbrella'},{name:'Unicorn',asset:'unicornio'},{name:'Ukulele',asset:'en-ukulele-v2'},{name:'Uniform',asset:'en-uniform'}],
+    distractors:[{name:'Tree',asset:'arbol'},{name:'Turtle',asset:'tortuga'},{name:'Tomato',asset:'tomate'},{name:'Truck',asset:'en-truck'},{name:'Sun',asset:'sol'},{name:'Sandwich',asset:'sandwich'},{name:'Shoe',asset:'zapato'},{name:'Snake',asset:'en-snake'},{name:'Rabbit',asset:'conejo'}]
   }
 };
