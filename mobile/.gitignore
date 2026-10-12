@@ -5,3 +5,4 @@ android/local.properties
 android/app/build/
 *.jks
 *.keystore
+android/app/letrin-upload.p12

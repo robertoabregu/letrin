@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -39,3 +41,22 @@ jobs:
         with:
           name: letrin-android-debug
           path: mobile/android/app/build/outputs/apk/debug/*.apk
+      - name: Compile signed release bundle
+        env:
+          LETRIN_UPLOAD_KEYSTORE_BASE64: ${{ secrets.LETRIN_UPLOAD_KEYSTORE_BASE64 }}
+          LETRIN_UPLOAD_PASSWORD: ${{ secrets.LETRIN_UPLOAD_PASSWORD }}
+          LETRIN_UPLOAD_ALIAS: ${{ secrets.LETRIN_UPLOAD_ALIAS }}
+        run: |
+          if [[ -z "$LETRIN_UPLOAD_KEYSTORE_BASE64" || -z "$LETRIN_UPLOAD_PASSWORD" || -z "$LETRIN_UPLOAD_ALIAS" ]]; then
+            echo 'Release signing is not configured yet.'
+            exit 0
+          fi
+          printf '%s' "$LETRIN_UPLOAD_KEYSTORE_BASE64" | base64 --decode > mobile/android/app/letrin-upload.p12
+          node mobile/configure-signing.mjs
+          cd mobile/android
+          ./gradlew bundleRelease
+      - uses: actions/upload-artifact@v4
+        with:
+          name: letrin-android-release
+          path: mobile/android/app/build/outputs/bundle/release/*.aab
+          if-no-files-found: ignore
