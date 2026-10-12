@@ -17,7 +17,7 @@ const LetrinLanguage = (() => {
     ['Ajustá el sonido y las preferencias de la app.','Adjust sound and app preferences.'],
     ['Sonido','Sound'],['Música de fondo','Background music'],
     ['Suave, con volumen más bajo durante las voces.','Soft music that gets quieter during speech.'],
-    ['Sonidos de festejo','Celebration sounds'],['Un pequeño festejo cuando Milo celebra.','A little cheer when Milo celebrates.'],
+    ['Efectos de sonido','Sound effects'],['Burbujas y festejos durante los juegos.','Pops and celebrations during games.'],
     ['Idioma y acento','Language and accent'],['Idioma de la app','App language'],
     ['Según el idioma del dispositivo','Use device language'],['Español de Argentina','Spanish (Argentina)'],
     ['Tren de las letras','Letter train'],
