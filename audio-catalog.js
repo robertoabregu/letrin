@@ -259,7 +259,12 @@ const LetrinAudioCatalog = {
     Yak:'assets/audio/en-US/yak.mp3',
     Yarn:'assets/audio/en-US/yarn.mp3',
     Yacht:'assets/audio/en-US/yacht.mp3',
-    'Yo-yo':'assets/audio/en-US/yo-yo.mp3'
+    'Yo-yo':'assets/audio/en-US/yo-yo.mp3',
+    Z:'assets/audio/en-US/letter-z.mp3',
+    Zebra:'assets/audio/en-US/zebra.mp3',
+    Zoo:'assets/audio/en-US/zoo.mp3',
+    Zipper:'assets/audio/en-US/zipper.mp3',
+    Zero:'assets/audio/en-US/zero.mp3'
   }},
   'es-419': {label:'Español de Latinoamérica', clips:{}},
   'es-MX': {label:'Español de México', clips:{}},

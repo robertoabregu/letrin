@@ -125,5 +125,10 @@ const LetrinEnglishLetters = {
     ...LetrinLetters.Y,
     words:[{name:'Yak',asset:'en-yak'},{name:'Yarn',asset:'en-yarn'},{name:'Yacht',asset:'yate'},{name:'Yo-yo',asset:'yoyo'}],
     distractors:[{name:'Xylophone',asset:'xilofono'},{name:'X-ray',asset:'en-xray'},{name:'Fox',asset:'zorro'},{name:'Box',asset:'en-box'},{name:'Whale',asset:'ballena'},{name:'Watermelon',asset:'sandia'},{name:'Wheel',asset:'en-wheel'},{name:'Window',asset:'en-window'},{name:'Violin',asset:'violin'}]
+  },
+  Z: {
+    ...LetrinLetters.Z,
+    words:[{name:'Zebra',asset:'en-zebra'},{name:'Zoo',asset:'en-zoo'},{name:'Zipper',asset:'en-zipper'},{name:'Zero',asset:'en-zero'}],
+    distractors:[{name:'Yak',asset:'en-yak'},{name:'Yarn',asset:'en-yarn'},{name:'Yacht',asset:'yate'},{name:'Yo-yo',asset:'yoyo'},{name:'Xylophone',asset:'xilofono'},{name:'X-ray',asset:'en-xray'},{name:'Fox',asset:'zorro'},{name:'Box',asset:'en-box'},{name:'Whale',asset:'ballena'}]
   }
 };
