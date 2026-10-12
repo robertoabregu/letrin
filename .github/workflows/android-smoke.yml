@@ -45,14 +45,15 @@ jobs:
         env:
           LETRIN_UPLOAD_KEYSTORE_BASE64: ${{ secrets.LETRIN_UPLOAD_KEYSTORE_BASE64 }}
           LETRIN_UPLOAD_PASSWORD: ${{ secrets.LETRIN_UPLOAD_PASSWORD }}
-          LETRIN_UPLOAD_ALIAS: ${{ secrets.LETRIN_UPLOAD_ALIAS }}
         run: |
-          if [[ -z "$LETRIN_UPLOAD_KEYSTORE_BASE64" || -z "$LETRIN_UPLOAD_PASSWORD" || -z "$LETRIN_UPLOAD_ALIAS" ]]; then
+          if [[ -z "$LETRIN_UPLOAD_KEYSTORE_BASE64" || -z "$LETRIN_UPLOAD_PASSWORD" ]]; then
             echo 'Release signing is not configured yet.'
             exit 0
           fi
           printf '%s' "$LETRIN_UPLOAD_KEYSTORE_BASE64" | base64 --decode > mobile/android/app/letrin-upload.p12
-          keytool -list -keystore mobile/android/app/letrin-upload.p12 -storetype PKCS12 -storepass "$LETRIN_UPLOAD_PASSWORD"
+          LETRIN_UPLOAD_ALIAS="$(keytool -list -v -keystore mobile/android/app/letrin-upload.p12 -storetype PKCS12 -storepass "$LETRIN_UPLOAD_PASSWORD" | sed -n 's/^Alias name: //p' | head -n 1)"
+          test -n "$LETRIN_UPLOAD_ALIAS"
+          export LETRIN_UPLOAD_ALIAS
           node mobile/configure-signing.mjs
           cd mobile/android
           ./gradlew bundleRelease
