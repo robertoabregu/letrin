@@ -249,7 +249,12 @@ const LetrinAudioCatalog = {
     Whale:'assets/audio/en-US/whale.mp3',
     Watermelon:'assets/audio/en-US/watermelon.mp3',
     Wheel:'assets/audio/en-US/wheel.mp3',
-    Window:'assets/audio/en-US/window.mp3'
+    Window:'assets/audio/en-US/window.mp3',
+    X:'assets/audio/en-US/letter-x.mp3',
+    Xylophone:'assets/audio/en-US/xylophone.mp3',
+    'X-ray':'assets/audio/en-US/x-ray.mp3',
+    Fox:'assets/audio/en-US/fox.mp3',
+    Box:'assets/audio/en-US/box.mp3'
   }},
   'es-419': {label:'Español de Latinoamérica', clips:{}},
   'es-MX': {label:'Español de México', clips:{}},

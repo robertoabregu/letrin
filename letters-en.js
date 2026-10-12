@@ -115,5 +115,10 @@ const LetrinEnglishLetters = {
     wordMatch:'starts',
     words:[{name:'Whale',asset:'ballena'},{name:'Watermelon',asset:'sandia'},{name:'Wheel',asset:'en-wheel'},{name:'Window',asset:'en-window'}],
     distractors:[{name:'Violin',asset:'violin'},{name:'Van',asset:'en-van'},{name:'Vase',asset:'en-vase'},{name:'Volcano',asset:'en-volcano'},{name:'Umbrella',asset:'en-umbrella'},{name:'Unicorn',asset:'unicornio'},{name:'Ukulele',asset:'en-ukulele-v2'},{name:'Uniform',asset:'en-uniform'},{name:'Tree',asset:'arbol'}]
+  },
+  X: {
+    ...LetrinLetters.X,
+    words:[{name:'Xylophone',asset:'xilofono'},{name:'X-ray',asset:'en-xray'},{name:'Fox',asset:'zorro'},{name:'Box',asset:'en-box'}],
+    distractors:[{name:'Whale',asset:'ballena'},{name:'Watermelon',asset:'sandia'},{name:'Wheel',asset:'en-wheel'},{name:'Window',asset:'en-window'},{name:'Violin',asset:'violin'},{name:'Van',asset:'en-van'},{name:'Vase',asset:'en-vase'},{name:'Volcano',asset:'en-volcano'},{name:'Umbrella',asset:'en-umbrella'}]
   }
 };
