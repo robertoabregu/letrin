@@ -7,6 +7,7 @@ if (!process.env.LETRIN_SIGNING_KEY_FILE) throw Error('LETRIN_SIGNING_KEY_FILE i
 const privateKey = await readFile(process.env.LETRIN_SIGNING_KEY_FILE, 'utf8');
 const auth = new GoogleAuth({ scopes: ['https://www.googleapis.com/auth/androidpublisher'] });
 const client = await auth.getClient();
+const recentRequests = [];
 
 createServer(async (request, response) => {
   response.setHeader('Cache-Control', 'no-store');
@@ -26,6 +27,10 @@ createServer(async (request, response) => {
   }
   if (request.method !== 'POST' || request.url !== '/verify') { response.writeHead(404); response.end('{}'); return; }
   try {
+    const now = Date.now();
+    while (recentRequests.length && recentRequests[0] < now - 60000) recentRequests.shift();
+    if (recentRequests.length >= 120) throw Object.assign(Error('rate limit'), { status: 429 });
+    recentRequests.push(now);
     let body = '';
     let size = 0;
     for await (const chunk of request) {
