@@ -302,6 +302,7 @@ function openModal(html){
   modal.classList.remove('catch-modal');
   modal.classList.remove('extra-modal');
   modal.classList.remove('celebration-modal');
+  modal.classList.remove('premium-offer-modal');
   modal.classList.remove('extra-train','extra-puzzle','extra-detective');
   modalContent.innerHTML = html;
   if(modalContent.querySelector('#memgrid,#bubbleBoard,#wordSlots')){
@@ -515,7 +516,8 @@ function showPremiumOffer(){
   qs('#premiumGate').onsubmit=event=>{
     event.preventDefault();
     if(Number(qs('#premiumAnswer').value)!==first*second){qs('#premiumGateError').textContent='Probá de nuevo con ayuda de un adulto.';return;}
-    openModal(`<h2 class="modal-title">Desbloqueá los seis juegos</h2><p class="helper">Un solo pago para jugar sin límites con todas las letras, en español e inglés.</p><div class="cta"><ul class="checks"><li>Memotest, Burbujas y Construí la palabra</li><li>Tren de las letras, Rompecabezas y Detective de sonidos</li><li>Sin suscripción ni anuncios</li></ul><div class="complete-row"><button class="btn primary" id="buyPremium">Desbloquear</button><button class="btn secondary" id="restorePremium">Restaurar compra</button></div><p id="premiumPurchaseStatus" role="status"></p></div>`);
+    openModal(`<div class="premium-offer"><h2 class="modal-title">¡Desbloqueá 6 juegos!</h2><p class="premium-offer-subtitle">Una sola compra para jugar sin límites</p><img class="premium-offer-milo" src="assets/milo-tesoro.webp" alt="Milo descubre un tesoro lleno de letras"><ul class="premium-offer-games"><li><img src="assets/abeja.webp" alt="">Memotest</li><li><svg class="ui-icon" aria-hidden="true"><use href="assets/ui-icons.svg#bubbles"/></svg>Burbujas</li><li><img src="assets/letra-a-roja.webp" alt="">Construí la palabra</li><li><img src="assets/milo-train.webp" alt="">Tren de las letras</li><li><img src="assets/letra-a-verde.webp" alt="">Rompecabezas</li><li><img src="assets/milo-detective.webp" alt="">Detective de sonidos</li></ul><p class="premium-offer-benefits">Todas las letras · Español e inglés · Para siempre</p><p class="premium-offer-note">Pago único. Sin suscripción ni anuncios.</p><button class="btn primary" id="buyPremium">Desbloquear</button><button class="btn secondary" id="restorePremium">Restaurar compra</button><p id="premiumPurchaseStatus" role="status" aria-live="polite"></p></div>`);
+    modal.classList.add('premium-offer-modal');
     updatePremiumOffer();
     qs('#buyPremium').onclick=()=>window.LetrinBilling?.buy();
     qs('#restorePremium').onclick=()=>window.LetrinBilling?.restore();
@@ -529,7 +531,8 @@ function updatePremiumOffer(){
   const state=billing?.state;
   buy.disabled=!state?.available||state.busy||state.owned;
   qs('#restorePremium').disabled=!state?.available||state.busy;
-  buy.textContent=state?.price?`Desbloquear · ${state.price}`:'Desbloquear';
+  const unlockLabel=LetrinLanguage.current()==='en'?'Unlock':'Desbloquear';
+  buy.textContent=state?.price?`${unlockLabel} · ${state.price}`:unlockLabel;
   const messages={pending:'La compra está pendiente de confirmación.',canceled:'Se canceló la compra.',error:'No pudimos verificar la compra. Probá restaurarla.',purchased:'¡Los seis juegos están desbloqueados!',empty:'No encontramos una compra para restaurar.'};
   qs('#premiumPurchaseStatus').textContent=state?.available?messages[state.status]||'':'La compra estará disponible en la app de Google Play.';
 }

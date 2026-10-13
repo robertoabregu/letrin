@@ -12,7 +12,7 @@ await copyFile(`${root}android-source/LetrinBillingPlugin.java`, `${java}LetrinB
 
 let gradle = await readFile(gradlePath, 'utf8');
 if (!/versionCode 1\b/.test(gradle)) throw Error('Android version template changed');
-gradle = gradle.replace(/versionCode 1\b/, 'versionCode 2');
+gradle = gradle.replace(/versionCode 1\b/, 'versionCode 3');
 if (!gradle.includes('com.android.billingclient:billing:9.1.0')) {
   if (!gradle.includes('dependencies {')) throw Error('Android Gradle template changed');
   gradle = gradle.replace('dependencies {', 'dependencies {\n    implementation "com.android.billingclient:billing:9.1.0"');
@@ -26,4 +26,3 @@ if (!manifest.includes('com.android.vending.BILLING')) {
   await writeFile(manifestPath, manifest);
 }
 console.log('Google Play Billing registered in Android project.');
-
